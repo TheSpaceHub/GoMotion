@@ -1,0 +1,6 @@
+venv
+.csv
+.xslx
+.env
+data
+test.py

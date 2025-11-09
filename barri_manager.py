@@ -3,6 +3,8 @@ import pandas as pd
 from shapely import wkt
 
 def load_gdf():
+    """Returns the geospacial data of the neighborhoods"""
+    
     #load csv
     df = pd.read_csv("data/barris.csv")
     
@@ -14,6 +16,8 @@ def load_gdf():
     return gdf
 
 def get_barri(point, gdf = None):
+    """Returns the neighborhood that cointains a given point"""
+
     #uses shapely.geometry.Point(x, y) with the coordinates
     if gdf is None:
         gdf = load_gdf()

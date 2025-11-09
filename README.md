@@ -6,7 +6,7 @@ La solución identifica patrones de movilidad considerando diferentes variables 
 El valor del proyecto se centra en mejorar la red de movilidad y ayudar a operadores de transporte a anticiparse a las congestiones así mejorando la experiencia de los ciudadanos. Al proponer estas mejoras se reduce el impacto ambiental mediante una planificación basada en datos más eficiente y reduciendo la contaminación innecesaria del tráfico.
 
 ## Autores:
-- Dan Manuel Vancea
-- Alexander Cameron Hall
 - Javier Badesa
+- Alexander Cameron Hall
 - Oscar Senesi Aladjem
+- Dan Manuel Vancea

@@ -1,6 +1,8 @@
-venv
+venv/
+.venv/
 .csv
 .xslx
 .env
-data
+data/
 test.py
+.vscode/

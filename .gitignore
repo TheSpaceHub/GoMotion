@@ -6,3 +6,4 @@ venv/
 data/
 test.py
 .vscode/
+__pycache__/

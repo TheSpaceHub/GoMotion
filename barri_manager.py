@@ -18,7 +18,7 @@ def load_gdf() -> gpd.GeoDataFrame:
     
     return gdf
 
-def get_barri(point, gdf = None) -> gpd.GeoDataFrame | None:
+def get_barri(point, gdf = None) -> str | None:
     """Returns the neighborhood that cointains a given point"""
 
     #uses shapely.geometry.Point(x, y) with the coordinates
@@ -51,13 +51,10 @@ def create_graph() -> nx.Graph:
                 point_i, point_j = gdf.at[i, "rep_point"], gdf.at[j, "rep_point"]
                 dist = geodesic((point_i.y, point_i.x), (point_j.y, point_j.x)).meters
                 
-                G.add_edge(
-                    gdf.at[i, "nom_barri"],
-                    gdf.at[j, "nom_barri"],
-                    e = dist, n = 0, c = 0 
-                )   # e: euclidian distance between neighbourhoods, n: flow between neighbourhoods, c: flow capacity
-    
-    # Visualization 
+                # e: euclidian distance between neighbourhoods, n: flow between neighbourhoods, c: flow capacity
+                G.add_edge(gdf.at[i, "nom_barri"], gdf.at[j, "nom_barri"], e = dist, n = 0, c = 0 )   
+                
+    # Visualization, can be deleted
     ax = gdf.plot(figsize=(10, 10), color="lightgrey", edgecolor="black")
     gdf["rep_point"].plot(ax=ax, color="red", markersize=30)
     pos = {row.nom_barri: (row.rep_point.x, row.rep_point.y) for row in gdf.itertuples()}

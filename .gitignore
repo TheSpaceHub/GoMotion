@@ -1,6 +1,8 @@
 venv
+.venv
 .csv
 .xslx
 .env
 data
 test.py
+__pycache__

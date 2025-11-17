@@ -60,5 +60,4 @@ def create_graph() -> nx.Graph:
     pos = {row.nom_barri: (row.rep_point.x, row.rep_point.y) for row in gdf.itertuples()}
     nx.draw(G, pos=pos, with_labels=False, node_size=0, node_color="lightblue", font_size=6)
     plt.show()
-    
     return G

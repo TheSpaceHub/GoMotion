@@ -1,8 +1,9 @@
-venv
-.venv
+venv/
+.venv/
 .csv
 .xslx
 .env
-data
+data/
 test.py
-__pycache__
+.vscode/
+__pycache__/

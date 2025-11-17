@@ -14,12 +14,10 @@ Parades = list[Barri]
 
 load_dotenv()
 
-auth_params = {
-    "app_id": os.getenv("TMB_APP_ID"),
-    "app_key": os.getenv("TMB_APP_KEY")
-}
+auth_params = {"app_id": os.getenv("TMB_APP_ID"), "app_key": os.getenv("TMB_APP_KEY")}
 
-def barris_metro()->dict[Metro:Parades]:
+
+def barris_metro() -> dict[Metro:Parades]:
     """For each metro line, returns an ordered list of the neighbourhoods in the route"""
 
     pattern = r"L\d+[NS]?"
@@ -34,20 +32,21 @@ def barris_metro()->dict[Metro:Parades]:
 
     lines_data = r.json()
 
-    df_lines = pd.json_normalize(lines_data, record_path='features')
+    df_lines = pd.json_normalize(lines_data, record_path="features")
 
     for index, row in df_lines.iterrows():
-        lineas = re.findall(pattern, row['properties.PICTO'])
+        lineas = re.findall(pattern, row["properties.PICTO"])
 
         for linea in lineas:
-            coordinates = row['geometry.coordinates']
+            coordinates = row["geometry.coordinates"]
             barri = get_barri(Point(coordinates[0], coordinates[1]))
             if barri:
                 if linea in barris.keys() and barri not in barris[linea]:
                     barris[linea].append(barri)
                 else:
-                    barris[linea] = [barri]    
+                    barris[linea] = [barri]
 
-    return barris 
+    return barris
+
 
 print(barris_metro())

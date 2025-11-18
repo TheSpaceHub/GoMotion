@@ -33,7 +33,7 @@ def get_barri(point, gdf=None) -> str | None:
         return None
 
 
-def create_graph() -> nx.Graph:
+def create_graph(draw=False) -> nx.Graph:
     """Creates a Graph where nodes are neighbourhoods and
     edges exist if neighbourhoods are adjacent"""
 
@@ -70,13 +70,20 @@ def create_graph() -> nx.Graph:
                 )
 
     # Visualization, can be deleted
-    ax = gdf.plot(figsize=(10, 10), color="lightgrey", edgecolor="black")
-    gdf["rep_point"].plot(ax=ax, color="red", markersize=30)
-    pos = {
-        row.nom_barri: (row.rep_point.x, row.rep_point.y) for row in gdf.itertuples()
-    }
-    nx.draw(
-        G, pos=pos, with_labels=False, node_size=0, node_color="lightblue", font_size=6
-    )
-    plt.show()
+    if draw:
+        ax = gdf.plot(figsize=(10, 10), color="lightgrey", edgecolor="black")
+        gdf["rep_point"].plot(ax=ax, color="red", markersize=30)
+        pos = {
+            row.nom_barri: (row.rep_point.x, row.rep_point.y)
+            for row in gdf.itertuples()
+        }
+        nx.draw(
+            G,
+            pos=pos,
+            with_labels=False,
+            node_size=0,
+            node_color="lightblue",
+            font_size=6,
+        )
+        plt.show()
     return G

@@ -100,9 +100,10 @@ def create_trajectories():
     return pre_trajectories
 
 
-def load_phis(data_df: pd.DataFrame, pre_trajectories):
+def load_phis(data_df: pd.DataFrame, pre_trajectories)->pd.DataFrame:
     # store index
     day = data_df["day"].iloc[0]
+    df = pd.DataFrame({"day": [], "barri": [], "intensity":[]})
 
     n = len(barri_list)
     barri_to_index = {}
@@ -138,23 +139,27 @@ def load_phis(data_df: pd.DataFrame, pre_trajectories):
     phi = [0] * n
     for x in range(len(barri_list)):
         phi[x] = sum([gamma[x][y] + gamma[y][x] for y in range(len(barri_list))])
-        print(barri_list[x], phi[x])
+        new_line = pd.DataFrame({"day": [day], "barri": [barri_list[x]], "intensity": [phi[x]]})
+        df = pd.concat([df, new_line], ignore_index=True)
 
-    big_phi = sum(phi) / 2
-    print(big_phi)
+    return df
 
 
 def process_df(df: pd.DataFrame, pre_trajectories=None):
     """This function takes in a DataFrame and divides it by days, later extracting the phis for every day. The trajectories can also be passed, as this helps a lot with efficiency"""
     if pre_trajectories is None:
         pre_trajectories = create_trajectories()
+    
+    df_results_list = []
 
     samples = df.groupby("day")
     for day_group in samples:
         (day, data_df) = day_group
         print("Processing day " + day)
-        load_phis(data_df, pre_trajectories)
+        df_results_list.append(load_phis(data_df, pre_trajectories))
+    
+    df = pd.concat(df_results_list, ignore_index=True)
+    df.to_csv('data/intensities.csv')
 
-
-csv = pd.read_csv("data/test.csv")
+csv = pd.read_csv("data/MOVILIDAD_CONJUNTA.csv")
 process_df(csv)

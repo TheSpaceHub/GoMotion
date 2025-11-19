@@ -2,6 +2,7 @@ import pandas as pd
 import barri_manager
 import networkx as nx
 import math
+import os
 
 distance_graph = barri_manager.create_graph(draw=False)
 
@@ -38,13 +39,70 @@ def probability_distribution(trajectories, alpha):
     return p_dist
 
 
-def load_phis(data_df: pd.DataFrame):
-    # store index
-    day = data_df["day"].iloc[0]
-
+def create_trajectories():
+    """This function computes the trajectories to be used"""
     # define parameters
     alpha = 5
     beta = 20
+
+    n = len(barri_list)
+
+    if os.path.exists("data/trajectories.csv"):
+        print("Fetching trajectories and probability distributions")
+        df = pd.read_csv("data/trajectories.csv")
+        pre_trajectories = {}
+        for _, row in df.iterrows():
+            key = row["key"]
+            trajectories = [x.split("->") for x in row["trajectories"].split("|")]
+            p_dist = [float(p) for p in row["p_dist"].split("|")]
+            pre_trajectories[key] = (trajectories, p_dist)
+        return pre_trajectories
+
+    pre_trajectories = {}
+    print("Creating trajectories and probability distributions")
+
+    c = 0
+    for a in range(n):
+        for b in range(n):
+            if a == b:
+                continue
+            A = barri_list[a]
+            B = barri_list[b]
+            omega = nx.shortest_simple_paths(distance_graph, A, B, weight="weight")
+
+            path_count = 0
+            trajectories = []
+            for path in omega:
+                # print(path)
+                trajectories.append(path)
+                path_count += 1
+                if path_count == beta:
+                    break
+            p_dist = probability_distribution(trajectories, alpha)
+            pre_trajectories[f"{A}->{B}"] = (trajectories, p_dist)
+            c += 1
+            print("\r" + str(math.floor(10000 * c / (n * n - n)) / 100) + "%", end="")
+
+    print("Saving trajectories and probability distributions")
+    pd.DataFrame(
+        {
+            "key": pre_trajectories.keys(),
+            "trajectories": [
+                "|".join(["->".join(t) for t in x])
+                for (x, y) in pre_trajectories.values()
+            ],
+            "p_dist": [
+                "|".join([str(p) for p in y]) for (x, y) in pre_trajectories.values()
+            ],
+        }
+    ).to_csv("data/trajectories.csv")
+
+    return pre_trajectories
+
+
+def load_phis(data_df: pd.DataFrame, pre_trajectories):
+    # store index
+    day = data_df["day"].iloc[0]
 
     n = len(barri_list)
     barri_to_index = {}
@@ -65,34 +123,18 @@ def load_phis(data_df: pd.DataFrame):
         for b in range(n):
             if a == b:
                 continue
-            c += 1
             A = barri_list[a]
             B = barri_list[b]
             # get the beta shortest paths and add to the gammas
-            omega = nx.shortest_simple_paths(distance_graph, A, B, weight="weight")
-
-            path_count = 0
-            trajectories = []
-            for path in omega:
-                # print(path)
-                trajectories.append(path)
-                path_count += 1
-                if path_count == beta:
-                    break
-            p_dist = probability_distribution(trajectories, alpha)
+            trajectories, p_dist = pre_trajectories[f"{A}->{B}"]
             # for every trajectory, we add to the intensities of the corresponding barris
             for i in range(len(trajectories)):
                 for j in range(len(trajectories[i]) - 1):
-                    if (
-                        trajectories[i][j] == "Sant Gervasi - Galvany"
-                        and trajectories[i][j + 1] == "la Marina de Port"
-                    ):
-                        print("AAAAAAAAAAAAAAAAAAAAa")
-                        exit()
                     gamma[barri_to_index[trajectories[i][j]]][
                         barri_to_index[trajectories[i][j + 1]]
                     ] += (p_dist[i] * N[a][b])
-            print(math.floor(10000 * c / (n * n - n)) / 100)
+            c += 1
+            print("\r" + str(math.floor(10000 * c / (n * n - n)) / 100) + "%", end="")
     phi = [0] * n
     for x in range(len(barri_list)):
         phi[x] = sum([gamma[x][y] + gamma[y][x] for y in range(len(barri_list))])
@@ -102,5 +144,17 @@ def load_phis(data_df: pd.DataFrame):
     print(big_phi)
 
 
+def process_df(df: pd.DataFrame, pre_trajectories=None):
+    """This function takes in a DataFrame and divides it by days, later extracting the phis for every day. The trajectories can also be passed, as this helps a lot with efficiency"""
+    if pre_trajectories is None:
+        pre_trajectories = create_trajectories()
+
+    samples = df.groupby("day")
+    for day_group in samples:
+        (day, data_df) = day_group
+        print("Processing day " + day)
+        load_phis(data_df, pre_trajectories)
+
+
 csv = pd.read_csv("data/test.csv")
-load_phis(csv[csv["day"] == "2023-01-01"])
+process_df(csv)

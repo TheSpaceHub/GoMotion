@@ -48,7 +48,7 @@ def create_trajectories():
 
     n = len(barri_list)
 
-    if os.path.exists("data/trajectories.csv"):
+    if os.path.exists("data/trajectories.csv") or  os.path.exists("../data/trajectories.csv"):
         print("Fetching trajectories and probability distributions")
         df = pd.read_csv("data/trajectories.csv")
         pre_trajectories = {}
@@ -156,10 +156,9 @@ def process_df(df: pd.DataFrame, pre_trajectories=None)->pd.DataFrame:
     samples = df.groupby("day")
     for day_group in samples:
         (day, data_df) = day_group
-        print("Processing day " + day)
+        #print("Processing day " + day)
         df_results_list.append(load_phis(data_df, pre_trajectories))
 
-    df = pd.concat(df_results_list, ignore_index=True)    
+    df = pd.concat(df_results_list, ignore_index=True) 
+    df['day'] = pd.to_datetime(df['day'])
     return df
-    
-

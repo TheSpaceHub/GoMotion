@@ -1,0 +1,12 @@
+pandas
+numpy
+tensorflow
+lightgbm
+scikit-learn
+streamlit
+plotly
+geopandas
+shapely
+gepopy
+networkx
+matplotlib

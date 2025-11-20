@@ -157,6 +157,8 @@ def process_df(df: pd.DataFrame, pre_trajectories=None):
         (day, data_df) = day_group
         print("Processing day " + day)
         df_results_list.append(load_phis(data_df, pre_trajectories))
+
+    df = pd.concat(df_results_list, ignore_index=True)    
+    return df
     
-    df = pd.concat(df_results_list, ignore_index=True)
-    df.to_csv('data/intensities.csv', index=False)
+

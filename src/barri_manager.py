@@ -1,13 +1,13 @@
 import geopandas as gpd
 import pandas as pd
-from shapely import wkt
+from shapely import wkt, Point
 import networkx as nx
 import matplotlib.pyplot as plt
 from geopy.distance import geodesic
 
 
 def load_gdf() -> gpd.GeoDataFrame:
-    """Returns the geospacial data of the neighborhoods"""
+    """Returns the geospatial data of the neighborhoods"""
 
     # load csv
     df = pd.read_csv("data/barris.csv")
@@ -20,7 +20,7 @@ def load_gdf() -> gpd.GeoDataFrame:
     return gdf
 
 
-def get_barri(point, gdf=None) -> str | None:
+def get_barri(point: Point, gdf: gpd.GeoDataFrame = None) -> str | None:
     """Returns the neighborhood that cointains a given point"""
 
     # uses shapely.geometry.Point(x, y) with the coordinates
@@ -33,7 +33,7 @@ def get_barri(point, gdf=None) -> str | None:
         return None
 
 
-def create_graph(draw=False) -> nx.Graph:
+def create_graph(draw: bool = False) -> nx.Graph:
     """Creates a Graph where nodes are neighbourhoods and
     edges exist if neighbourhoods are adjacent"""
 

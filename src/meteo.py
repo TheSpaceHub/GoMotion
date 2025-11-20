@@ -12,7 +12,7 @@ END_DATE = "2025-08-31"
 
 API_URL = "https://archive-api.open-meteo.com/v1/archive"
 
-def daily_resume(lat = LATITUDE, lon = LONGITUDE, start = START_DATE, end = END_DATE):
+def daily_weather_summary(lat = LATITUDE, lon = LONGITUDE, start = START_DATE, end = END_DATE) -> pd.DataFrame | None:
     """Obtains historic Barcelona meteorological data (precipitation + temperature)"""
    
     parametros = {
@@ -32,9 +32,8 @@ def daily_resume(lat = LATITUDE, lon = LONGITUDE, start = START_DATE, end = END_
         df = pd.read_csv(io.StringIO(response.text), skiprows=2)
         df = df.rename(columns={'time': 'day'})
         df['day'] = pd.to_datetime(df['day'])
-        
         return df
     else:
-        print(f"Error al obtener datos. Código de estado: {response.status_code}")
+        print(f"Error obtaining data. Response status code: {response.status_code}")
         print(response.text)
         return None

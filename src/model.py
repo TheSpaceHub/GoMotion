@@ -159,7 +159,4 @@ def process_df(df: pd.DataFrame, pre_trajectories=None):
         df_results_list.append(load_phis(data_df, pre_trajectories))
     
     df = pd.concat(df_results_list, ignore_index=True)
-    df.to_csv('data/intensities.csv')
-
-csv = pd.read_csv("data/MOVILIDAD_CONJUNTA.csv")
-process_df(csv)
+    df.to_csv('data/intensities.csv', index=False)

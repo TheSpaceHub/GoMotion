@@ -1,5 +1,5 @@
 import pandas as pd
-import barri_manager
+import src.barri_manager as barri_manager
 import networkx as nx
 import math
 import os
@@ -14,6 +14,7 @@ phi_df.set_index("day")
 
 
 def l(t):
+    """Calculates the length of a given trajectory"""
     sum = 0
     for i in range(len(t) - 1):
         sum += distance_graph[t[i]][t[i + 1]].get("weight")
@@ -145,7 +146,7 @@ def load_phis(data_df: pd.DataFrame, pre_trajectories)->pd.DataFrame:
     return df
 
 
-def process_df(df: pd.DataFrame, pre_trajectories=None):
+def process_df(df: pd.DataFrame, pre_trajectories=None)->pd.DataFrame:
     """This function takes in a DataFrame and divides it by days, later extracting the phis for every day. The trajectories can also be passed, as this helps a lot with efficiency"""
     if pre_trajectories is None:
         pre_trajectories = create_trajectories()

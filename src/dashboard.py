@@ -67,7 +67,7 @@ def zvalue_to_color(z: float, cmap=plt.cm.plasma) -> tuple[float,float,float,flo
         return (0.8, 0.8, 0.8, 1)
 
     remove_outlier_z = min(max(z, -2.57), 2.57)   # z-value for 99% Exclude outliers
-    norm = (remove_outlier_z + 2) / 5       # Normalize 
+    norm = (remove_outlier_z + 2.57) / 5.14      # Normalize 
 
     return cmap(norm)
 

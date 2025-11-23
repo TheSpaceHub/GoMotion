@@ -11,26 +11,11 @@ meteo = daily_weather_summary()
 events = load_events_df()
 holidays = load_holidays_df()
 
-df = pd.merge(
-    left=intensities, 
-    right=meteo, 
-    on='day', 
-    how='left'
-)
+df_to_merge: list[pd.DataFrame] = [meteo, events, holidays]
+df = intensities.copy()
 
-df = pd.merge(
-    left=df, 
-    right=events, 
-    on='day', 
-    how='left'
-)
-
-df = pd.merge(
-    left=df, 
-    right=holidays, 
-    on='day', 
-    how='left'
-)
+for other in df_to_merge:
+    df = df.merge(other, on="day", how="left")
 
 df['year'] = df['day'].dt.year
 df['month'] = df['day'].dt.month

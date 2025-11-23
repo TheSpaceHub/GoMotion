@@ -135,12 +135,18 @@ def load_phis(data_df: pd.DataFrame, pre_trajectories: dict[str,tuple[list[list[
     return df
 
 
-def process_df(df: pd.DataFrame, pre_trajectories: dict[str,tuple[list[list[str]],list[float]]] = None) -> pd.DataFrame:
+def process_df(df: pd.DataFrame, pre_trajectories: dict[str,tuple[list[list[str]],list[float]]] = None, download: bool = False) -> pd.DataFrame:
     """This function takes in a DataFrame and divides it by days, later extracting the phis for every day. The trajectories can also be passed, as this helps a lot with efficiency"""
     
     if pre_trajectories is None:
         pre_trajectories = create_trajectories()
     
+    if os.path.exists("data/intensities.csv") and not download:
+        print("Fetching intensitats.csv")
+        df = pd.read_csv("data/intensities.csv")
+        df['day'] = pd.to_datetime(df['day'])
+        return df
+        
     df_results_list: list[pd.DataFrame] = []    # We store dataframes about intensity for each barri for each day
 
     samples = df.groupby("day")
@@ -151,4 +157,5 @@ def process_df(df: pd.DataFrame, pre_trajectories: dict[str,tuple[list[list[str]
 
     df = pd.concat(df_results_list, ignore_index=True) 
     df['day'] = pd.to_datetime(df['day'])
+    if download: df.to_csv("data/intensities.csv")
     return df

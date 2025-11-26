@@ -1,10 +1,21 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime
+import numpy as np
 import barri_manager as bm
 import networkx as nx
 import geopandas as gpd
 import plotly.express as px 
+import locale
+
+# Fecha en español
+try:
+    locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
+except locale.Error:
+    try:
+        locale.setlocale(locale.LC_TIME, 'Spanish_Spain') 
+    except locale.Error:
+        locale.setlocale(locale.LC_TIME, '')
 
 st.set_page_config(page_title="Datos Diarios de Intensidad", layout="wide", initial_sidebar_state="expanded")
 
@@ -43,6 +54,7 @@ def plot_barri_heatmap(df_current_day: pd.DataFrame, stats: pd.DataFrame, gdf: g
     """
     # Calcular Z-Scores
     df_day = df_current_day.merge(stats, on="barri", how="left")
+    df_day['intensity'] = np.ceil(df_day['intensity']).astype(int)
     df_day["zscore"] = (df_day["intensity"] - df_day["mean"]) / df_day["std"]
     
     # Importante: mantenemos el gdf como base para no perder la info geográfica
@@ -58,7 +70,7 @@ def plot_barri_heatmap(df_current_day: pd.DataFrame, stats: pd.DataFrame, gdf: g
     fig = px.choropleth_mapbox(
         gdf_day,
         geojson=gdf_day.geometry,     
-        locations=gdf_day.index,     
+        locations=df_day.index,     
         color="zscore",               
         
         color_continuous_scale="plasma",
@@ -68,16 +80,13 @@ def plot_barri_heatmap(df_current_day: pd.DataFrame, stats: pd.DataFrame, gdf: g
         zoom=11.5,
         center={"lat": lat_center, "lon": lon_center},
         
-        # ✨ INTERACTIVIDAD (Tooltip)
         hover_name="barri",
         hover_data={
-            "intensity": ":,.0f", # Formato numérico
-            "zscore": ":.2f",
-            "temperature_2m_max (°C)": ":.1f"
+            "intensity": ":.0f", # Formato numérico
+            "zscore": False,
         }
     )
     
-    # Ajustes estéticos finales
     fig.update_layout(
         margin={"r":0,"t":0,"l":0,"b":0},
         coloraxis_colorbar=dict(
@@ -101,31 +110,47 @@ except FileNotFoundError:
     st.error("Error: Archivo no encontrado.")
     st.stop()
 
-st.sidebar.title("📅 Seleccionar Fecha")
+st.sidebar.title("Seleccionar Fecha")
 min_date = df['day'].min().date()
 max_date = df['day'].max().date()
 selected_date = st.sidebar.date_input("Escoge el día para ver los datos", value=max_date, min_value=min_date, max_value=max_date)
 
 df_filtered = df[df['day'].dt.date == selected_date].copy()
 
-st.title("Mapa de Calor de Intensidades Relativas por Barrio")
-st.subheader(f"Día: **{selected_date.strftime('%d de %B de %Y')}**")
+st.title(f"Día: **{selected_date.strftime('%d de %B de %Y')}**")
 st.markdown("---")
+st.subheader("Características del día")
+st.badge(f"Temperatura Máxima: **{df_filtered['temperature_2m_max (°C)'].iloc[0]} (°C)**")
+st.badge(f"Temperatura Mínima: **{df_filtered['temperature_2m_min (°C)'].iloc[0]} (°C)**")
+st.badge(f"Precipitaciones: **{df_filtered['precipitation_sum (mm)'].iloc[0]} (mm)**")
+
+st.markdown("---")
+
+st.subheader("Mapa de calor de las intensidades relativas")
+
 
 # Renderizar el mapa
 plot_barri_heatmap(df_filtered, stats, gdf)
 
-st.title("Lista de Intensidades por Barrio")
 st.markdown("---")
 
+st.subheader("Lista de Intensidades por Barrio")
+
 if not df_filtered.empty:
-    df_display = df_filtered.rename(columns={
+    #Fusionar con las estadísticas para obtener la media histórica
+    df_temp = df_filtered.merge(stats[['mean']], on="barri", how="left")
+    df_temp['intensity'] = np.ceil(df_temp['intensity']).astype(int)
+    df_temp['mean'] = np.ceil(df_temp['mean']).astype(int)
+
+    df_display = df_temp.rename(columns={
         'barri': 'Barrio',
         'intensity': 'Intensidad de Movilidad',
-        'temperature_2m_max (°C)': 'Temperatura Máxima',
-        'temperature_2m_min (°C)': 'Temperatura Mínima',        
+        'mean': 'Intensidad Media Histórica'
+       
     })
-    columnas_a_mostrar = ['Barrio', 'Intensidad de Movilidad', 'Temperatura Máxima', 'Temperatura Mínima']
+    
+    columnas_a_mostrar = ['Barrio', 'Intensidad de Movilidad', 'Intensidad Media Histórica']
+    
     columnas_existentes = [col for col in columnas_a_mostrar if col in df_display.columns]
 
     st.dataframe(df_display[columnas_existentes].sort_values('Intensidad de Movilidad', ascending=False), hide_index=True, use_container_width=True)

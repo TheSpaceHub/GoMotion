@@ -10,3 +10,4 @@ shapely
 gepopy
 networkx
 matplotlib
+playwright

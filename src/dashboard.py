@@ -58,7 +58,7 @@ def plot_barri_heatmap(df_current_day: pd.DataFrame, stats: pd.DataFrame, gdf: g
     df_day["zscore"] = (df_day["intensity"] - df_day["mean"]) / df_day["std"]
     
     # Importante: mantenemos el gdf como base para no perder la info geográfica
-    gdf_day = gdf.merge(df_day[["barri", "intensity", "zscore", "temperature_2m_max (°C)"]], on="barri", how="left")
+    gdf_day = gdf.merge(df_day[["barri", "intensity", "zscore", "temperature_2m_max"]], on="barri", how="left")
     
     # Rellenar nulos para que no rompan el mapa 
     gdf_day["zscore"] = gdf_day["zscore"].fillna(0)
@@ -120,9 +120,9 @@ df_filtered = df[df['day'].dt.date == selected_date].copy()
 st.title(f"Día: **{selected_date.strftime('%d de %B de %Y')}**")
 st.markdown("---")
 st.subheader("Características del día")
-st.badge(f"Temperatura Máxima: **{df_filtered['temperature_2m_max (°C)'].iloc[0]} (°C)**", color='orange')
-st.badge(f"Temperatura Mínima: **{df_filtered['temperature_2m_min (°C)'].iloc[0]} (°C)**", color='blue')
-st.badge(f"Precipitaciones: **{df_filtered['precipitation_sum (mm)'].iloc[0]} (mm)**")
+st.badge(f"Temperatura Máxima: **{df_filtered['temperature_2m_max'].iloc[0]} (°C)**", color='orange')
+st.badge(f"Temperatura Mínima: **{df_filtered['temperature_2m_min'].iloc[0]} (°C)**", color='blue')
+st.badge(f"Precipitaciones: **{df_filtered['precipitation_sum'].iloc[0]} (mm)**")
 
 if df_filtered['category'].iloc[0] != "0":
     st.badge(f"Evento(s): **{df_filtered['category'].iloc[0]}**", color = "yellow")

@@ -15,16 +15,8 @@ genai.configure(api_key=GEMINI_API_KEY)
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
 
-
+DATE = "27-12-2025"
 TODAY = pd.Timestamp.today().normalize()
-TWO_WEEKS = pd.Timedelta(weeks=2)
-LIMIT = TODAY + TWO_WEEKS
-VENUE_BARRI: dict[str,str] = {"Spotify Camp Nou": "les Corts", 
-                            "Palau Sant Jordi": "el Poble-sec",
-                            "Sant Jordi Club": "el Poble-sec",
-                            "Estadi Olímpic": "el Poble-sec",
-                            "Montjuïc": "el Poble-sec",
-                            "CCIB": "el Besòs i el Maresme"}
 
 def create_browser(playwright) -> Browser:
     """Launches a single Chromium browser"""
@@ -45,7 +37,7 @@ def scrap_primavera(browser: Browser)-> str:
     text = ""
     try:
         page.goto(url, wait_until="domcontentloaded")
-        rechazar_btn = page.locator('button:has-text("Rechazar todas las cookies")')
+        rechazar_btn = page.locator('#CybotCookiebotDialogBodyButtonDecline')
     
         rechazar_btn.wait_for(state="visible", timeout=7000)
         rechazar_btn.click()
@@ -59,11 +51,11 @@ def scrap_primavera(browser: Browser)-> str:
 def scrap_fira(browser: Browser)-> str:
     page = browser.new_page()
     url = "https://www.firabarcelona.com/en/trade_show/"
-    logger.info(f"Scraping Primavera Sound dates from: {url}")
+    logger.info(f"Scraping la fira event dates from: {url}")
     
     text = ""
     try:
-        page.goto(url, wait_until="domcontentloaded")
+        page.goto(url, wait_until="networkidle")
         text = page.locator("body").inner_text()                    
     except:
         logger.error(f"Error during la fira scraping process")
@@ -79,7 +71,7 @@ def scrap_fcb(browser: Browser)-> str:
     text = ""
     try:
         page.goto(url, wait_until="domcontentloaded")
-        rechazar_btn = page.locator('button:has-text("Rechazar")')
+        rechazar_btn = page.locator('#didomi-notice-disagree-button')
         rechazar_btn.wait_for(state="visible", timeout=7000)
         rechazar_btn.click()
         text = page.locator("body").inner_text()                    
@@ -106,17 +98,28 @@ def scrap_olimpic(browser: Browser)-> str:
 
 def ask_gemini(text: str, user_prompt: str) -> pd.DataFrame:
     
-    system_text = (
-        "Eres un extractor de datos de eventos profesional. "
-        "Tu única tarea es analizar el texto y extraer eventos en Barcelona. "
-        "Salida OBLIGATORIA: Un ARRAY JSON de objetos []. Sin markdown, sin explicaciones. "
-        "Cada objeto debe tener: 'nombre', 'ubicacion', 'fechas'."
-    )
+    # HE MODIFICADO ESTO PARA QUE SEA UN f-string Y INCLUYA LOGICA DE RANGOS
+    system_text = f"""
+    Eres un extractor de datos de eventos profesional y estricto.
+    Tu única tarea es analizar el texto y extraer eventos en Barcelona que estén activos el día objetivo: {DATE}.
+    
+    REGLAS DE FECHA CRÍTICAS:
+    1. Si el evento es de un solo día, la fecha debe coincidir exactamente con {DATE}.
+    2. Si el evento es un rango (ej: "Del 25 al 30 de Diciembre"), DEBES incluirlo si {DATE} está dentro de ese lapso.
+    3. Si el evento ocurre en otra fecha distinta a {DATE}, IGNORELÓ completamente.
+    4. Si no hay eventos activos para el {DATE}, devuelve una lista vacía [].
+
+    Salida OBLIGATORIA: Un ARRAY JSON de objetos []. Sin markdown, sin explicaciones.
+    Cada objeto debe tener: 'nombre', 'ubicacion', 'fechas'.
+    
+    REGLA DE UBICACIÓN:
+    En la ubicación, dame el nombre exacto del BARRIO de Barcelona donde se encuentra (ej: Sants-Montjuïc, Les Corts, El Besòs), no el nombre del estadio.
+    """
     
     full_prompt = f"""
     {system_text}
     
-    PREGUNTA DEL USUARIO: "{user_prompt}"
+    INSTRUCCIÓN ESPECÍFICA: "{user_prompt}"
     
     TEXTO A ANALIZAR:
     {text}
@@ -124,7 +127,7 @@ def ask_gemini(text: str, user_prompt: str) -> pd.DataFrame:
 
     generation_config = {
         "temperature": 0.0,
-        "response_mime_type": "application/json", # Fuerza JSON
+        "response_mime_type": "application/json", 
     }
 
 
@@ -132,21 +135,18 @@ def ask_gemini(text: str, user_prompt: str) -> pd.DataFrame:
         model = genai.GenerativeModel('gemini-flash-latest')
         
         response = model.generate_content(
-            full_prompt, # Pasamos todo junto para máxima compatibilidad
+            full_prompt, 
             generation_config=generation_config
         )
         
         json_string = response.text
         
-        # Limpieza y Conversión
-        # A veces devuelve ```json ... ```, lo quitamos por si acaso
         clean_json = json_string.strip()
         if clean_json.startswith("```"):
             clean_json = clean_json.strip("`").replace("json", "").strip()
             
         data = json.loads(clean_json)
         
-        # Aplanar si devuelve diccionario en lugar de lista
         if isinstance(data, dict):
             flat_list = []
             for key, val in data.items():
@@ -164,30 +164,30 @@ def main() -> None:
     with sync_playwright() as playwright:
 
         browser = create_browser(playwright)
+        
         webs_prompts = {
             scrap_primavera(browser): 
-            "Te doy el texto que he extraido de una página web. Es de primavera sound. Quiero las fechas exactas (HORA NO) de la proxima vez que se celebre este evento en "
-            "BARCELONA. SOLO DEL PRIMAVERA SOUND. OTRO EVENTOS NO IMPORTAN",
+            f"Analiza si hay algún concierto del Primavera Sound activo exactamente el día {DATE}. Si el festival es en junio y estamos en {DATE}, devuelve lista vacía.",
 
             scrap_fira(browser):
-            "Te doy el texto que he extraido de una página web. Es de eventos de la fira de Barcelona. Dame fechas exactas (HORA NO) de todos los que encuentres desde {TODAY} hasta {LIMIT}."
-            "DE ANTES O MAS TARDE NO QUIERO NADA.",
+            f"Busca ferias o congresos en Fira Barcelona que estén ocurriendo el {DATE}. Revisa las fechas de inicio y fin.",
 
             scrap_fcb(browser):
-            "Te doy el texto que he extraido de una página web. Es del calendario de partidos del FCB Barcelona. Dame fechas exactas (HORA NO) de todos los que encuentres desde {TODAY} hasta {LIMIT}."
-            "SOLO DE LOS QUE SE CELEBRAN EN EL SPOTIFY CAMP NOU"
-            "DE ANTES O MAS TARDE NO QUIERO NADA. DE OTRO SITIO TAMPOCO",
+            f"Busca si el FC Barcelona juega un partido exactamente el día {DATE}. Si es otro día, ignóralo.",
 
             scrap_olimpic(browser):
-            "Te doy el texto que he extraido de una página web. Es del calendario de eventos del estadi olimpic de Barcelona. Dame fechas exactas (HORA NO) de todos los que encuentres desde {TODAY} hasta {LIMIT}."
-            "DE ANTES DE ESAS FECHAS  O MAS TARDE NO QUIERO NADA"
-            "SOLO DE LOS QUE SON DE MUSICA"
-            "DE OTRO TIPO NO QUIERO NADA"
-
+            f"Busca eventos MUSICALES (conciertos) en el Estadi Olímpic que tengan lugar el {DATE}. Ignora deportes u otros tipos."
         }
 
         for scrap, prompt in webs_prompts.items():
-            print(ask_gemini(scrap, prompt).to_string())
+            if scrap: 
+                print(f"--- Procesando Prompt: {prompt[:50]}... ---")
+                df = ask_gemini(scrap, prompt)
+                if not df.empty:
+                    print(df.to_string())
+                else:
+                    print("No se encontraron eventos para esta fecha.")
+                print("\n")
 
 if __name__ == '__main__':
     main()

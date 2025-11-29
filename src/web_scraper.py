@@ -19,6 +19,10 @@ def create_browser(playwright) -> Browser:
 
     return playwright.chromium.launch(
         headless=False,
+        args=[
+            "--disable-gpu",
+            "--no-sandbox",
+            "--ozone-platform=x11"]
       )
 
 def scrape_fc_barcelona_schedule(browser: Browser) -> pd.DataFrame:
@@ -191,16 +195,45 @@ def scrape_lafira_events(browser: Browser) -> pd.DataFrame:
     return pd.DataFrame(data_list)
 
 
+def scrape_primavera_sound(browser: Browser) -> pd.DataFrame:
+    """Scrapes Primavera Sound dates"""
+    
+    page = browser.new_page()
+    url = "https://www.primaverasound.com/es/"
+    logger.info(f"Scraping Primavera Sound dates from: {url}")
+    
+    data_list: list[dict] = []
+    today = pd.Timestamp.today().normalize()
+
+    try:
+        page.goto(url, wait_until="domcontentloaded")
+        page.click("text=Festivales")
+        #start_date = pd.to_datetime(f'{start_day} {month} {year}', format='%d %b %Y', errors="coerce")
+        #end_date =  pd.to_datetime(f'{end_day} {month} {year}', format='%d %b %Y', errors="coerce")
+        date_locator = page.locator('h3.uppercase font-americaMono text-20 mb-4')
+        texto_extraido = date_locator.inner_text()
+        data_list["Primavera Sound"] = texto_extraido
+                    
+    except:
+        logger.error(f"Error during La Fira scraping process")
+        
+    page.close()
+    return pd.DataFrame(data_list)
+
+
 def main() -> None:
     
     with sync_playwright() as playwright:
         browser = create_browser(playwright)
 
+        df_primavera = scrape_primavera_sound(browser)
+        print(df_primavera)
+
         # df_football = scrape_fc_barcelona_schedule(browser)
         # print(df_football)
 
-        df_anellolimpic = scrape_anellolimpic_events(browser)
-        print(df_anellolimpic)
+        #df_anellolimpic = scrape_anellolimpic_events(browser)
+        #print(df_anellolimpic)
             
         # df_lafira = scrape_lafira_events(browser)
         # print(df_lafira)

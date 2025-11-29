@@ -120,9 +120,19 @@ df_filtered = df[df['day'].dt.date == selected_date].copy()
 st.title(f"Día: **{selected_date.strftime('%d de %B de %Y')}**")
 st.markdown("---")
 st.subheader("Características del día")
-st.badge(f"Temperatura Máxima: **{df_filtered['temperature_2m_max (°C)'].iloc[0]} (°C)**")
-st.badge(f"Temperatura Mínima: **{df_filtered['temperature_2m_min (°C)'].iloc[0]} (°C)**")
+st.badge(f"Temperatura Máxima: **{df_filtered['temperature_2m_max (°C)'].iloc[0]} (°C)**", color='orange')
+st.badge(f"Temperatura Mínima: **{df_filtered['temperature_2m_min (°C)'].iloc[0]} (°C)**", color='blue')
 st.badge(f"Precipitaciones: **{df_filtered['precipitation_sum (mm)'].iloc[0]} (mm)**")
+
+if df_filtered['category'].iloc[0] != "0":
+    st.badge(f"Evento(s): **{df_filtered['category'].iloc[0]}**", color = "yellow")
+else: 
+    st.badge(f"No hay eventos este día.", color = "yellow")
+
+if df_filtered['is_holiday'].iloc[0] != 0.0:
+    st.badge(f"Festivo: **Si**", color = "green")
+else: 
+    st.badge(f"Festivo: **No**", color = "green")
 
 st.markdown("---")
 

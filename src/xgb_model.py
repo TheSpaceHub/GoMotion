@@ -13,9 +13,10 @@ def create_and_fit_regressor(
     learning_rate: float,
     depth: int,
 ) -> xgb.XGBRegressor:
+    """Creates an XGB regressor with the hyperparameters provided and fits it with the data provided. Returns the trained model"""
     model = xgb.XGBRegressor(
         tree_method="hist",
-        n_estimators=10000,
+        n_estimators=20000,
         learning_rate=learning_rate,
         early_stopping_rounds=150,
         max_depth=depth,

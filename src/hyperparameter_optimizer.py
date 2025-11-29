@@ -1,47 +1,30 @@
 import pandas as pd
 import numpy as np
 import xgb_model as xgb_model
-from peak_classifier import classify_peaks, z_score
+from peak_classifier import peak_loss
 from sklearn.metrics import mean_absolute_error
 import joblib
+import math
 
 
-def peak_loss(df: pd.DataFrame):
-    count = 0
-    under_count = 0
-
-    for b in df["barri"].unique():
-        df2 = df[df["barri"] == b]
-        mean = df2["true"].mean()
-        std = df2["true"].std()
-        prediction_p = list(classify_peaks(df2, "prediction")["peak_value"])
-        prediction_z = list(z_score(df2["prediction"], mean, std))
-        true_p = list(classify_peaks(df2, "true")["peak_value"])
-        true_z = list(z_score(df2["true"]))
-
-        for i in range(len(df2)):
-            if prediction_p[i] != true_p[i]:
-                count += 1
-                if true_z[i] > prediction_z[i]:
-                    under_count += 1
-    return count + under_count
-
-
+# min_loss stores the smallest loss seen in the grid search
 min_loss = 1e9
 
 
-def hyperwalk(
-    hyperspace: list[list[any]],
+def grid_search(
+    hyperspace: list[
+        list[any]
+    ],  # hyperspace is a list which contains the values to test for each hyperparameter
     index: int,
     hyperparameters: list[any],
     processed_data: pd.DataFrame,
     features: list[str],
 ) -> None:
-
+    """Performs a grid search. Custom function in order to implement custom hyperparameters"""
     if index != len(hyperspace):
         # we need to select more hyperparams
         for param in hyperspace[index]:
-            hyperwalk(
+            grid_search(
                 hyperspace,
                 index + 1,
                 hyperparameters + [param],
@@ -51,6 +34,7 @@ def hyperwalk(
 
     else:
         # we have selected all hyperparameters, time to test out a model
+
         # unpack
         base = hyperparameters[0]
         learning_rate = hyperparameters[1]
@@ -92,7 +76,8 @@ def hyperwalk(
             joblib.dump(model, "data/regressor.joblib")
 
 
-def calculate_sample_weights(df, base):
+def calculate_sample_weights(df: pd.DataFrame, base: float) -> pd.Series:
+    """Given intensities and a base, calculates weights proportional to base^(max(z_score, 0)) for the regressor, highlighting the importance of predicting correctly more intense peaks"""
     stats = df.groupby("barri")["intensity"].agg(["mean", "std"]).reset_index()
     stats.columns = ["barri", "barri_mean", "barri_std"]
 
@@ -110,6 +95,7 @@ def calculate_sample_weights(df, base):
 
 
 def create_features(data: pd.DataFrame) -> pd.DataFrame:
+    """Returns a DataFrame with the additional features"""
     df = data.copy()
 
     day_to_num = {
@@ -122,12 +108,17 @@ def create_features(data: pd.DataFrame) -> pd.DataFrame:
         "Domingo": 6,
     }
 
+    # add day of the week
     df["day_of_the_week"] = [day_to_num[x] for x in df["day_of_the_week"]]
 
-    for lag in [7, 14, 21]:
+    # add day of the month
+    df["day_num"] = [x.day for x in df["day"]]
+
+    # add lags (intensities {1, 2, 3, 4} weeks ago)
+    for lag in [7, 14, 21, 28]:
         df[f"lag_{lag}"] = df.groupby("barri")["intensity"].shift(lag)
 
-    # absolute madness, but cool
+    # absolute madness, but cool: simulate periodicity of months in a year and days in a month
     df["month_sin"] = np.sin(2 * np.pi * df["month"] / 12)
     df["month_cos"] = np.cos(2 * np.pi * df["month"] / 12)
     df["day_sin"] = np.sin(2 * np.pi * df["day_of_the_week"] / 7)
@@ -138,18 +129,28 @@ def create_features(data: pd.DataFrame) -> pd.DataFrame:
     df["dt_7_w2"] = (df["lag_14"] - df["lag_21"]) / 7
     df["dt^2"] = df["dt_7_w1"] - df["dt_7_w2"]
 
-    df["day_num"] = [x.day for x in df["day"]]
-
+    # get rid of old event columns
     df.drop(inplace=True, columns=["impact", "category"])
     df.drop_duplicates(inplace=True)
 
+    # add encoded events
     encoded_events = pd.read_csv("data/encoded_events.csv")
     encoded_events["day"] = pd.to_datetime(encoded_events["day"])
     df = df.merge(encoded_events, on=["day", "barri"], how="left")
 
+    # add exponential smoothing (useful predictor)
+    alpha = 0.8
+    df["exp"] = (
+        alpha * df["lag_7"]
+        + alpha * (1 - alpha) * df["lag_14"]
+        + alpha * (1 - alpha) ** 2 * df["lag_21"]
+        + (1 - alpha) ** 3 * df["lag_28"]
+    )
+
     return df
 
 
+# read data
 data = pd.read_csv("data/final_data.csv")
 data["day"] = pd.to_datetime(data["day"])
 
@@ -162,7 +163,7 @@ data = data.dropna()
 # process data
 data_processed = create_features(data)
 
-# set types
+# set types (need dtype to be category to avoid problems when feeding to model)
 data_processed["barri"] = data_processed["barri"].astype("category")
 
 # choose where to split the dataset
@@ -189,16 +190,17 @@ features = [
     "enc3",
     "enc4",
     "enc5",
+    # "exp",
 ]
 
+# define empty hyperspace; adding values next
 hyperspace = []
-# add search spaces to hyperspace
 
 # weights base
-hyperspace.append([2, 5, 10])
+hyperspace.append([10])
 # learning rate
-hyperspace.append([0.01, 0.001, 0.0005])
+hyperspace.append([0.01])
 # tree depth
-hyperspace.append([5, 6, 7, 8, 9])
+hyperspace.append([9])
 
-hyperwalk(hyperspace, 0, [], data_processed, features)
+grid_search(hyperspace, 0, [], data_processed, features)

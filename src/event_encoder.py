@@ -4,7 +4,8 @@ import pandas as pd
 import tensorflow as tf
 
 
-def additive_encoder(num_categories, latent_dim=5):
+def additive_encoder(num_categories: int, latent_dim: int = 5):
+    """Returns two models: the encoder itself and the whole model that can be trained (encoder + "deencoding" outputs)"""
     # input event category for each event (not a string but an ID)
     input_event = layers.Input(shape=(None,), name="input_event")
     # input the impact for each event

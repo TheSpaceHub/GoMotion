@@ -1,10 +1,11 @@
 import pandas as pd
 import numpy as np
 import xgb_model as xgb_model
-from peak_classifier import peak_loss
+from peak_classifier import peak_loss, classify_peaks
 from sklearn.metrics import mean_absolute_error
 import joblib
 import math
+import matplotlib.pyplot as plt
 
 
 # min_loss stores the smallest loss seen in the grid search
@@ -55,8 +56,9 @@ def grid_search(
         X_test = test[features]
         y_test = np.log1p(test["intensity"])
 
-        model = xgb_model.create_and_fit_regressor(
-            X_train, y_train, X_test, y_test, train_weights, learning_rate, depth
+        model = xgb_model.Multiregressor()
+        model.fit_multiregressor(
+            3, X_train, y_train, X_test, y_test, train_weights, learning_rate, depth
         )
         prediction = model.predict(X_test)
         print("MAE FOR:")
@@ -65,15 +67,30 @@ def grid_search(
 
         # check if model is current best and save
         global min_loss
-        loss = peak_loss(
-            pd.DataFrame(
-                {"barri": X_test["barri"], "prediction": prediction, "true": y_test}
-            )
+        peak_loss_df = pd.DataFrame(
+            {
+                "day": test["day"],
+                "barri": test["barri"],
+                "prediction": prediction,
+                "true": y_test,
+            }
         )
+        loss = peak_loss(peak_loss_df)
         if loss < min_loss:
             min_loss = loss
             print("New minimum loss achieved:", min_loss)
+
+            accs = []
+            for day in test["day"].unique():
+                accs.append(1 - peak_loss(peak_loss_df, day))
+
+            plt.plot([accs[i] for i in range(30)])
+            plt.show()
+
             joblib.dump(model, "data/regressor.joblib")
+
+            for i, x in enumerate(model.get_feature_importances()):
+                print(features[i] + ":", x)
 
 
 def calculate_sample_weights(df: pd.DataFrame, base: float) -> pd.Series:
@@ -97,37 +114,19 @@ def calculate_sample_weights(df: pd.DataFrame, base: float) -> pd.Series:
 def create_features(data: pd.DataFrame) -> pd.DataFrame:
     """Returns a DataFrame with the additional features"""
     df = data.copy()
-
-    day_to_num = {
-        "Lunes": 0,
-        "Martes": 1,
-        "Miércoles": 2,
-        "Jueves": 3,
-        "Viernes": 4,
-        "Sábado": 5,
-        "Domingo": 6,
-    }
-
+    
     # add day of the week
-    df["day_of_the_week"] = [day_to_num[x] for x in df["day_of_the_week"]]
-
-    # add day of the month
-    df["day_num"] = [x.day for x in df["day"]]
+    df["day_cat"] = df["day_of_the_week"].astype("category")
+    
+    df["month_cat"] = pd.Series([str(x) for x in df["month"]]).astype("category")
 
     # add lags (intensities {1, 2, 3, 4} weeks ago)
     for lag in [7, 14, 21, 28]:
         df[f"lag_{lag}"] = df.groupby("barri")["intensity"].shift(lag)
 
-    # absolute madness, but cool: simulate periodicity of months in a year and days in a month
-    df["month_sin"] = np.sin(2 * np.pi * df["month"] / 12)
-    df["month_cos"] = np.cos(2 * np.pi * df["month"] / 12)
-    df["day_sin"] = np.sin(2 * np.pi * df["day_of_the_week"] / 7)
-    df["day_cos"] = np.cos(2 * np.pi * df["day_of_the_week"] / 7)
-
     # add some derivatives
     df["dt_7_w1"] = (df["lag_7"] - df["lag_14"]) / 7
     df["dt_7_w2"] = (df["lag_14"] - df["lag_21"]) / 7
-    df["dt^2"] = df["dt_7_w1"] - df["dt_7_w2"]
 
     # get rid of old event columns
     df.drop(inplace=True, columns=["impact", "category"])
@@ -175,22 +174,20 @@ features = [
     "temperature_2m_min",
     "precipitation_sum",
     "is_holiday",
-    "month_sin",
-    "month_cos",
-    "day_num",
-    "day_sin",
-    "day_cos",
+    "month",
+    "month_cat",
+    "day_cat",
     "lag_7",
     "lag_14",
+    "lag_21",
+    "lag_28",
     "dt_7_w1",
     "dt_7_w2",
-    "dt^2",
     "enc1",
     "enc2",
     "enc3",
     "enc4",
     "enc5",
-    # "exp",
 ]
 
 # define empty hyperspace; adding values next

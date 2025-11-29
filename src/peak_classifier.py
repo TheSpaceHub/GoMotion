@@ -28,17 +28,31 @@ def classify_peaks(data: pd.DataFrame, column: str) -> pd.DataFrame:
     return df
 
 
-def peak_loss(df: pd.DataFrame) -> int:
+def peak_loss(data: pd.DataFrame, day=None) -> int:
     """Returns a custom loss which takes into account the number of entries where the predicted peak does not match the real peak"""
     count = 0
+    df = data.copy()
 
     for barri in df["barri"].unique():
         df_barri = df[df["barri"] == barri]
-        prediction_peak = list(classify_peaks(df_barri, "prediction")["peak_value"])
-        true_peak = list(classify_peaks(df_barri, "true")["peak_value"])
+        pred_peak_df = classify_peaks(df_barri, "prediction")
+        true_peak_df = classify_peaks(df_barri, "true")
+        prediction_peak = list(pred_peak_df["peak_value"])
+        true_peak = list(true_peak_df["peak_value"])
+
+        if day is not None:
+            # select the single day
+            df_barri = df_barri[df_barri["day"] == day]
+            prediction_peak = list(
+                pred_peak_df[pred_peak_df["day"] == day]["peak_value"]
+            )
+            true_peak = list(true_peak_df[true_peak_df["day"] == day]["peak_value"])
 
         for i in range(len(df_barri)):
             if prediction_peak[i] != true_peak[i]:
                 # if the peaks are not the same we add 1 to the count
                 count += 1
-    return count / len(df)
+    if day is None:
+        return count / len(df)
+    else:
+        return count / len(df[df["day"] == day])

@@ -122,7 +122,7 @@ st.markdown("---")
 st.subheader("Características del día")
 st.badge(f"Temperatura Máxima: **{df_filtered['temperature_2m_max'].iloc[0]} (°C)**", color='orange')
 st.badge(f"Temperatura Mínima: **{df_filtered['temperature_2m_min'].iloc[0]} (°C)**", color='blue')
-st.badge(f"Precipitaciones: **{df_filtered['precipitation_sum'].iloc[0]} (mm)**")
+st.badge(f"Precipitaciones: **{df_filtered['precipitation_sum'].iloc[0]} (mm)**", color = 'violet')
 
 if df_filtered['category'].iloc[0] != "0":
     st.badge(f"Evento(s): **{df_filtered['category'].iloc[0]}**", color = "yellow")

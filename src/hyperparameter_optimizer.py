@@ -6,6 +6,7 @@ from sklearn.metrics import mean_absolute_error
 import joblib
 import math
 import matplotlib.pyplot as plt
+from datetime import datetime
 
 
 # min_loss stores the smallest loss seen in the grid search
@@ -18,8 +19,9 @@ def grid_search(
     ],  # hyperspace is a list which contains the values to test for each hyperparameter
     index: int,
     hyperparameters: list[any],
-    processed_data: pd.DataFrame,
     features: list[str],
+    train: pd.DataFrame,
+    test: pd.DataFrame,
 ) -> None:
     """Performs a grid search. Custom function in order to implement custom hyperparameters"""
     if index != len(hyperspace):
@@ -29,8 +31,9 @@ def grid_search(
                 hyperspace,
                 index + 1,
                 hyperparameters + [param],
-                processed_data,
                 features,
+                train,
+                test,
             )
 
     else:
@@ -43,12 +46,7 @@ def grid_search(
 
         print(f"Testing base = {base}, l_rate = {learning_rate}, depth = {depth}")
 
-        # split data and calculate weights
-        train = data_processed.loc[data_processed["day"] < split_date].copy()
-        test = data_processed.loc[data_processed["day"] >= split_date].copy()
-
-        # remove nans
-        train = train.dropna()
+        # calculate weights
         train_weights = calculate_sample_weights(train, base)
 
         X_train = train[features]
@@ -60,10 +58,11 @@ def grid_search(
         model.fit_multiregressor(
             3, X_train, y_train, X_test, y_test, train_weights, learning_rate, depth
         )
-        prediction = model.predict(X_test)
+        prediction = np.expm1(model.predict(X_test))
+        y_test = np.expm1(y_test)
         print("MAE FOR:")
         print(hyperparameters)
-        print(mean_absolute_error(np.exp(prediction) - 1, np.exp(y_test) - 1))
+        print(mean_absolute_error(prediction, y_test))
 
         # check if model is current best and save
         global min_loss
@@ -75,17 +74,18 @@ def grid_search(
                 "true": y_test,
             }
         )
+        peak_loss_df.to_csv("QQQQQQQ.csv")
         loss = peak_loss(peak_loss_df)
         if loss < min_loss:
             min_loss = loss
             print("New minimum loss achieved:", min_loss)
 
-            accs = []
-            for day in test["day"].unique():
-                accs.append(1 - peak_loss(peak_loss_df, day))
-
-            plt.plot([accs[i] for i in range(30)])
-            plt.show()
+            #accs = []
+            #for day in test["day"].unique():
+            #    accs.append(1 - peak_loss(peak_loss_df, day))
+#
+            #plt.plot([accs[i] for i in range(30)])
+            #plt.show()
 
             joblib.dump(model, "data/regressor.joblib")
 
@@ -114,14 +114,14 @@ def calculate_sample_weights(df: pd.DataFrame, base: float) -> pd.Series:
 def create_features(data: pd.DataFrame) -> pd.DataFrame:
     """Returns a DataFrame with the additional features"""
     df = data.copy()
-    
+
     # add day of the week
     df["day_cat"] = df["day_of_the_week"].astype("category")
-    
+
     df["month_cat"] = pd.Series([str(x) for x in df["month"]]).astype("category")
 
     # add lags (intensities {1, 2, 3, 4} weeks ago)
-    for lag in [7, 14, 21, 28]:
+    for lag in [1, 2, 7, 14, 21, 28]:
         df[f"lag_{lag}"] = df.groupby("barri")["intensity"].shift(lag)
 
     # add some derivatives
@@ -136,68 +136,70 @@ def create_features(data: pd.DataFrame) -> pd.DataFrame:
     encoded_events = pd.read_csv("data/encoded_events.csv")
     encoded_events["day"] = pd.to_datetime(encoded_events["day"])
     df = df.merge(encoded_events, on=["day", "barri"], how="left")
-
-    # add exponential smoothing (useful predictor)
-    alpha = 0.8
-    df["exp"] = (
-        alpha * df["lag_7"]
-        + alpha * (1 - alpha) * df["lag_14"]
-        + alpha * (1 - alpha) ** 2 * df["lag_21"]
-        + (1 - alpha) ** 3 * df["lag_28"]
-    )
-
+    
     return df
 
 
-# read data
-data = pd.read_csv("data/final_data.csv")
-data["day"] = pd.to_datetime(data["day"])
+def main():
+    # read data
+    data = pd.read_csv("data/final_data.csv")
+    data["day"] = pd.to_datetime(data["day"])
 
-# sort by barri and day (probably already done, just in case)
-data = data.sort_values(["barri", "day"])
+    # sort by barri and day (probably already done, just in case)
+    data = data.sort_values(["barri", "day"])
 
-# remove bad data
-data = data.dropna()
+    # remove bad data
+    data = data.dropna()
 
-# process data
-data_processed = create_features(data)
+    # process data
+    data_processed = create_features(data)
 
-# set types (need dtype to be category to avoid problems when feeding to model)
-data_processed["barri"] = data_processed["barri"].astype("category")
+    # set types (need dtype to be category to avoid problems when feeding to model)
+    data_processed["barri"] = data_processed["barri"].astype("category")
 
-# choose where to split the dataset
-split_date = "2025-01-01"
+    # choose where to split the dataset
+    split_date = datetime(year=2025, month=1, day=1)
 
-features = [
-    "barri",
-    "temperature_2m_max",
-    "temperature_2m_min",
-    "precipitation_sum",
-    "is_holiday",
-    "month",
-    "month_cat",
-    "day_cat",
-    "lag_7",
-    "lag_14",
-    "lag_21",
-    "lag_28",
-    "dt_7_w1",
-    "dt_7_w2",
-    "enc1",
-    "enc2",
-    "enc3",
-    "enc4",
-    "enc5",
-]
+    # split data
+    train = data_processed.loc[data_processed["day"] < split_date].copy()
+    test = data_processed.loc[data_processed["day"] >= split_date].copy()
 
-# define empty hyperspace; adding values next
-hyperspace = []
+    # remove nans
+    train = train.dropna()
 
-# weights base
-hyperspace.append([10])
-# learning rate
-hyperspace.append([0.01])
-# tree depth
-hyperspace.append([9])
+    features = [
+        "barri",
+        "temperature_2m_max",
+        "temperature_2m_min",
+        "precipitation_sum",
+        "is_holiday",
+        "month_cat",
+        "day_cat",
+        "lag_7",
+        "lag_14",
+        "lag_21",
+        "lag_28",
+        "dt_7_w1",
+        "dt_7_w2",
+        "enc1",
+        "enc2",
+        "enc3",
+        "enc4",
+        "enc5",
+    ]
 
-grid_search(hyperspace, 0, [], data_processed, features)
+    # define empty hyperspace; adding values next
+    hyperspace = []
+
+    # weights base
+    hyperspace.append([5, 10, 20])
+    # learning rate
+    hyperspace.append([0.01, 0.0005])
+    # tree depth
+    hyperspace.append([5, 9, 10])
+
+    grid_search(hyperspace, 0, [], features, train, test)
+
+
+if __name__ == "__main__":
+    main()

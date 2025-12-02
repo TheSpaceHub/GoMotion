@@ -140,6 +140,28 @@ def create_features(data: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+
+features = [
+    "barri",
+    "temperature_2m_max",
+    "temperature_2m_min",
+    "precipitation_sum",
+    "is_holiday",
+    "month_cat",
+    "day_cat",
+    "lag_7",
+    "lag_14",
+    "lag_21",
+    "lag_28",
+    "dt_7_w1",
+    "dt_7_w2",
+    "enc1",
+    "enc2",
+    "enc3",
+    "enc4",
+    "enc5",
+]
+
 def main():
     # read data
     data = pd.read_csv("data/final_data.csv")
@@ -166,27 +188,6 @@ def main():
 
     # remove nans
     train = train.dropna()
-
-    features = [
-        "barri",
-        "temperature_2m_max",
-        "temperature_2m_min",
-        "precipitation_sum",
-        "is_holiday",
-        "month_cat",
-        "day_cat",
-        "lag_7",
-        "lag_14",
-        "lag_21",
-        "lag_28",
-        "dt_7_w1",
-        "dt_7_w2",
-        "enc1",
-        "enc2",
-        "enc3",
-        "enc4",
-        "enc5",
-    ]
 
     # define empty hyperspace; adding values next
     hyperspace = []

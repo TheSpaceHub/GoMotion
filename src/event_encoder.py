@@ -120,7 +120,7 @@ def main():
     model.fit(
         x={"input_event": X_cat, "input_impact": X_imp},
         y={"o_s": y_sum, "o_e": y_cats},
-        epochs=50,
+        epochs=20,
         batch_size=32,
         verbose=1,
     )

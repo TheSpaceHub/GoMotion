@@ -3,6 +3,7 @@ import keras
 import numpy as np
 import pandas as pd
 import tensorflow as tf
+import os
 
 
 @keras.saving.register_keras_serializable()
@@ -13,6 +14,7 @@ def apply_masking_logic(args):
     mask = tf.cast(mask, dtype=tf.float32)
     mask = tf.expand_dims(mask, axis=-1)
     return dense_output * mask
+
 
 @keras.saving.register_keras_serializable()
 def sum_axis(x):
@@ -63,7 +65,10 @@ def additive_encoder(num_categories: int, latent_dim: int = 5):
 
 
 def main():
-    event_data = pd.read_csv("data/event_data.csv")
+    try:
+        event_data = pd.read_csv("data/all_events.csv")
+    except:
+        raise Exception("data/events_final.csv not found")
     spacetime_to_events: dict[tuple[str, str], list[tuple[str, float]]] = {}
 
     for i, row in event_data.iterrows():
@@ -120,14 +125,15 @@ def main():
     model.fit(
         x={"input_event": X_cat, "input_impact": X_imp},
         y={"o_s": y_sum, "o_e": y_cats},
-        epochs=20,
+        epochs=50,
         batch_size=32,
         verbose=1,
     )
 
     # store encoder and necessary data
-    encoder.save("data/encoder.keras")
-    with open("data/encoder_data.txt", "w") as file:
+    os.makedirs("models/", exist_ok=True)
+    encoder.save("models/encoder.keras")
+    with open("models/encoder_data.txt", "w") as file:
         file.write(str(max_len))
 
     # encode event data and output to csv

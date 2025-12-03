@@ -4,9 +4,8 @@ import xgb_model as xgb_model
 from peak_classifier import peak_loss, classify_peaks
 from sklearn.metrics import mean_absolute_error
 import joblib
-import math
-import matplotlib.pyplot as plt
 from datetime import datetime
+import keras
 
 
 # min_loss stores the smallest loss seen in the grid search
@@ -74,20 +73,11 @@ def grid_search(
                 "true": y_test,
             }
         )
-        peak_loss_df.to_csv("QQQQQQQ.csv")
         loss = peak_loss(peak_loss_df)
         if loss < min_loss:
             min_loss = loss
             print("New minimum loss achieved:", min_loss)
-
-            #accs = []
-            #for day in test["day"].unique():
-            #    accs.append(1 - peak_loss(peak_loss_df, day))
-#
-            #plt.plot([accs[i] for i in range(30)])
-            #plt.show()
-
-            joblib.dump(model, "data/regressor.joblib")
+            joblib.dump(model, "models/regressor.joblib")
 
             for i, x in enumerate(model.get_feature_importances()):
                 print(features[i] + ":", x)
@@ -111,14 +101,64 @@ def calculate_sample_weights(df: pd.DataFrame, base: float) -> pd.Series:
     return df["sample_weight"]
 
 
+def load_events(df: pd.DataFrame) -> pd.DataFrame:
+    encoder = keras.models.load_model("models/encoder.keras")
+    encoder_max_len = 0
+    with open("models/encoder_data.txt") as encoder_data_file:
+        encoder_max_len = int(encoder_data_file.read())
+
+    # predict no events (need bias)
+    zero_prediction = encoder.predict(
+        x={
+            "input_event": np.zeros((1, encoder_max_len), dtype="int32"),
+            "input_impact": np.zeros((1, encoder_max_len, 1), dtype="int32"),
+        },
+    )
+
+    # load existing events
+    encoded_events = pd.read_csv("data/encoded_events.csv")
+    encoded_events["day"] = pd.to_datetime(encoded_events["day"])
+    encoded_events["barri"] = encoded_events["barri"].astype("category")
+    df = df.merge(encoded_events, on=["day", "barri"], how="left")
+
+    # set empty events for the rest
+    
+    df.loc[df["enc1"].isna(), "enc1"] = zero_prediction[0][0]
+    df.loc[df["enc2"].isna(), "enc2"] = zero_prediction[0][1]
+    df.loc[df["enc3"].isna(), "enc3"] = zero_prediction[0][2]
+    df.loc[df["enc4"].isna(), "enc4"] = zero_prediction[0][3]
+    df.loc[df["enc5"].isna(), "enc5"] = zero_prediction[0][4]
+
+    # TODO: fix
+    df["is_holiday"] = 0
+
+    return df
+
+
 def create_features(data: pd.DataFrame) -> pd.DataFrame:
     """Returns a DataFrame with the additional features"""
     df = data.copy()
 
     # add day of the week
-    df["day_cat"] = df["day_of_the_week"].astype("category")
+    day_int_to_name = {
+        0: "Lunes",
+        1: "Martes",
+        2: "Miércoles",
+        3: "Jueves",
+        4: "Viernes",
+        5: "Sábado",
+        6: "Domingo",
+    }
 
-    df["month_cat"] = pd.Series([str(x) for x in df["month"]]).astype("category")
+    df["month_cat"] = pd.Series([str(x.month) for x in df["day"]]).astype("category")
+    # we use known monday as reference
+    df["day_cat"] = pd.Series(
+        [
+            day_int_to_name[(x - pd.Timestamp(day=4, month=1, year=1982)).days % 7]
+            for x in df["day"]
+        ]
+    ).astype("category")
+
 
     # add lags (intensities {1, 2, 3, 4} weeks ago)
     for lag in [1, 2, 7, 14, 21, 28]:
@@ -128,17 +168,14 @@ def create_features(data: pd.DataFrame) -> pd.DataFrame:
     df["dt_7_w1"] = (df["lag_7"] - df["lag_14"]) / 7
     df["dt_7_w2"] = (df["lag_14"] - df["lag_21"]) / 7
 
-    # get rid of old event columns
-    df.drop(inplace=True, columns=["impact", "category"])
-    df.drop_duplicates(inplace=True)
+    # remove nans from rows without lags
+    df.dropna(inplace=True)
 
     # add encoded events
-    encoded_events = pd.read_csv("data/encoded_events.csv")
-    encoded_events["day"] = pd.to_datetime(encoded_events["day"])
-    df = df.merge(encoded_events, on=["day", "barri"], how="left")
-    
-    return df
+    df = load_events(df)
+    df["barri"] = df["barri"].astype("category")
 
+    return df
 
 
 features = [
@@ -162,6 +199,7 @@ features = [
     "enc5",
 ]
 
+
 def main():
     # read data
     data = pd.read_csv("data/final_data.csv")
@@ -175,9 +213,6 @@ def main():
 
     # process data
     data_processed = create_features(data)
-
-    # set types (need dtype to be category to avoid problems when feeding to model)
-    data_processed["barri"] = data_processed["barri"].astype("category")
 
     # choose where to split the dataset
     split_date = datetime(year=2025, month=1, day=1)

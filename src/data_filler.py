@@ -9,7 +9,7 @@ from datetime import timedelta
 
 
 def get_lag_features(df: pd.DataFrame, date: pd.Timestamp) -> pd.DataFrame:
-    """Returns DataFrame with needed lag features"""
+    """Returns DataFrame with needed lag features for the rows with the specified date"""
     # simple lags
     ids = df.index[df["day"] == date]
 
@@ -43,19 +43,19 @@ def extend_df(
 
 
 def add_weather_features(
-    df: pd.DataFrame, last_date: pd.Timestamp, date: pd.Timestamp
+    df: pd.DataFrame, date_from: pd.Timestamp, date_to: pd.Timestamp
 ) -> pd.DataFrame:
-    """Returns DataFrame with added weather features (self-explanatory)"""
+    """Returns DataFrame with added weather features. date_from is not inclusive"""
     # get weather for days
-    start_string = (last_date + pd.Timedelta(days=1)).strftime("%Y-%m-%d")
-    end_string = date.strftime("%Y-%m-%d")
+    start_string = (date_from + pd.Timedelta(days=1)).strftime("%Y-%m-%d")
+    end_string = date_to.strftime("%Y-%m-%d")
 
     weather_df: pd.DataFrame
 
     # check if we are forecasting too much
     if end_string > ONE_WEEK.strftime("%Y-%m-%d"):
         raise Exception("Date provided for filling data exceedes seven-day forecast")
-    elif end_string > TODAY.strftime("%Y-%m-%d"):
+    elif end_string >= TODAY.strftime("%Y-%m-%d"):
         yesterday_string = (TODAY - timedelta(days=1)).strftime("%Y-%m-%d")
         weather_df = pd.concat(
             [
@@ -89,9 +89,9 @@ def add_event_encodings(df: pd.DataFrame, last_date: pd.Timestamp) -> pd.DataFra
     """Returns DataFrame with added events (self-explanatory)"""
     # TODO: actually add event data
     # load encoder and data
-    encoder = keras.models.load_model("data/encoder.keras")
+    encoder = keras.models.load_model("models/encoder.keras")
     encoder_max_len = 0
-    with open("data/encoder_data.txt") as encoder_data_file:
+    with open("models/encoder_data.txt") as encoder_data_file:
         encoder_max_len = int(encoder_data_file.read())
 
     # predict no events (need bias)
@@ -101,6 +101,11 @@ def add_event_encodings(df: pd.DataFrame, last_date: pd.Timestamp) -> pd.DataFra
             "input_impact": np.zeros((1, encoder_max_len, 1), dtype="int32"),
         },
     )
+
+    # load existing events
+    encoded_events = pd.read_csv("data/encoded_events.csv")
+    encoded_events["day"] = pd.to_datetime(encoded_events["day"])
+    df = df.merge(encoded_events, on=["day", "barri"], how="left")
 
     # set events
     df.loc[df["day"] > last_date, "enc1"] = zero_prediction[0][0]
@@ -162,7 +167,7 @@ def fill_data(
     df = add_categorical_features(df)
 
     # get model
-    model = joblib.load("data/regressor.joblib")
+    model = joblib.load("models/regressor.joblib")
     while last_date < date:
         # get next date
         next_date = last_date + pd.Timedelta(days=1)
@@ -181,8 +186,13 @@ def fill_data(
         print("Day " + next_date.strftime("%d-%m-%Y") + " completed")
         last_date = next_date
 
+    # since original data does not have the event encodings added, we drop the columns
+    df.drop(inplace=True, columns=["enc1", "enc2", "enc3", "enc4", "enc5"])
+
     if export_to_csv:
-        df.to_csv(f"data/data_extended_to_{str(date.strftime('%d-%m-%Y'))}.csv")
+        df.to_csv(
+            f"data/data_extended_to_{str(date.strftime('%d-%m-%Y'))}.csv", index=None
+        )
     return df
 
 

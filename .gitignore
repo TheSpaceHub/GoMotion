@@ -4,6 +4,7 @@ venv/
 .xslx
 .env
 data/
+models/
 test.py
 .vscode/
 __pycache__/

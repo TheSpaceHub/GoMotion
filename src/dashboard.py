@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-from datetime import datetime
 import numpy as np
 import barri_manager as bm
 import networkx as nx
@@ -8,6 +7,10 @@ import geopandas as gpd
 import plotly.express as px 
 import plotly.graph_objects as go
 import locale
+from meteo import ONE_WEEK
+from data_filler import fill_data
+
+fill_data(pd.read_csv('data/data_processed.csv'), pd.to_datetime(ONE_WEEK.strftime("%Y-%m-%d")))
 
 try:
     locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
@@ -137,9 +140,16 @@ st.markdown("""
 
 @st.cache_data  
 def load_df() -> pd.DataFrame:
-    df = pd.read_csv('./data/final_data.csv')
+    df = pd.read_csv('data/data_extended.csv')
     df['day'] = pd.to_datetime(df['day'])
     return df
+
+@st.cache_data  
+def load_event_df() -> pd.DataFrame:
+    df = pd.read_csv('data/all_events.csv')
+    df['day'] = pd.to_datetime(df['day'])
+    return df
+
 
 @st.cache_resource  
 def load_geodata() -> tuple[nx.Graph, gpd.GeoDataFrame]:
@@ -364,8 +374,14 @@ def main():
         st.error("Error: Archivo de datos no encontrado.")
         st.stop()
 
+    try:
+        df_events = load_event_df()
+    except FileNotFoundError:
+        st.error("Error: Archivo de datos no encontrado.")
+        st.stop()
+
     render_header()
-    
+
     min_date = df['day'].min().date()
     max_date = df['day'].max().date()
 
@@ -381,8 +397,9 @@ def main():
             label_visibility="collapsed"
         )
     
+    df_events_filtered = df_events[df_events['day'].dt.date == selected_date].copy()
     df_filtered = df[df['day'].dt.date == selected_date].copy()
-    eventos_unicos = df_filtered[df_filtered['category'] != "0"]['category'].unique()
+    eventos_unicos = df_events_filtered[df_events_filtered['category'] != "0"]['category'].unique()
 
     with col_cat:
         st.markdown('<div class="section-header">📌 EVENTO(S)</div>', unsafe_allow_html=True)

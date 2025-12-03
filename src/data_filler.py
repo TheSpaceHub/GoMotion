@@ -155,10 +155,13 @@ def fill_data(
     df["day"] = pd.to_datetime(df["day"])
     last_date = max(df[df["intensity"].notna()]["day"].unique())
 
+    # check in case there is nothing to fill
+    if last_date >= date:
+        return df
+
     # add empty days
     df = extend_df(df, last_date, date)
     df["day"] = pd.to_datetime(df["day"])
-
 
     # add weather features
     df = add_weather_features(df, last_date, date)
@@ -193,9 +196,7 @@ def fill_data(
     df.drop(inplace=True, columns=["enc1", "enc2", "enc3", "enc4", "enc5"])
 
     if export_to_csv:
-        df.to_csv(
-            f"data/data_extended.csv", index=None
-        )
+        df.to_csv(f"data/data_extended.csv", index=None)
     return df
 
 

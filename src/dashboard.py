@@ -1,16 +1,10 @@
+from __future__ import annotations
 import streamlit as st
 import pandas as pd
 import numpy as np
-import barri_manager as bm
-import networkx as nx
-import geopandas as gpd
-import plotly.express as px 
-import plotly.graph_objects as go
 import locale
-from meteo import ONE_WEEK
-from data_filler import fill_data
+from metadata_manager import MetadataManager
 
-fill_data(pd.read_csv('data/data_processed.csv'), pd.to_datetime(ONE_WEEK.strftime("%Y-%m-%d")))
 
 try:
     locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
@@ -138,6 +132,27 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+def centered_image(path: str, width_ratio=50):
+    """Centers the image using columns"""
+    _, col, _ = st.columns([ (100-width_ratio)/2, width_ratio, (100-width_ratio)/2 ]) 
+    
+    with col:
+        return st.image(path, use_container_width=True)
+
+@st.cache_data
+def update_predictions() -> None:
+    #lazy imports to improve speed
+    from data_filler import fill_data
+    from meteo import ONE_WEEK
+
+    manager = MetadataManager()
+    last_date_str = manager.get("last_predicted_day")
+    if last_date_str is None:
+        fill_data(pd.read_csv('data/data_processed.csv'), pd.to_datetime(ONE_WEEK.strftime("%Y-%m-%d")))
+    else:
+        fill_data(pd.read_csv('data/data_extended.csv'), pd.to_datetime(ONE_WEEK.strftime("%Y-%m-%d")))
+    manager.set("last_predicted_day", ONE_WEEK.strftime("%Y-%m-%d"))
+
 @st.cache_data  
 def load_df() -> pd.DataFrame:
     df = pd.read_csv('data/data_extended.csv')
@@ -153,6 +168,11 @@ def load_event_df() -> pd.DataFrame:
 
 @st.cache_resource  
 def load_geodata() -> tuple[nx.Graph, gpd.GeoDataFrame]:
+    #lazy imports to improve speed
+    import barri_manager as bm
+    import geopandas as gpd
+    import networkx as nx
+    
     G = bm.create_graph()
     gdf = bm.load_gdf().rename(columns={"nom_barri": "barri"})
     if gdf.crs is None:
@@ -170,6 +190,11 @@ def compute_zscore_stats(df) -> pd.DataFrame:
     return stats
 
 def plot_barri_heatmap(df_current_day: pd.DataFrame, stats: pd.DataFrame, gdf: gpd.GeoDataFrame):
+    #lazy imports to improve speed
+    import geopandas as gpd
+    import plotly.express as px 
+    
+    
     df_day = df_current_day.merge(stats, on="barri", how="left")
     df_day['intensity'] = np.ceil(df_day['intensity']).astype(int)
     df_day["zscore"] = (df_day["intensity"] - df_day["mean"]) / df_day["std"]
@@ -213,8 +238,11 @@ def plot_barri_heatmap(df_current_day: pd.DataFrame, stats: pd.DataFrame, gdf: g
     )
     st.plotly_chart(fig, use_container_width=True)
 
-def plot_barri_details(df_full, barri_name):
+def plot_barri_details(df_full, df_events, barri_name):
+    import plotly.express as px 
+    import plotly.graph_objects as go
     df_barri = df_full[df_full['barri'] == barri_name].copy()
+    df_events_barri = df_events[df_events["barri"] == barri_name].copy()
     st.markdown(f"### 🔎 Análisis Detallado: <span style='color:#3b82f6'>{barri_name}</span>", unsafe_allow_html=True)
     
     df_barri['weekday_num'] = df_barri['day'].dt.weekday
@@ -256,7 +284,7 @@ def plot_barri_details(df_full, barri_name):
         xaxis=dict(showgrid=False), yaxis=dict(showgrid=True, gridcolor='#f1f5f9')
     )
 
-    cat_stats = df_barri.groupby('category')['intensity'].mean().reset_index().sort_values('intensity', ascending=True)
+    cat_stats = pd.merge(left=df_events_barri, right=df_barri).groupby('category')['intensity'].mean().reset_index().sort_values('intensity', ascending=True)
     fig_cat = go.Figure(go.Bar(
         x=cat_stats['intensity'], y=cat_stats['category'],
         orientation='h',
@@ -366,20 +394,30 @@ def render_map_ranking_section(df_day, stats, gdf):
             st.info("No hay datos disponibles para la fecha seleccionada.")
 
 def main():
-    try:
-        df = load_df()
-        G, gdf = load_geodata()
-        stats = compute_zscore_stats(df)
-    except FileNotFoundError:
-        st.error("Error: Archivo de datos no encontrado.")
-        st.stop()
+    loading_logo = centered_image("media/GoMotionShortLogo.png", width_ratio=30)
+    
+    with st.spinner("Cargando..."):
+        try:
+            df = load_df()
+            G, gdf = load_geodata()
+            stats = compute_zscore_stats(df)
+        except FileNotFoundError:
+            st.error("Error: Archivo de datos no encontrado.")
+            st.stop()
 
-    try:
-        df_events = load_event_df()
-    except FileNotFoundError:
-        st.error("Error: Archivo de datos no encontrado.")
-        st.stop()
+        try:
+            df_events = load_event_df()
+        except FileNotFoundError:
+            st.error("Error: Archivo de datos no encontrado.")
+            st.stop()
+            
+        try:
+            update_predictions()
+        except:
+            st.error("Error: No se han podido crear las predicciones.")
 
+
+    loading_logo.empty()
     render_header()
 
     min_date = df['day'].min().date()
@@ -430,7 +468,7 @@ def main():
         st.markdown("### Seleccionar Barrio")
         selected_barrio = st.selectbox("Barrio", options=barrios_list, label_visibility="collapsed")
     
-    plot_barri_details(df, selected_barrio)
+    plot_barri_details(df, df_events, selected_barrio)
 
 if __name__ == "__main__":
     main()

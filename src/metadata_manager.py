@@ -1,0 +1,42 @@
+import os
+import pandas as pd
+
+
+class MetadataManager:
+    def __init__(self):
+        """Loads metadata file or creates it if it doesnt exist"""
+        if os.path.exists("data/metadata.csv"):
+            self.df = pd.read_csv("data/metadata.csv")
+        else:
+            self.df = pd.DataFrame(
+                {
+                    # default values
+                    "key": ["last_day_event_checked", "last_predicted_day"],
+                    "value": ["2022-12-31", None],
+                }
+            )
+            self.save()
+
+    def get(self, key: str) -> str | None:
+        """Returns the value associated to the key (or None)"""
+        row = self.df[self.df["key"] == key]
+        if len(row) == 0:
+            return None
+        else:
+            return row.iloc[0]["value"]
+
+    def set(self, key: str, value: str) -> None:
+        """Sets the value of the key"""
+        try:
+            self.df.loc[self.df["key"] == key, "value"] = value
+        except:
+            raise Exception(f"Metadata error: could not assign {key} to {value}")
+
+        self.save()
+
+    def save(self):
+        """Saves metadata file"""
+        try:
+            self.df.to_csv("data/metadata.csv", index=None)
+        except:
+            raise Exception(f"Metadata error: could not save file")

@@ -6,6 +6,7 @@ import llm_scraper
 import datetime
 import data_filler
 import hyperparameter_optimizer
+from metadata_manager import MetadataManager
 
 
 def check_and_load_data(save_file: bool = True) -> pd.DataFrame:
@@ -81,6 +82,11 @@ def process_scraped_events(df: pd.DataFrame, barri_list: list[str]) -> pd.DataFr
 
 def main():
     # run the whole pipeline
+    # metadata manager
+    manager = MetadataManager()
+
+    # useful vars
+    TODAY = datetime.datetime.today()
 
     # ----------------------------------------------
     # MATHEMATICAL FRAMEWROK
@@ -93,9 +99,14 @@ def main():
     else:
         intensities_df = pd.read_csv("data/intensities.csv")
 
+    # keep this (its useful)
+    barri_list = intensities_df["barri"].unique()
+
     # ----------------------------------------------
     # EVENT DATA
     # ----------------------------------------------
+
+    # deal with encoder
     encoder_created = False
     if not os.path.exists("data/encoded_events.csv"):
         # get all events using the scraper and run event_encoder.py
@@ -104,16 +115,35 @@ def main():
             llm_scraper.scrape_week_ahead(
                 datetime.datetime(year=2023, month=1, day=1), datetime.date.today()
             ),
-            intensities_df["barri"].unique(),
+            barri_list,
         )
-        # store them
+        # store them and keep track of it in metadata
         all_events.to_csv("data/all_events.csv", index=None)
+        manager.set("last_day_event_checked", TODAY.strftime("%Y-%m-%d"))
 
         # create and train encoder, then encode
         event_encoder.main()
 
         # keep track of this; if the encoder is rebuilt, the weights might have changed, so we need to retrain XGB model
         encoder_created = True
+
+    # this part only matters if the pipeline is run multiple times: since the day might be different, we need to check new events
+    if datetime.datetime.strptime(manager.get("last_day_event_checked"), "%Y-%m-%d").date() < TODAY.date():
+        # there might be new events
+        new_events = process_scraped_events(
+            llm_scraper.scrape_week_ahead(
+                datetime.datetime.strptime(manager.get("last_day_event_checked"), "%Y-%m-%d")
+                + datetime.timedelta(days=1),
+                datetime.date.today(),
+            ),
+            barri_list,
+        )
+
+        # load old events, concatenate new ones and metadata
+        all_events = pd.read_csv("data/all_events.csv")
+        all_events = pd.concat([all_events, new_events])
+        all_events.to_csv("data/all_events.csv", index=None)
+        manager.set("last_day_event_checked", TODAY.strftime("%Y-%m-%d"))
 
     # ----------------------------------------------
     # PREDICTION MODEL

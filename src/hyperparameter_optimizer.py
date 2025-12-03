@@ -122,7 +122,7 @@ def load_events(df: pd.DataFrame) -> pd.DataFrame:
     df = df.merge(encoded_events, on=["day", "barri"], how="left")
 
     # set empty events for the rest
-    
+
     df.loc[df["enc1"].isna(), "enc1"] = zero_prediction[0][0]
     df.loc[df["enc2"].isna(), "enc2"] = zero_prediction[0][1]
     df.loc[df["enc3"].isna(), "enc3"] = zero_prediction[0][2]
@@ -135,7 +135,7 @@ def load_events(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def create_features(data: pd.DataFrame) -> pd.DataFrame:
+def create_features(data: pd.DataFrame, drop_empty: bool = True) -> pd.DataFrame:
     """Returns a DataFrame with the additional features"""
     df = data.copy()
 
@@ -159,7 +159,6 @@ def create_features(data: pd.DataFrame) -> pd.DataFrame:
         ]
     ).astype("category")
 
-
     # add lags (intensities {1, 2, 3, 4} weeks ago)
     for lag in [1, 2, 7, 14, 21, 28]:
         df[f"lag_{lag}"] = df.groupby("barri")["intensity"].shift(lag)
@@ -169,7 +168,8 @@ def create_features(data: pd.DataFrame) -> pd.DataFrame:
     df["dt_7_w2"] = (df["lag_14"] - df["lag_21"]) / 7
 
     # remove nans from rows without lags
-    df.dropna(inplace=True)
+    if drop_empty:
+        df.dropna(inplace=True)
 
     # add encoded events
     df = load_events(df)

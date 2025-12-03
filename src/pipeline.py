@@ -131,8 +131,10 @@ def main():
         # add rest of features
         data_processed = hyperparameter_optimizer.create_features(data)
 
-        # store
-        data_processed.to_csv("data/data_processed.csv", index=None)
+        # store features for all
+        hyperparameter_optimizer.create_features(data, False).to_csv(
+            "data/data_processed.csv", index=None
+        )
 
         # training portion
         # choose where to split the dataset

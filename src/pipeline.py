@@ -14,10 +14,6 @@ def check_and_load_data(save_file: bool = True) -> pd.DataFrame:
     if not os.path.exists("data/barris.csv"):
         raise Exception("Geographical barri data is missing")
 
-    # event data
-    if not os.path.exists("data/events_final.csv"):
-        raise Exception("Past event data is missing")
-
     # data provided by challenge setters
     dates = (
         pd.date_range(start="2023-01-01", end="2025-08-01", freq="MS")
@@ -135,6 +131,9 @@ def main():
         # add rest of features
         data_processed = hyperparameter_optimizer.create_features(data)
 
+        # store
+        data_processed.to_csv("data/data_processed.csv", index=None)
+
         # training portion
         # choose where to split the dataset
         split_date = datetime.datetime(year=2025, month=1, day=1)
@@ -159,6 +158,7 @@ def main():
         hyperparameter_optimizer.grid_search(
             hyperspace, 0, [], hyperparameter_optimizer.features, train, test
         )
+    os.system("streamlit run src/dashboard.py")
 
 
 if __name__ == "__main__":

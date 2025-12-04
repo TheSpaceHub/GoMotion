@@ -135,8 +135,10 @@ def update_predictions() -> None:
     from meteo import ONE_WEEK
 
     manager = MetadataManager()
-    last_date_str = manager.get("last_predicted_day")
-    if last_date_str is None:
+    last_date_str = str(manager.get("last_predicted_day"))
+    print(type(last_date_str))
+    print("STRING:", last_date_str)
+    if last_date_str == "nan":
         fill_data(pd.read_csv('data/data_processed.csv'), pd.to_datetime(ONE_WEEK.strftime("%Y-%m-%d")))
     else:
         fill_data(pd.read_csv('data/data_extended.csv'), pd.to_datetime(ONE_WEEK.strftime("%Y-%m-%d")))
@@ -543,6 +545,11 @@ def main() -> None:
     
     with st.spinner("Cargando..."):
         try:
+            update_predictions()
+        except:
+            st.error("Error: No se han podido crear las predicciones.")
+        
+        try:
             df = load_df()
             G, gdf = load_geodata()
             stats = compute_zscore_stats(df)
@@ -556,10 +563,6 @@ def main() -> None:
             st.error("Error: Archivo de datos no encontrado.")
             st.stop()
             
-        try:
-            update_predictions()
-        except:
-            st.error("Error: No se han podido crear las predicciones.")
 
 
     loading_logo.empty()

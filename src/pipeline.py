@@ -6,6 +6,8 @@ import llm_scraper
 import datetime
 import data_filler
 import hyperparameter_optimizer
+import keras
+import numpy as np
 from metadata_manager import MetadataManager
 
 
@@ -52,16 +54,16 @@ def check_and_load_data(save_file: bool = True) -> pd.DataFrame:
     return merged_data
 
 
-def process_scraped_events(df_tuple: tuple[pd.DataFrame], barri_list: list[str]) -> pd.DataFrame:
-    """Takes a DataFrame from the scraper and spreads out the barris"""
+def process_scraped_events(
+    df_tuple: tuple[pd.DataFrame], barri_list: list[str]
+) -> tuple[pd.DataFrame]:
+    """Takes two DataFrames from the scraper and spreads out the barris for events"""
+    (df_events, df_holidays) = df_tuple
+
+    # events
     processed_events = pd.DataFrame(
         columns=["day", "barri", "category", "impact", "description"]
     )
-    (df_events, df_festives) = df_tuple
-    
-    print(df_festives.head())
-    
-    #events
     for _, row in df_events.iterrows():
         if row["barris"] == "all":
             for barri in barri_list:
@@ -82,7 +84,13 @@ def process_scraped_events(df_tuple: tuple[pd.DataFrame], barri_list: list[str])
                     "description": row["description"],
                 }
     processed_events = processed_events.sort_values(["day", "barri"])
-    return processed_events
+
+    # holidays
+    processed_holidays = pd.DataFrame()
+    processed_holidays["day"] = df_holidays["date"]
+    processed_holidays["description"] = df_holidays["description"]
+
+    return (processed_events, processed_holidays)
 
 
 def main():
@@ -108,43 +116,74 @@ def main():
     barri_list = intensities_df["barri"].unique()
 
     # ----------------------------------------------
-    # EVENT DATA
+    # EVENT AND HOLIDAY DATA
     # ----------------------------------------------
 
     # deal with encoder
     encoder_created = False
     if not os.path.exists("data/encoded_events.csv"):
         if not os.path.exists("data/events.csv"):
-            raise Exception("Geographical barri data is missing")
-        # get all events using the scraper and run event_encoder.py
-        # the second file creates an encoder (which takes existing events and projects them to a 5-dimensional latent space conserving all information) and processes all events for given data
-        all_events = process_scraped_events(
-            pd.read_csv("data/events.csv"),
-            barri_list,
-        )
-        # store them and keep track of it in metadata
-        all_events.to_csv("data/all_events.csv", index=None)
-        manager.set("last_day_event_checked", TODAY.strftime("%Y-%m-%d"))
+            raise Exception("Event data is missing")
+        if not os.path.exists("data/holidays.csv"):
+            raise Exception("Event data is missing")
 
-        # create and train encoder, then encode
+        # load precomputed events and holidays, rename them and keep track of it in metadata
+        all_events = pd.read_csv("data/events.csv")
+        all_events.to_csv("data/all_events.csv", index=None)
+        all_holidays = pd.read_csv("data/holidays.csv")
+        all_holidays.to_csv("data/all_holidays.csv", index=None)
+
+        # run event_encoder.py
+        # the file creates an encoder (which takes existing events and projects them to a 5-dimensional latent space conserving all information) and processes all events for given data
         event_encoder.main()
 
         # keep track of this; if the encoder is rebuilt, the weights might have changed, so we need to retrain XGB model
         encoder_created = True
 
     # this part only matters if the pipeline is run multiple times: since the day might be different, we need to check new events
-    if datetime.datetime.strptime(manager.get("last_day_event_checked"), "%Y-%m-%d").date() < TODAY.date():
+    if (
+        datetime.datetime.strptime(
+            manager.get("last_day_event_checked"), "%Y-%m-%d"
+        ).date()
+        < TODAY.date()
+    ):
         # there might be new events
-        new_events = process_scraped_events(
+        (new_events, new_holidays) = process_scraped_events(
             llm_scraper.scrape_week_ahead(),
             barri_list,
         )
 
-        # load old events, concatenate new ones and metadata
+        # load old events and holidays, concatenate new ones and metadata
         all_events = pd.read_csv("data/all_events.csv")
+        all_holidays = pd.read_csv("data/all_holidays.csv")
+
+        # cut events and holidays that might already be loaded
+        event_cutoff = max(all_events["day"])
+        holiday_cutoff = max(all_holidays["day"])
+
+        new_events = new_events[new_events["day"] > event_cutoff]
+        new_holidays = new_holidays[new_holidays["day"] > holiday_cutoff]
+
         all_events = pd.concat([all_events, new_events])
+        all_holidays = pd.concat([all_holidays, new_holidays])
         all_events.to_csv("data/all_events.csv", index=None)
+        all_holidays.to_csv("data/all_holidays.csv", index=None)
         manager.set("last_day_event_checked", TODAY.strftime("%Y-%m-%d"))
+
+        # need to encode new events
+        encoder = keras.models.load_model("models/encoder.keras")
+        encoder_max_len = 0
+        with open("models/encoder_data.txt") as encoder_data_file:
+            encoder_max_len = int(encoder_data_file.read())
+
+        # predict no events (need bias)
+        if len(new_events) > 0:
+            encoded_events = pd.read_csv("data/encoded_events.csv")
+            new_encoded_events = event_encoder.predict(
+                new_events, encoder, encoder_max_len, 5
+            )
+            encoded_events = pd.concat([encoded_events, new_encoded_events])
+            encoded_events.to_csv("data/encoded_events.csv", index=None)
 
     # ----------------------------------------------
     # PREDICTION MODEL
@@ -163,7 +202,9 @@ def main():
         data_processed = hyperparameter_optimizer.create_features(data)
 
         # store features for all
-        hyperparameter_optimizer.create_features(data, False).to_csv(
+        df_to_save = hyperparameter_optimizer.create_features(data, False)
+        df_to_save.drop(inplace=True, columns=["enc1", "enc2", "enc3", "enc4", "enc5"])
+        df_to_save.to_csv(
             "data/data_processed.csv", index=None
         )
 

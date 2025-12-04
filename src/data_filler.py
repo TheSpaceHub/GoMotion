@@ -86,35 +86,21 @@ def add_weather_features(
 
 
 def add_event_encodings(df: pd.DataFrame, last_date: pd.Timestamp) -> pd.DataFrame:
-    """Returns DataFrame with added events (self-explanatory)"""
-    # TODO: actually add event data
-    # load encoder and data
-    encoder = keras.models.load_model("models/encoder.keras")
-    encoder_max_len = 0
-    with open("models/encoder_data.txt") as encoder_data_file:
-        encoder_max_len = int(encoder_data_file.read())
-
-    # predict no events (need bias)
-    zero_prediction = encoder.predict(
-        x={
-            "input_event": np.zeros((1, encoder_max_len), dtype="int32"),
-            "input_impact": np.zeros((1, encoder_max_len, 1), dtype="int32"),
-        },
-    )
-
+    """Returns DataFrame with added events and holidays (self-explanatory)"""
     # load existing events
     encoded_events = pd.read_csv("data/encoded_events.csv")
     encoded_events["day"] = pd.to_datetime(encoded_events["day"])
+    print("df before")
+    print(df.head())
     df = df.merge(encoded_events, on=["day", "barri"], how="left")
+    print("df after")
+    print(df.head())
 
-    # set events
-    df.loc[df["day"] > last_date, "enc1"] = zero_prediction[0][0]
-    df.loc[df["day"] > last_date, "enc2"] = zero_prediction[0][1]
-    df.loc[df["day"] > last_date, "enc3"] = zero_prediction[0][2]
-    df.loc[df["day"] > last_date, "enc4"] = zero_prediction[0][3]
-    df.loc[df["day"] > last_date, "enc5"] = zero_prediction[0][4]
-
-    df.loc[df["day"] > last_date, "is_holiday"] = 0
+    # read holidays and assign
+    holiday_df = pd.read_csv("data/all_holidays.csv")
+    holiday_df["day"] = pd.to_datetime(holiday_df["day"])
+    df["is_holiday"] = 0
+    df.loc[df["day"].isin(list(holiday_df["day"])), "is_holiday"] = 1
 
     return df
 
@@ -157,6 +143,8 @@ def fill_data(
 
     # check in case there is nothing to fill
     if last_date >= date:
+        if export_to_csv:
+            df.to_csv(f"data/data_extended.csv", index=None)
         return df
 
     # add empty days
@@ -193,6 +181,8 @@ def fill_data(
         last_date = next_date
 
     # since original data does not have the event encodings added, we drop the columns
+    print(df.head())
+    print(df.columns)
     df.drop(inplace=True, columns=["enc1", "enc2", "enc3", "enc4", "enc5"])
 
     if export_to_csv:

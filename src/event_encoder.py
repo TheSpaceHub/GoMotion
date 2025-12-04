@@ -64,6 +64,55 @@ def additive_encoder(num_categories: int, latent_dim: int = 5):
     return model, encoder
 
 
+def predict(
+    event_data: pd.DataFrame, encoder: keras.Model, max_len: int, latent_dim: int
+) -> pd.DataFrame:
+    """Given an event DataFrame, returns a DataFrame with encoded events"""
+    spacetime_to_events: dict[tuple[str, str], list[tuple[str, float]]] = {}
+
+    for i, row in event_data.iterrows():
+        key = (row["day"], row["barri"])
+        if key not in spacetime_to_events:
+            spacetime_to_events[key] = []
+        spacetime_to_events[key].append((row["category"], row["impact"]))
+
+    raw_data = list(spacetime_to_events.values())
+
+    all_cats = set()
+    for pair in raw_data:
+        for cat, _ in pair:
+            all_cats.add(cat)
+
+    cat_to_id = {cat: i + 1 for i, cat in enumerate(sorted(all_cats))}
+
+    n = len(raw_data)
+    X_cat = np.zeros((n, max_len), dtype="int32")
+    # the additional dimension is needed for later, the category id gets embedded and we need the extra dim for concatenation
+    X_imp = np.zeros((n, max_len, 1), dtype="float32")
+
+    # fill X_cat and X_imp
+    for i, events in enumerate(raw_data):
+        for j, (cat, imp) in enumerate(events):
+            X_cat[i, j] = cat_to_id[cat]
+            X_imp[i, j, 0] = imp
+
+    # encode event data and output to csv
+    all_encoded_events = encoder.predict(
+        x={"input_event": X_cat, "input_impact": X_imp}, batch_size=1024, verbose=1
+    )
+    keys_list = list(spacetime_to_events.keys())
+
+    days = [k[0] for k in keys_list]
+    barris = [k[1] for k in keys_list]
+
+    data_dict = {"day": days, "barri": barris}
+
+    for i in range(latent_dim):
+        data_dict[f"enc{i+1}"] = all_encoded_events[:, i]
+
+    return pd.DataFrame(data_dict)
+
+
 def main():
     try:
         event_data = pd.read_csv("data/all_events.csv")

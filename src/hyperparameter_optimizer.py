@@ -102,6 +102,7 @@ def calculate_sample_weights(df: pd.DataFrame, base: float) -> pd.Series:
 
 
 def load_events(df: pd.DataFrame) -> pd.DataFrame:
+    """Returns DataFrame with all events and holidays added"""
     encoder = keras.models.load_model("models/encoder.keras")
     encoder_max_len = 0
     with open("models/encoder_data.txt") as encoder_data_file:
@@ -122,15 +123,18 @@ def load_events(df: pd.DataFrame) -> pd.DataFrame:
     df = df.merge(encoded_events, on=["day", "barri"], how="left")
 
     # set empty events for the rest
-
     df.loc[df["enc1"].isna(), "enc1"] = zero_prediction[0][0]
     df.loc[df["enc2"].isna(), "enc2"] = zero_prediction[0][1]
     df.loc[df["enc3"].isna(), "enc3"] = zero_prediction[0][2]
     df.loc[df["enc4"].isna(), "enc4"] = zero_prediction[0][3]
     df.loc[df["enc5"].isna(), "enc5"] = zero_prediction[0][4]
 
-    # TODO: fix
+    # set holidays
+    # load holiday csv
+    holiday_df = pd.read_csv("data/all_holidays.csv")
+    holiday_df["day"] = pd.to_datetime(holiday_df["day"])
     df["is_holiday"] = 0
+    df.loc[df["day"].isin(list(holiday_df["day"])), "is_holiday"] = 1
 
     return df
 
@@ -171,7 +175,7 @@ def create_features(data: pd.DataFrame, drop_empty: bool = True) -> pd.DataFrame
     if drop_empty:
         df.dropna(inplace=True)
 
-    # add encoded events
+    # add holidays and encoded events
     df = load_events(df)
     df["barri"] = df["barri"].astype("category")
 

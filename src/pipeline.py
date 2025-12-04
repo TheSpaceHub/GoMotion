@@ -52,12 +52,17 @@ def check_and_load_data(save_file: bool = True) -> pd.DataFrame:
     return merged_data
 
 
-def process_scraped_events(df: pd.DataFrame, barri_list: list[str]) -> pd.DataFrame:
+def process_scraped_events(df_tuple: tuple[pd.DataFrame], barri_list: list[str]) -> pd.DataFrame:
     """Takes a DataFrame from the scraper and spreads out the barris"""
     processed_events = pd.DataFrame(
         columns=["day", "barri", "category", "impact", "description"]
     )
-    for _, row in df.iterrows():
+    (df_events, df_festives) = df_tuple
+    
+    print(df_festives.head())
+    
+    #events
+    for _, row in df_events.iterrows():
         if row["barris"] == "all":
             for barri in barri_list:
                 processed_events.loc[len(processed_events)] = {

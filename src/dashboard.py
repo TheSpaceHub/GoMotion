@@ -1,15 +1,11 @@
+from __future__ import annotations  # <--- MUST be the very first line of the file
+
 import streamlit as st
 import pandas as pd
 import datetime
 import numpy as np
-import plotly.express as px 
-import geopandas as gpd
-import barri_manager as bm
-import networkx as nx
 import locale
 from datetime import date
-from meteo import ONE_WEEK
-from data_filler import fill_data
 from metadata_manager import MetadataManager
 
 try:
@@ -165,6 +161,10 @@ def load_event_df() -> pd.DataFrame:
 @st.cache_resource  
 def load_geodata() -> tuple[nx.Graph, gpd.GeoDataFrame]:
     """Returns Graph and GeoDataFrame"""
+    #lazy imports to improve speed
+    import geopandas as gpd
+    import networkx as nx
+    import barri_manager as bm
     
     G = bm.create_graph()
     gdf = bm.load_gdf().rename(columns={"nom_barri": "barri"})
@@ -372,6 +372,8 @@ def render_kpis(df_filtered: pd.DataFrame, df_prev_month: pd.DataFrame, df_event
 
 def render_map_ranking_section(df_day: pd.DataFrame, stats: pd.DataFrame, gdf: gpd.GeoDataFrame, min_date: date, max_date: date) -> None:
     """Renders heat map, date selector and ranking"""
+    #lazy imports to improve speed
+    import geopandas as gpd
     
     c_map, c_tab = st.columns([1.2, 1], gap="large")
 

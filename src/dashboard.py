@@ -74,20 +74,10 @@ st.markdown(f"""
 
 /* General Layout & Background */
 .stApp {{
-    background-color: {BACKGROUND_COLOR};
+    background-color: {BACKGROUND_COLOR};    st.markdown(f'<p class="subtitle">Movilidad en Barcelona</p>', unsafe_allow_html=True)
+
     color: {PRIMARY_TEXT_COLOR};
     padding-top: 2rem;
-}}
-
-/* Main Title (Go Motion) - Sharp Black */
-h1 {{
-    color: {PRIMARY_TEXT_COLOR}; 
-    font-family: 'Segoe UI', sans-serif;
-    font-weight: 800;
-    font-size: 3.5rem !important;
-    margin: 0;
-    padding: 0;
-    letter-spacing: -1px;
 }}
 
 /* Subtitle (Movilidad en Barcelona) - Dark Gray, Subtle */
@@ -318,7 +308,7 @@ def plot_barri_heatmap(df_current_day: pd.DataFrame, stats: pd.DataFrame, gdf: g
 
 def render_header() -> None:
     """Renders the main title and subtitle using the defined CSS classes."""
-    st.markdown('<h1 style="margin-top: -75px;">Go Motion</h1>', unsafe_allow_html=True)
+    st.image("media/GoMotionLogo.png", width=300)
     st.markdown(f'<p class="subtitle">Movilidad en Barcelona</p>', unsafe_allow_html=True)
 
 def render_kpis(df_filtered: pd.DataFrame, df_prev_month: pd.DataFrame, df_events: pd.DataFrame, max_date: date) -> None:
@@ -641,10 +631,15 @@ def main() -> None:
         st.session_state.selected_barri_from_map = "El Raval" 
             
     selected_date = st.session_state.selected_date
+
+    #df_barri['weekday_num'] = df_barri['day'].dt.weekday
+    #df_barri['day_of_the_week'] = df_barri['day'].dt.strftime('%A')
     
     df_filtered = df[df['day'].dt.date == selected_date].copy()
-    df_prev_month = df[df['day'].dt.date == (selected_date - datetime.timedelta(days=30))].copy()
-    
+    df_prev_month = df[(df['day'].dt.date >= (selected_date - datetime.timedelta(days=30))) & (df['day'].dt.date < selected_date)].copy()
+    print(selected_date)
+    print(df_prev_month.head())
+    df_prev_month = df_prev_month[pd.to_datetime(df_prev_month['day']).dt.dayofweek == pd.to_datetime(selected_date).dayofweek]
     render_kpis(df_filtered, df_prev_month, df_events, max_date)
     render_map_ranking_section(df_filtered, stats, gdf, min_date, max_date)
     plot_barri_details(df, df_events)

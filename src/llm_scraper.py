@@ -21,6 +21,22 @@ EventType = [
     "Traditional Festival"
 ]
 
+class Holiday(BaseModel):
+    """A single holiday from the web page text."""
+    
+    date: str = Field(
+        description="The exact date of the holiday in YYYY-MM-DD format, which must match the target interval."
+    )
+    description: str = Field(
+        description="Brief, descriptive name of the event."
+    )
+
+class HolidayList(BaseModel):
+    """The root container for all extracted events."""
+    holidays: list[Holiday] = Field(
+        description="A list of all holidays found that occur on the target interval."
+    )
+
 class Event(BaseModel):
     """A single event extracted from the web page text."""
     
@@ -51,6 +67,33 @@ class EventList(BaseModel):
     events: list[Event] = Field(
         description="A list of all events found that occur on the target interval."
     )
+
+def extract_festius(text: str, today: datetime.date, end_date: datetime.date, more_info: str) -> list[dict]:
+    """Extracts festius that happen within the date interval from the text using Gemini."""
+
+    prompt = f"""You are an expert holidays data extraction system. Your task is to analyze the provided web page text and identify all events that occur within a specified time interval.
+    **Target Interval:** You must extract ALL holidays that occur between the start date, **{today.strftime('%Y-%m-%d')}**, and the end date, **{end_date.strftime('%Y-%m-%d')}**, inclusive.
+        **Exclusions:** You must ignore any events that fall outside of this interval.
+    **WEB PAGE TEXT:**
+    {text}"""
+    
+    config = types.GenerateContentConfig(
+        response_mime_type="application/json",
+        response_schema=HolidayList,
+    )
+
+    try:
+        response = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=prompt,
+            config=config
+        )
+        data_dict = json.loads(response.text)
+        return data_dict.get('holidays', [])
+    
+    except (json.JSONDecodeError, Exception) as e:
+        print(f"--- Warning: LLM extraction failed. Error: {e} ---")
+        return []
 
 def extract_events(text: str, today: datetime.date, end_date: datetime.date, more_info: str) -> list[dict]:
     """Extracts events that happen within the date interval from the text using Gemini."""
@@ -136,9 +179,10 @@ async def scrape_web_with_context(context: BrowserContext, url: str) -> str:
     clean_content = body_tag.get_text(separator=' ', strip=True)
     return clean_content
 
-async def scrape_and_extract_all(target_webs: list[str], more_info: dict, today: datetime.date, end_date: datetime.date) -> list[dict]:
+async def scrape_and_extract_all(event_webs: list[str], festius_webs: list[str], more_info: dict, today: datetime.date, end_date: datetime.date) -> tuple[list[dict], list[dict]]:
     """Returns a list[dict] with all events in time interval. Perofrms Browser launch, scraping loop, and LLM extraction."""
     events_list: list[dict] = []
+    festius_list: list[dict] = []
     
     async with async_playwright() as p:
 
@@ -151,7 +195,7 @@ async def scrape_and_extract_all(target_webs: list[str], more_info: dict, today:
             viewport={'width': 1280, 'height': 800}
         )
 
-        for url in target_webs:
+        for url in event_webs:
             
             url_specific_info = more_info.get(url, "No additional information")
             text = await scrape_web_with_context(context, url)
@@ -161,22 +205,37 @@ async def scrape_and_extract_all(target_webs: list[str], more_info: dict, today:
                 
             else:
                 print(f"Skipping extraction for {url} due to empty content.")
+        
+        for url in festius_webs:
+            
+            url_specific_info = more_info.get(url, "No additional information")
+            text = await scrape_web_with_context(context, url)
+            if text:
+                url_events = extract_festius(text, today, end_date, url_specific_info)
+                festius_list.extend(url_events)
                 
+            else:
+                print(f"Skipping extraction for {url} due to empty content.")
+        
+               
         await browser.close()
         print("Scraping complete.")
         
-    return events_list
+    return events_list, festius_list
 
 
-def scrape_week_ahead(start_date: datetime = None, end_date: datetime = None) -> pd.DataFrame:
-    """Main function to orchestrate the scraping and extraction."""
+def scrape_week_ahead(end_date: datetime = None) -> tuple[pd.DataFrame,pd.DataFrame]:
+    """Returns two dataframes, one with events, the other with holidays. 
+    Main function to orchestrate the scraping and extraction of events and holidays"""
     
-    if start_date is None and end_date is None:
+    start_date = datetime.date.today()
+    if end_date is None:
         day_interval = 7
-        start_date = datetime.date.today()
-        end_date = today + datetime.timedelta(days=day_interval)
+        end_date = start_date + datetime.timedelta(days=day_interval)
 
-    target_webs = [
+    assert end_date >= start_date, "end_date must be later than today"
+    
+    event_webs = [
         "https://www.fcbarcelona.es/es/futbol/primer-equipo/calendario", 
         "https://estadiolimpic.barcelona/en/events", 
         "https://www.firabarcelona.com/es/calendario/",
@@ -191,22 +250,25 @@ def scrape_week_ahead(start_date: datetime = None, end_date: datetime = None) ->
     ]
                    
     more_info = {
-        target_webs[0]: "Extract only home games played in Spotify Camp Nou. Spotify Camp Nou is in the 'les Corts' neighbourhood.",
-        target_webs[1]: "All events from this text are in the 'el Poble-sec' neighbourhood.",
-        target_webs[2]: "The venue Gran Via is in the 'la Marina del Prat Vermell' nighbourhood, the venue Montjuïc is located in 'el Poble-sec' neighbourhood and the venue CCIB is located in 'el Besòs i el Maresme' neighbourhood.",
-        target_webs[3]: "Extract only 'Primavera Sound' music festival, no concerts. 'El Parc del Fòrum' is located in the 'el Besòs i el Maresme' neighbourhood.",
-        target_webs[4]: "The Sonar Festival venue 'Fira Gran Via' is located in the 'la Marina de Port' neighbourhood.", 
-        target_webs[5]: "The Cruïlla Festival venue 'El Parc del Fòrum' is located in the 'el Besòs i el Maresme' neighbourhood.", 
-        target_webs[6]: "No additional information",
-        target_webs[7]: "The El Corte Inglés Race runs through the 'les Corts', 'la Nova Esquerra de l'Eixample' and 'l'Antiga Esquerra de l'Eixample' neighbourhoods.", 
-        target_webs[8]: "Sant Jordi is a Traditional Festival that covers 'all' neighborhoods.", 
-        target_webs[9]: "Extract only the 'Manifestació' event that takes place on September 11th. Get all the neighbourhoods the 'Manifestació' goes through. Important, extract event if and only if 11th september (YYYY/09/11) is in the given date range.", 
-        target_webs[10]: "La Mercè is a Traditional Festival that covers 'all' neighborhoods."
+        event_webs[0]: "Extract only home games played in Spotify Camp Nou. Spotify Camp Nou is in the 'les Corts' neighbourhood.",
+        event_webs[1]: "All events from this text are in the 'el Poble-sec' neighbourhood.",
+        event_webs[2]: "The venue Gran Via is in the 'la Marina del Prat Vermell' nighbourhood, the venue Montjuïc is located in 'el Poble-sec' neighbourhood and the venue CCIB is located in 'el Besòs i el Maresme' neighbourhood.",
+        event_webs[3]: "Extract only 'Primavera Sound' music festival, no concerts. 'El Parc del Fòrum' is located in the 'el Besòs i el Maresme' neighbourhood.",
+        event_webs[4]: "The Sonar Festival venue 'Fira Gran Via' is located in the 'la Marina de Port' neighbourhood.", 
+        event_webs[5]: "The Cruïlla Festival venue 'El Parc del Fòrum' is located in the 'el Besòs i el Maresme' neighbourhood.", 
+        event_webs[6]: "No additional information",
+        event_webs[7]: "The El Corte Inglés Race runs through the 'les Corts', 'la Nova Esquerra de l'Eixample' and 'l'Antiga Esquerra de l'Eixample' neighbourhoods.", 
+        event_webs[8]: "Sant Jordi is a Traditional Festival that covers 'all' neighborhoods.", 
+        event_webs[9]: "Extract only the 'Manifestació' event that takes place on September 11th. Get all the neighbourhoods the 'Manifestació' goes through. Important, extract event if and only if 11th september (YYYY/09/11) is in the given date range.", 
+        event_webs[10]: "La Mercè is a Traditional Festival that covers 'all' neighborhoods."
     }
     
+    festius_webs = ["https://ajuntament.barcelona.cat/calendarifestius/ca/"]
 
-    events_list = asyncio.run(scrape_and_extract_all(target_webs, more_info, start_date, end_date))
+    events_list, festius_list = asyncio.run(scrape_and_extract_all(event_webs, festius_webs, more_info, start_date, end_date))
     df_events = pd.DataFrame(events_list)
-
+    df_festius = pd.DataFrame(festius_list)
+    
     print(df_events.to_markdown(index=False))
-    return df_events
+    print(df_festius.to_markdown(index=False))
+    return df_events, df_festius

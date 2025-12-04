@@ -281,7 +281,7 @@ def plot_barri_heatmap(df_current_day: pd.DataFrame, stats: pd.DataFrame, gdf: g
 
 def render_header() -> None:
     """Renders the main title and subtitle using the defined CSS classes."""
-    st.title("Go Motion")
+    st.markdown('<h1 style="margin-top: -75px;">Go Motion</h1>', unsafe_allow_html=True)
     st.markdown(f'<p class="subtitle">Movilidad en Barcelona</p>', unsafe_allow_html=True)
 
 def render_kpis(df_filtered: pd.DataFrame, df_prev_month: pd.DataFrame, df_events: pd.DataFrame, max_date: date) -> None:
@@ -569,7 +569,6 @@ def main() -> None:
         selected_barrio = st.selectbox("Barrio", options=barrios_list, label_visibility="collapsed")
     
     plot_barri_details(df, df_events, selected_barrio)
-
 
 if __name__ == "__main__":
     main()

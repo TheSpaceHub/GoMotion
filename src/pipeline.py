@@ -109,12 +109,12 @@ def main():
     # deal with encoder
     encoder_created = False
     if not os.path.exists("data/encoded_events.csv"):
+        if not os.path.exists("data/events.csv"):
+            raise Exception("Geographical barri data is missing")
         # get all events using the scraper and run event_encoder.py
         # the second file creates an encoder (which takes existing events and projects them to a 5-dimensional latent space conserving all information) and processes all events for given data
         all_events = process_scraped_events(
-            llm_scraper.scrape_week_ahead(
-                datetime.datetime(year=2023, month=1, day=1), datetime.date.today()
-            ),
+            pd.read_csv("data/events.csv"),
             barri_list,
         )
         # store them and keep track of it in metadata
@@ -131,11 +131,7 @@ def main():
     if datetime.datetime.strptime(manager.get("last_day_event_checked"), "%Y-%m-%d").date() < TODAY.date():
         # there might be new events
         new_events = process_scraped_events(
-            llm_scraper.scrape_week_ahead(
-                datetime.datetime.strptime(manager.get("last_day_event_checked"), "%Y-%m-%d")
-                + datetime.timedelta(days=1),
-                datetime.date.today(),
-            ),
+            llm_scraper.scrape_week_ahead(),
             barri_list,
         )
 

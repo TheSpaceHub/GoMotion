@@ -1,10 +1,16 @@
-from __future__ import annotations
 import streamlit as st
 import pandas as pd
+import datetime
 import numpy as np
+import plotly.express as px 
+import geopandas as gpd
+import barri_manager as bm
+import networkx as nx
 import locale
+from datetime import date
+from meteo import ONE_WEEK
+from data_filler import fill_data
 from metadata_manager import MetadataManager
-
 
 try:
     locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
@@ -14,121 +20,102 @@ except locale.Error:
     except locale.Error:
         locale.setlocale(locale.LC_TIME, '')
 
-st.set_page_config(page_title="GoMotion", layout="wide", initial_sidebar_state="collapsed")
+PRIMARY_TEXT_COLOR = "#0f172a"  
+ACCENT_COLOR = PRIMARY_TEXT_COLOR
+BACKGROUND_COLOR = "#FAFAFA"    
+SECONDARY_BACKGROUND = "#F4F7F9" 
+SUBTITLE_COLOR = "#4B5563"      
+DELTA_POSITIVE_COLOR = "#10B981" 
+DELTA_NEGATIVE_COLOR = "#EF4444" 
 
-st.markdown("""
+st.set_page_config(
+    page_title="GoMotion: Movilidad en Barcelona",
+    layout="wide", 
+    initial_sidebar_state="collapsed"
+)
+
+st.markdown(
+    """
+    <style>
+    :root {
+        --primary-color: #0f172a; /* primary color (buttons, selectboxes) */
+        --background-color: #FAFAFA; /* background (main app) */
+        --secondary-background-color: #F4F7F9; /* secondary background (components, sidebar) */
+        --text-color: #0f172a; /* text color */
+        --font: 'Segoe UI', sans-serif;
+    }
+    </style>
+    """, unsafe_allow_html=True
+)
+
+st.markdown(f"""
 <style>
-    [data-testid="stAppViewContainer"] {
-        background-color: #ffffff;
-    }
-    
-    h1 {
-        color: #0f172a;
-        font-family: 'Segoe UI', sans-serif;
-        font-weight: 800;
-        letter-spacing: -1px;
-        font-size: 3.5rem !important;
-        margin: 0;
-        padding: 0;
-    }
-    
-    .subtitle {
-        color: #64748b;
-        font-size: 1.1rem;
-        margin-bottom: 20px;
-    }
+/* Hide Streamlit default elements */
+#MainMenu, footer {{visibility: hidden;}}
 
-    [data-testid="stMetric"] {
-        background-color: #f8fafc;
-        border: 1px solid #e2e8f0;
-        border-radius: 12px;
-        padding: 15px 10px;
-        text-align: center;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-    }
-    
-    [data-testid="stMetricLabel"] {
-        font-size: 0.85rem !important;
-        color: #64748b;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-    
-    [data-testid="stMetricValue"] {
-        font-size: 1.5rem !important;
-        color: #0f172a;
-        font-weight: 700;
-    }
+/* General Layout & Background */
+.stApp {{
+    background-color: {BACKGROUND_COLOR};
+    color: {PRIMARY_TEXT_COLOR};
+    padding-top: 2rem;
+}}
 
-    .section-header {
-        font-size: 1.4rem !important;
-        font-weight: 800 !important;
-        color: #334155;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-bottom: 10px;
-    }
+/* Main Title (Go Motion) - Sharp Black */
+h1 {{
+    color: {PRIMARY_TEXT_COLOR}; 
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: 800;
+    font-size: 3.5rem !important;
+    margin: 0;
+    padding: 0;
+    letter-spacing: -1px;
+}}
 
-    div[data-testid="stDateInput"] {
-        padding: 0px;
-    }
+/* Subtitle (Movilidad en Barcelona) - Dark Gray, Subtle */
+.subtitle {{
+    color: {SUBTITLE_COLOR}; 
+    font-size: 1.3rem;
+    font-weight: 400;
+    margin-bottom: 30px;
+    padding-left: 5px; /* Slight alignment adjustment */
+}}
 
-    div[data-testid="stDateInput"] input {
-        font-size: 1.3rem !important;
-        text-align: center;
-        border: none;
-        border-bottom: 3px solid #94a3b8;
-        border-radius: 0px;
-        padding: 5px;
-        color: #0f172a;
-        font-weight: 700;
-        background-color: transparent;
-    }
+/* Section Header (Uppercase, small, clean) */
+.section-header {{
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    color: {PRIMARY_TEXT_COLOR};
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}}
 
-    .event-cat {
-        font-weight: 800;
-        font-size: 1.3rem;
-        color: #9f1239;
-        margin-bottom: 5px;
-        padding: 15px;
-        background-color: #fff1f2;
-        border-radius: 8px;
-        border-left: 5px solid #e11d48;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-    }
-    
-    .event-desc {
-        color: #4b5563;
-        font-size: 1.2rem;
-        font-style: italic;
-        line-height: 1.4;
-        padding: 15px;
-        background-color: #f8fafc;
-        border-radius: 8px;
-        border-left: 5px solid #94a3b8;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-    }
-    
-    .no-event {
-        color: #94a3b8;
-        font-size: 1.2rem;
-        font-style: italic;
-        padding: 15px;
-        background-color: #f8fafc;
-        border-radius: 8px;
-        border: 1px dashed #cbd5e1;
-    }
-    
-    hr {
-        margin: 30px 0;
-        border-color: #e2e8f0;
-    }
-    
-    div[data-testid="stSelectbox"] label {
-        font-size: 1.1rem;
-        font-weight: 700;
-        color: #334155;
-    }
+/* KPI Metrics Styling (Clean, rounded, secondary background) */
+[data-testid="stMetric"] {{
+    background-color: {SECONDARY_BACKGROUND};
+    border: 1px solid #E5E7EB; /* Very subtle light border */
+    border-radius: 8px;
+    padding: 15px 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03); /* Extremely light shadow */
+}}
+[data-testid="stMetricLabel"] {{
+    font-size: 0.9rem !important;
+    color: {SUBTITLE_COLOR};
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}}
+[data-testid="stMetricValue"] {{
+    font-size: 1.8rem !important;
+    color: {ACCENT_COLOR}; /* Now the same color as the title */
+    font-weight: 700;
+}}
+
+/* Clean Divider */
+hr {{
+    margin: 30px 0;
+    border-color: #E5E7EB; 
+}}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -138,6 +125,12 @@ def centered_image(path: str, width_ratio=50):
     
     with col:
         return st.image(path, use_container_width=True)
+
+def capitalize_first_letter(s) -> str:
+    """Given a string makes first letter capital letter"""
+    if not isinstance(s, str) or s.strip() == "":
+        return s
+    return s[0].upper() + s[1:]
 
 @st.cache_data
 def update_predictions() -> None:
@@ -153,10 +146,13 @@ def update_predictions() -> None:
         fill_data(pd.read_csv('data/data_extended.csv'), pd.to_datetime(ONE_WEEK.strftime("%Y-%m-%d")))
     manager.set("last_predicted_day", ONE_WEEK.strftime("%Y-%m-%d"))
 
+
 @st.cache_data  
 def load_df() -> pd.DataFrame:
+    """Loads and returs data_extended DataFrame"""
     df = pd.read_csv('data/data_extended.csv')
     df['day'] = pd.to_datetime(df['day'])
+    df['barri'] = df['barri'].apply(capitalize_first_letter)
     return df
 
 @st.cache_data  
@@ -165,31 +161,75 @@ def load_event_df() -> pd.DataFrame:
     df['day'] = pd.to_datetime(df['day'])
     return df
 
-
 @st.cache_resource  
 def load_geodata() -> tuple[nx.Graph, gpd.GeoDataFrame]:
-    #lazy imports to improve speed
-    import barri_manager as bm
-    import geopandas as gpd
-    import networkx as nx
+    """Returns Graph and GeoDataFrame"""
     
     G = bm.create_graph()
     gdf = bm.load_gdf().rename(columns={"nom_barri": "barri"})
+    gdf["barri"] = gdf["barri"].apply(capitalize_first_letter)
     if gdf.crs is None:
         try:
             gdf.set_crs("EPSG:25831", allow_override=True, inplace=True)
         except: pass 
     try:
         gdf = gdf.to_crs("EPSG:4326")
-    except Exception: pass
+    except Exception: 
+        pass
     return G, gdf
 
 @st.cache_data
-def compute_zscore_stats(df) -> pd.DataFrame:
+def compute_zscore_stats(df: pd.DataFrame) -> pd.DataFrame:
+    """Returns dataframe with columns barri, mean and std of intensities"""
     stats = df.groupby("barri")["intensity"].agg(['mean','std'])
     return stats
 
-def plot_barri_heatmap(df_current_day: pd.DataFrame, stats: pd.DataFrame, gdf: gpd.GeoDataFrame):
+@st.cache_data
+def avg_month_events(df_events: pd.DataFrame, max_date: date) -> float:
+    """
+    Filters events to the last 30 days, counts events per day, 
+    and returns the mean of those daily counts.
+    """
+    
+    max_date = pd.to_datetime(max_date)
+    last_month = max_date - pd.Timedelta(days=30)
+
+    df_last_month = df_events[
+        (df_events['day'] >= last_month) & 
+        (df_events['day'] <= max_date)
+    ].copy()
+    if df_last_month.empty:
+        return 0.0
+   
+    daily_event_counts = df_last_month.groupby(df_last_month['day'].dt.date).size()
+    average_daily_events = daily_event_counts.mean()
+    
+    return round(average_daily_events, 1)
+
+
+@st.cache_data
+def avg_month_temp(df: pd.DataFrame) -> float:
+    """Returns average temp of last month"""
+    
+    df_daily_temps = df.groupby('day').agg(
+        daily_max=('temperature_2m_max', 'mean'),
+        daily_min=('temperature_2m_min', 'mean')
+    ).reset_index()
+
+    df_daily_temps['daily_mean_temp'] = (
+        df_daily_temps['daily_max'] + df_daily_temps['daily_min']
+    ) / 2
+
+    return round(df_daily_temps['daily_mean_temp'].mean(), 1)
+
+@st.cache_data
+def avg_month_precipitation(df: pd.DataFrame) -> float:
+    """Returns the average daily precipitation sum for the last 30 days."""
+    
+    df_daily_precip = df.groupby('day')['precipitation_sum'].mean().reset_index(name='daily_precip_sum')
+    return round(df_daily_precip['daily_precip_sum'].mean(), 1)
+
+def plot_barri_heatmap(df_current_day: pd.DataFrame, stats: pd.DataFrame, gdf: gpd.GeoDataFrame) -> None:
     #lazy imports to improve speed
     import geopandas as gpd
     import plotly.express as px 
@@ -238,7 +278,145 @@ def plot_barri_heatmap(df_current_day: pd.DataFrame, stats: pd.DataFrame, gdf: g
     )
     st.plotly_chart(fig, use_container_width=True)
 
-def plot_barri_details(df_full, df_events, barri_name):
+
+def render_header() -> None:
+    """Renders the main title and subtitle using the defined CSS classes."""
+    st.title("Go Motion")
+    st.markdown(f'<p class="subtitle">Movilidad en Barcelona</p>', unsafe_allow_html=True)
+
+def render_kpis(df_filtered: pd.DataFrame, df_prev_month: pd.DataFrame, df_events: pd.DataFrame, max_date: date) -> None:
+    """Renders KPI cards with updated Daily Summary content in 5 columns"""
+    
+    target_date = st.session_state.selected_date
+    target_date_pddatetime = pd.to_datetime(target_date)
+    st.markdown('<div class="section-header">Resumen Diario</div>', unsafe_allow_html=True)
+
+    traffic_today = int(df_filtered["intensity"].sum()) // 2
+    daily_sums = df_prev_month.groupby('day')['intensity'].sum()
+    daily_intensity_half = daily_sums // 2 
+    traffic_mean = daily_intensity_half.mean()
+    delta_traffic = (traffic_today - traffic_mean)
+    delta_traffic_str = f"{(delta_traffic / traffic_mean) * 100:.1f}%"
+
+    num_anomalies_today = len(df_events[df_events["day"] == target_date_pddatetime]["description"].unique())
+    num_anomalies_prev = avg_month_events(df_events, max_date)
+    delta_anomalies = num_anomalies_today - num_anomalies_prev
+    delta_anomalies_str = f"{delta_anomalies:.1f}"
+    
+    is_holiday = (df_filtered.iloc[0] == 1).any()
+    holiday_status = "Día Normal" if not is_holiday else "Festivo"
+
+    temp_max_today = df_filtered["temperature_2m_max"].iloc[0]
+    temp_min_today = df_filtered["temperature_2m_min"].iloc[0]
+
+    avg_prev = avg_month_temp(df_prev_month)
+    avg_target_date = (temp_max_today + temp_min_today) / 2
+    delta_temp_str = f"{avg_target_date - avg_prev:.1f}°C"
+
+    precip_today = df_filtered["precipitation_sum"].iloc[0]
+    precip_prev = avg_month_precipitation(df_prev_month)
+    delta_precip_str = f"{precip_today - precip_prev:+.0f} mm"
+
+    col1, col2, col3, col4, col5 = st.columns(5)
+    
+    with col1:
+        st.metric("Tráfico Total", traffic_today, delta=delta_traffic_str)
+
+    with col2: 
+        st.metric("Nº Anomalías", f"{num_anomalies_today} Eventos", delta=delta_anomalies_str, help="Anomalías más que día anterior")
+
+    with col3: 
+        st.markdown(f"""
+        <div data-testid="stMetric" style="background-color: {SECONDARY_BACKGROUND}; border: 1px solid #E5E7EB; border-radius: 8px; padding: 13px 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.03);">
+            <div data-testid="stMetricLabel" style="color: {SUBTITLE_COLOR}; text-transform: uppercase; font-size: 0.9rem;">DÍA FESTIVO</div>
+            <div data-testid="stMetricValue" style="color: {ACCENT_COLOR}; font-size: 1.8rem; font-weight: 700;">
+                {is_holiday}
+            </div>
+            <div style="font-size: 0.9rem; color: {SUBTITLE_COLOR}; padding-top: 5px; font-weight: 500;">
+                {holiday_status}
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+        
+    with col4: 
+        st.metric("Temp. Máx. / Mín.", f"{temp_max_today}°C / {temp_min_today}°C", delta=delta_temp_str) 
+
+    with col5: 
+        st.metric("Precipitación", f"{precip_today} mm", delta=delta_precip_str) 
+        
+    st.markdown('<div style="margin-top: 10px;"></div>', unsafe_allow_html=True) 
+    with st.expander(f"Ver Detalles de Anomalías ({num_anomalies_today} Eventos)", expanded=False):
+        if num_anomalies_today > 0:
+            df_events_today = df_events[(df_events["day"] == target_date_pddatetime)]
+            df_events_today = df_events_today[["category","description","barri","impact"]]
+            df_events_today = df_events_today.rename(columns=str.capitalize)
+            st.dataframe(
+                df_events_today,
+                hide_index=True
+            )
+        else:
+            st.info("No se registraron anomalías para la fecha seleccionada.")
+
+def render_map_ranking_section(df_day: pd.DataFrame, stats: pd.DataFrame, gdf: gpd.GeoDataFrame, min_date: date, max_date: date) -> None:
+    """Renders heat map, date selector and ranking"""
+    
+    c_map, c_tab = st.columns([1.2, 1], gap="large")
+
+    with c_map:
+        st.markdown('<div class="section-header">Mapa de calor</div>', unsafe_allow_html=True)
+        plot_barri_heatmap(df_day, stats, gdf)
+
+    with c_tab:
+        
+        st.markdown('<div class="section-header">Seleccione fecha</div>', unsafe_allow_html=True)
+        st.date_input(
+            "Fecha",
+            min_value=min_date,
+            max_value=max_date,
+            label_visibility="collapsed",
+            key="selected_date"   # <-- binds the widget to session_state["selected_date"]
+        )
+        st.markdown('<div class="section-header">Ranking por barrio</div>', unsafe_allow_html=True)
+        if not df_day.empty:
+            df_view = df_day.merge(stats, on="barri", how="left")
+            df_view['Actual'] = np.ceil(df_view['intensity']).astype(int)
+            df_view['Media'] = np.ceil(df_view['mean']).astype(int)
+            
+            df_view['Saturación'] = df_view['Actual'] / df_view['Media']
+            df_view['Nivel Z'] = (df_view['Actual'] - df_view['Media']) / df_view['std']
+
+            cols_final = df_view[['barri', 'Actual', 'Media', 'Saturación', 'Nivel Z']].sort_values('Actual', ascending=False)
+            
+            st.dataframe(
+                cols_final.style.background_gradient(
+                    subset=['Nivel Z'], cmap="plasma", vmin=-2.5, vmax=2.5
+                ).format({
+                    'Saturación': '{:.1%}', 
+                    'Nivel Z': '{:.2f}'
+                }),
+                column_config={
+                    "barri": "Barrio",
+                    "Actual": st.column_config.NumberColumn("Tráfico", format="%d"),
+                    "Media": "Media Hist.",
+                    "Saturación": st.column_config.ProgressColumn(
+                        "Saturación Relativa",
+                        format="%.2f",
+                        min_value=0,
+                        max_value=2, 
+                    ),
+                    "Nivel Z": "Desviación"
+                },
+                hide_index=True,
+                use_container_width=True,
+                height=500
+            )
+        else:
+            st.info("No hay datos disponibles para la fecha seleccionada.")
+
+
+def plot_barri_details(df_full, df_events, barri_name) -> None:
+    """Plots details about a given barri"""
+    
     import plotly.express as px 
     import plotly.graph_objects as go
     df_barri = df_full[df_full['barri'] == barri_name].copy()
@@ -335,65 +513,10 @@ def plot_barri_details(df_full, df_events, barri_name):
 
     st.plotly_chart(fig_rain, use_container_width=True)
 
-def render_header():
-    st.title("GoMotion")
-    st.markdown('<p class="subtitle">Monitorización Avanzada de Movilidad Urbana</p>', unsafe_allow_html=True)
 
-def render_metrics(df_day):
-    col1, col2, col3, col4 = st.columns(4)
-    with col1: st.metric("Máxima", f"{df_day['temperature_2m_max'].iloc[0]}°")
-    with col2: st.metric("Mínima", f"{df_day['temperature_2m_min'].iloc[0]}°")
-    with col3: st.metric("Lluvia", f"{df_day['precipitation_sum'].iloc[0]}mm")
-    with col4:
-        es_festivo = df_day['is_holiday'].iloc[0] != 0.0
-        st.metric("Festivo", "Sí" if es_festivo else "No")
-
-def render_map_ranking_section(df_day, stats, gdf):
-    c_map, c_tab = st.columns([1.4, 1], gap="large")
-
-    with c_map:
-        st.subheader("Mapa de Calor")
-        plot_barri_heatmap(df_day, stats, gdf)
-
-    with c_tab:
-        st.subheader("Ranking por Barrio")
-        if not df_day.empty:
-            df_view = df_day.merge(stats, on="barri", how="left")
-            df_view['Actual'] = np.ceil(df_view['intensity']).astype(int)
-            df_view['Media'] = np.ceil(df_view['mean']).astype(int)
-            
-            df_view['Saturación'] = df_view['Actual'] / df_view['Media']
-            df_view['Nivel Z'] = (df_view['Actual'] - df_view['Media']) / df_view['std']
-
-            cols_final = df_view[['barri', 'Actual', 'Media', 'Saturación', 'Nivel Z']].sort_values('Actual', ascending=False)
-            
-            st.dataframe(
-                cols_final.style.background_gradient(
-                    subset=['Nivel Z'], cmap="plasma", vmin=-2.5, vmax=2.5
-                ).format({
-                    'Saturación': '{:.1%}', 
-                    'Nivel Z': '{:.2f}'
-                }),
-                column_config={
-                    "barri": "Barrio",
-                    "Actual": st.column_config.NumberColumn("Tráfico", format="%d"),
-                    "Media": "Media Hist.",
-                    "Saturación": st.column_config.ProgressColumn(
-                        "Saturación Relativa",
-                        format="%.2f",
-                        min_value=0,
-                        max_value=2, 
-                    ),
-                    "Nivel Z": "Desviación"
-                },
-                hide_index=True,
-                use_container_width=True,
-                height=600
-            )
-        else:
-            st.info("No hay datos disponibles para la fecha seleccionada.")
-
-def main():
+def main() -> None:
+    """Main function"""
+    
     loading_logo = centered_image("media/GoMotionShortLogo.png", width_ratio=30)
     
     with st.spinner("Cargando..."):
@@ -420,46 +543,23 @@ def main():
     loading_logo.empty()
     render_header()
 
+     
     min_date = df['day'].min().date()
     max_date = df['day'].max().date()
-
-    col_date, col_cat, col_desc = st.columns([1, 1.2, 1.8], gap="large")
-
-    with col_date:
-        st.markdown('<div class="section-header">📅 FECHA</div>', unsafe_allow_html=True)
-        selected_date = st.date_input(
-            "Seleccionar Fecha", 
-            value=max_date, 
-            min_value=min_date, 
-            max_value=max_date,
-            label_visibility="collapsed"
-        )
+        
+    if "selected_date" not in st.session_state:
+        st.session_state.selected_date = max_date 
+        
+    selected_date = st.session_state.selected_date
     
-    df_events_filtered = df_events[df_events['day'].dt.date == selected_date].copy()
     df_filtered = df[df['day'].dt.date == selected_date].copy()
-    eventos_unicos = df_events_filtered[df_events_filtered['category'] != "0"]['category'].unique()
-
-    with col_cat:
-        st.markdown('<div class="section-header">📌 EVENTO(S)</div>', unsafe_allow_html=True)
-        if len(eventos_unicos) > 0:
-            for evento in eventos_unicos:
-                st.markdown(f'<div class="event-cat">{evento}</div>', unsafe_allow_html=True)
-        else:
-            st.markdown('<div class="no-event">Sin eventos</div>', unsafe_allow_html=True)
-
-    with col_desc:
-        st.markdown('<div class="section-header">📋 DESCRIPCIÓN</div>', unsafe_allow_html=True)
-        if len(eventos_unicos) > 0:
-            for _ in eventos_unicos:
-                st.markdown(f'<div class="event-desc">Descripcion detallada del evento...</div>', unsafe_allow_html=True)
-        else:
-            st.markdown('<div class="no-event">—</div>', unsafe_allow_html=True)
-
-    st.markdown("<br>", unsafe_allow_html=True)
-    render_metrics(df_filtered)
-    st.divider()
-    render_map_ranking_section(df_filtered, stats, gdf)
+    df_prev_month = df[df['day'].dt.date == (selected_date - datetime.timedelta(days=30))].copy()
     
+    render_kpis(df_filtered, df_prev_month, df_events, max_date)
+    render_map_ranking_section(df_filtered, stats, gdf, min_date, max_date)
+
+    #------- FALTA HACER ESTO MAS BONITO -----------
+
     st.markdown("<br><hr><br>", unsafe_allow_html=True)
     
     barrios_list = sorted(df['barri'].unique())
@@ -469,6 +569,7 @@ def main():
         selected_barrio = st.selectbox("Barrio", options=barrios_list, label_visibility="collapsed")
     
     plot_barri_details(df, df_events, selected_barrio)
+
 
 if __name__ == "__main__":
     main()

@@ -159,6 +159,7 @@ def load_df() -> pd.DataFrame:
 def load_event_df() -> pd.DataFrame:
     df = pd.read_csv('data/all_events.csv')
     df['day'] = pd.to_datetime(df['day'])
+    df['barri'] = df['barri'].apply(capitalize_first_letter)
     return df
 
 @st.cache_resource  
@@ -229,7 +230,19 @@ def avg_month_precipitation(df: pd.DataFrame) -> float:
     df_daily_precip = df.groupby('day')['precipitation_sum'].mean().reset_index(name='daily_precip_sum')
     return round(df_daily_precip['daily_precip_sum'].mean(), 1)
 
-def plot_barri_heatmap(df_current_day: pd.DataFrame, stats: pd.DataFrame, gdf: gpd.GeoDataFrame) -> None:
+
+def handle_map_selection(selection) -> None:
+    """Saves the name of the barrio selected on the map to Session State."""
+    
+    # Check if 'selection' key exists in the Streamlit output
+    if isinstance(selection, dict) and 'selection' in selection:
+        plotly_selection = selection['selection']
+        
+        # Check if 'hovertext' exists and is a non-empty list
+        if isinstance(plotly_selection, dict) and 'hovertext' in plotly_selection and plotly_selection['hovertext']:
+            # Assign the first selected item's hovertext (the barrio name)
+            st.session_state.selected_barri_from_map = plotly_selection['hovertext'][0]
+def plot_barri_heatmap(df_current_day: pd.DataFrame, stats: pd.DataFrame, gdf: gpd.GeoDataFrame):
     #lazy imports to improve speed
     import geopandas as gpd
     import plotly.express as px 
@@ -265,7 +278,7 @@ def plot_barri_heatmap(df_current_day: pd.DataFrame, stats: pd.DataFrame, gdf: g
         height=600,
         margin={"r":0,"t":0,"l":0,"b":0},
         coloraxis_colorbar=dict(
-            title="Intensidad (Z)",
+            title="Intensidad",
             tickvals=[-2.5, 0, 2.5],
             ticktext=["Baja", "Media", "Alta"],
             lenmode="fraction", len=0.5,
@@ -276,7 +289,7 @@ def plot_barri_heatmap(df_current_day: pd.DataFrame, stats: pd.DataFrame, gdf: g
             tickfont=dict(color="#555", size=9)
         )
     )
-    st.plotly_chart(fig, use_container_width=True)
+    return fig
 
 
 def render_header() -> None:
@@ -364,8 +377,14 @@ def render_map_ranking_section(df_day: pd.DataFrame, stats: pd.DataFrame, gdf: g
 
     with c_map:
         st.markdown('<div class="section-header">Mapa de calor</div>', unsafe_allow_html=True)
-        plot_barri_heatmap(df_day, stats, gdf)
-
+        fig = plot_barri_heatmap(df_day, stats, gdf)
+        st.plotly_chart(
+                    fig,
+                    use_container_width=True,
+                    on_select=handle_map_selection, 
+                    selection_mode="points",       
+                    key="barri_heatmap_chart"
+                )
     with c_tab:
         
         st.markdown('<div class="section-header">Seleccione fecha</div>', unsafe_allow_html=True)
@@ -414,9 +433,10 @@ def render_map_ranking_section(df_day: pd.DataFrame, stats: pd.DataFrame, gdf: g
             st.info("No hay datos disponibles para la fecha seleccionada.")
 
 
-def plot_barri_details(df_full, df_events, barri_name) -> None:
+def plot_barri_details(df_full: pd.DataFrame, df_events: pd.DataFrame) -> None:
     """Plots details about a given barri"""
     
+    barri_name = st.session_state.selected_barri_from_map
     import plotly.express as px 
     import plotly.graph_objects as go
     df_barri = df_full[df_full['barri'] == barri_name].copy()
@@ -549,7 +569,9 @@ def main() -> None:
         
     if "selected_date" not in st.session_state:
         st.session_state.selected_date = max_date 
-        
+    if "selected_barri_from_map" not in st.session_state:
+        st.session_state.selected_barri_from_map = "El Raval" 
+            
     selected_date = st.session_state.selected_date
     
     df_filtered = df[df['day'].dt.date == selected_date].copy()
@@ -561,14 +583,8 @@ def main() -> None:
     #------- FALTA HACER ESTO MAS BONITO -----------
 
     st.markdown("<br><hr><br>", unsafe_allow_html=True)
-    
-    barrios_list = sorted(df['barri'].unique())
-    col_sel, col_empty = st.columns([1, 2])
-    with col_sel:
-        st.markdown("### Seleccionar Barrio")
-        selected_barrio = st.selectbox("Barrio", options=barrios_list, label_visibility="collapsed")
-    
-    plot_barri_details(df, df_events, selected_barrio)
+
+    plot_barri_details(df, df_events)
 
 if __name__ == "__main__":
     main()

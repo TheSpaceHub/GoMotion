@@ -62,6 +62,7 @@ Para acceder a todas las funciones del proyecto es suficiente con ejecutar el pi
 Desde **la raiz** del proyecto: `python3 src/pipeline.py`
 
 ## 1. Preparación de los datos
+
 ### 1.1. Limpieza y organización de datos 
 Una vez descargados los datos movilidad entre barrios proporcionados por Telefónica, eliminaremos las columnas irrelevantes para nuestro proyecto, y nos quedaremos únicamente con
 las columnas siguientes: `day`, `barrio_origen_name`, `barrio_destino_name` y `viajes`.  
@@ -71,7 +72,20 @@ Estas funciones se implementan en los archivos `barri_manager.py` y `intensities
 ### 1.2. Archivo de Eventos, Festivos y Meteorología
 Para mejorar la precisión de nuestro modelo utilizaremos datos históricos de eventos, festivos y meteorología.  
 Los archivos de eventos y festivos han sido recopilados a mano y se encuentran en `data/events.csv` y `data/holidays.csv` respectivamente.  
-Para recopilar archivos meteorológicos utilizaremos la API de `OpenMeteo`, en el archivo `meteo.py`. 
+Cada evento tiene asociados una fecha, una categoría, una lista de barrios en los que tiene lugar, y un impacto (del 1 al 5) relativo a su categoría. Los festivos únicamente tienen asociada una fecha.
+Para recopilar archivos meteorológicos utilizaremos la API de `OpenMeteo`, en el archivo `meteo.py`. Por simplicidad y porque creemos que es lo mejor para el modelo, recopilaremos para cada día, el nivel de lluvia y las temperaturas máxima y mínima .
+
+## 2. Predicción de Picos de Movilidad
+
+GoMotion es capaz de predecir las intensidades de cada barrio con 7 días de antelación.
+
+### 2.1. Datos Futuros de Meteorología
+De la misma manera que para el archivo meteorológico, utilizaremos la API de `OpenMeteo` (en `meteo.py`) para obtener las predicciones de temperatura y lluvia de la semana siguiente.
+
+### 2.2. Datos Futuros de Festivos y Eventos
+Para conocer los eventos y los de la semana siguiente hemos creado un sistema de **web-scrapping**. En `llm_scrapper.py`, utilizamos `playwright` y `bs4` para obtener el texto de las páginas web de nuestro interés, y un LLM (`gemini`) que formatea los eventos y festivos encontrados para dejarlos listos para entrenar al modelo.
+
+### 2.3. Codificación de Eventos
 
 ## Autores
 - Javier Badesa

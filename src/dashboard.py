@@ -144,7 +144,7 @@ def capitalize_first_letter(s) -> str:
     return s[0].upper() + s[1:]
 
 @st.cache_data
-def update_predictions() -> None:
+def update_predictions() -> Multiregressor:
     #lazy imports to improve speed
     from data_filler import fill_data
     from meteo import ONE_WEEK
@@ -152,11 +152,11 @@ def update_predictions() -> None:
     manager = MetadataManager()
     last_date_str = str(manager.get("last_predicted_day"))
     if last_date_str == "nan":
-        fill_data(pd.read_csv('data/data_processed.csv'), pd.to_datetime(ONE_WEEK.strftime("%Y-%m-%d")))
+        _, model = fill_data(pd.read_csv('data/data_processed.csv'), pd.to_datetime(ONE_WEEK.strftime("%Y-%m-%d")))
     else:
-        fill_data(pd.read_csv('data/data_extended.csv'), pd.to_datetime(ONE_WEEK.strftime("%Y-%m-%d")))
+        _, model = fill_data(pd.read_csv('data/data_extended.csv'), pd.to_datetime(ONE_WEEK.strftime("%Y-%m-%d")))
     manager.set("last_predicted_day", ONE_WEEK.strftime("%Y-%m-%d"))
-
+    return model
 
 @st.cache_data  
 def load_df() -> pd.DataFrame:
@@ -221,6 +221,7 @@ def avg_month_precipitation(df: pd.DataFrame) -> float:
     """Returns the average daily precipitation sum for the last 30 days."""
     
     df_daily_precip = df.groupby('day')['precipitation_sum'].mean().reset_index(name='daily_precip_sum')
+    print(df_daily_precip)
     return round(df_daily_precip['daily_precip_sum'].mean(), 1)
 
 def handle_map_selection() -> None: 
@@ -236,7 +237,6 @@ def handle_map_selection() -> None:
 
 def plot_barri_heatmap(df_current_day: pd.DataFrame, stats: pd.DataFrame, gdf: gpd.GeoDataFrame):
     #lazy imports to improve speed
-    import geopandas as gpd
     import plotly.express as px 
     
     
@@ -372,7 +372,6 @@ def render_kpis(df_filtered: pd.DataFrame, df_prev_month: pd.DataFrame, df_event
 def render_map_ranking_section(df_day: pd.DataFrame, stats: pd.DataFrame, gdf: gpd.GeoDataFrame, min_date: date, max_date: date) -> None:
     """Renders heat map, date selector and ranking"""
     #lazy imports to improve speed
-    import geopandas as gpd
     
     c_map, c_tab = st.columns([1.17, 1], gap="large")
     
@@ -466,7 +465,6 @@ def plot_barri_details(df_full: pd.DataFrame, df_events: pd.DataFrame, df_filter
     import streamlit as st
     import plotly.express as px 
     import plotly.graph_objects as go
-    import geopandas as gpd
     import plotly.colors
     
     barri_name = st.session_state.selected_barri_from_map
@@ -613,62 +611,29 @@ def plot_barri_details(df_full: pd.DataFrame, df_events: pd.DataFrame, df_filter
             wrap_chart_in_card(fig_superf, "INTENSIDAD / SUPERFICIE (TODOS LOS BARRIOS)")
         st.markdown('</div>', unsafe_allow_html=True)
   
-  
-def plot_shap_summary(df, model_path="models/regressor.joblib", barri=None, dia=None):
-    """
-    Muestra un SHAP Summary Plot. 
-    Puede filtrar por barrio y/o por día si se especifica.
-    """
-    import joblib
-    import shap
-    import matplotlib.pyplot as plt
-    import seaborn as sns
+def plot_feature_importances(model: Multiregressor) -> None:
+    """Plots feature importances"""
+    import plotly.graph_objects as go
 
-    st.subheader("SHAP Summary Plot")
-    dia = pd.to_datetime(dia)
-    if df is None or df.empty:
-        st.warning("No hay datos cargados.")
-        return
+    importances = model.get_feature_importances()
+    features = model.features
+    st.markdown(f'<div class="section-header">ANÁLISIS DEL MODELO<span style="color:{PRIMARY_TEXT_COLOR};"></span></div>', unsafe_allow_html=True)
+    
+    # Feature importances
+    fig_importances = go.Figure(go.Bar(
+        x=importances[::-1],
+        y=features[::-1],
+        orientation='h',
+        marker=dict(
+            color=importances[::-1],
+            colorscale="Viridis",
+            line=dict(color='lightgrey', width=1.5)
+        ),
+        opacity=0.9
+    ))
 
-    df_filtered = df.copy()
+    wrap_chart_in_card(fig_importances, "SHAP FEATURE IMPORTANCES", height=400)
 
-    # --- NORMALIZAR FILTROS ---
-    if barri not in [None, "", "Todos"]:
-        df_filtered = df_filtered[df_filtered["barri"] == barri]
-
-    if dia not in [None, ""]:
-        dia_str = pd.to_datetime(dia).strftime("%Y-%m-%d")
-        df_filtered = df_filtered[df_filtered["day"] == dia_str]
-
-    if df_filtered.empty:
-        st.warning("⚠ No hay datos tras aplicar los filtros.")
-        return
-
-    # --- FEATURES ---
-    X = df_filtered.drop(columns=["intensity", "day", "barri"], errors="ignore")
-    X = X.select_dtypes(include=["float", "int"])  # muy importante
-
-    # --- CARGAR MODELO ---
-    try:
-        model = joblib.load(model_path)
-    except:
-        st.error("No se pudo cargar el modelo.")
-        return
-
-    # --- SHAP UNIVERSAL ---
-    try:
-        explainer = shap.Explainer(model.predict, X)
-        shap_values = explainer(X)
-    except Exception as e:
-        st.error(f"Error al calcular SHAP: {e}")
-        return
-
-    # --- PLOT ---
-    fig, ax = plt.subplots(figsize=(10, 6))
-    shap.summary_plot(shap_values.values, X, show=False)
-    st.pyplot(fig)
-
-        
 def main() -> None:
     """Main function"""
     loader_placeholder = st.empty()
@@ -677,8 +642,9 @@ def main() -> None:
     
     with st.spinner("Cargando..."):
         try:
-            update_predictions()
+            model = update_predictions()
         except:
+            model = None
             st.error("Error: No se han podido crear las predicciones.")
         
         try:
@@ -713,13 +679,10 @@ def main() -> None:
     
     df_filtered = df[df['day'].dt.date == selected_date].copy()
     df_prev_month = df[(df['day'].dt.date >= (selected_date - datetime.timedelta(days=30))) & (df['day'].dt.date < selected_date)].copy()
-    df_prev_month = df_prev_month[pd.to_datetime(df_prev_month['day']).dt.dayofweek == pd.to_datetime(selected_date).dayofweek]
     render_kpis(df_filtered, df_prev_month, df_events, max_date)
     render_map_ranking_section(df_filtered, stats, gdf, min_date, max_date)
     plot_barri_details(df, df_events, df_filtered, gdf)
-
-    plot_shap_summary(df, barri=st.session_state.selected_barri_from_map, dia=selected_date)
-
+    plot_feature_importances(model)
 
 if __name__ == "__main__":
     main()

@@ -29,7 +29,7 @@ AXIS_FONT = dict(size=10, color=SUBTITLE_COLOR, family='Segoe UI, sans-serif')
 
 st.set_page_config(
     page_title="GoMotion: Movilidad en Barcelona",
-    page_icon="media/GoMotionShortLogo.ico",
+    page_icon="media/GLogo.ico",
     layout="wide", 
     initial_sidebar_state="collapsed"
 )
@@ -47,9 +47,6 @@ st.markdown(
     </style>
     """, unsafe_allow_html=True
 )
-
-SECONDARY_BACKGROUND = "#F4F7F9" 
-GRID_COLOR = '#E5E7EB' 
 
 CARD_STYLE_CSS = f"""
     <style>

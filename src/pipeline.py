@@ -1,4 +1,6 @@
 import os
+#shut tensorflow up if it doesn't need to say anything
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import pandas as pd
 import intensities
 import event_encoder
@@ -100,6 +102,7 @@ def main():
 
     # useful vars
     TODAY = datetime.datetime.today()
+    
 
     # ----------------------------------------------
     # MATHEMATICAL FRAMEWROK
@@ -221,11 +224,11 @@ def main():
         hyperspace = []
 
         # weights base
-        hyperspace.append([10])
+        hyperspace.append([1, 5, 10])
         # learning rate
-        hyperspace.append([0.01])
+        hyperspace.append([0.01, 0.001, 0.0005])
         # tree depth
-        hyperspace.append([9])
+        hyperspace.append([6, 9, 10])
 
         hyperparameter_optimizer.grid_search(
             hyperspace, 0, [], hyperparameter_optimizer.features, train, test

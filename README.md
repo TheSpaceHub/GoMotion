@@ -42,11 +42,11 @@ GoMotion/
 ├── src/                    
 │   ├── llm_scraper.py      # Extracción de eventos y festivos con web scrapping
 │   └── barri_manager.py    # Creación del "mapa/grafo" con los barrios de Barcelona
-|   └── metadata_manager.py # Metadatos Supongo (dan ayuda)
+|   └── metadata_manager.py # Metadatos
 |   └── stats.py            # Cálculo de estadísticas útiles
 |   └── xgb_model.py        # Modelo de xgb para la predicción
 |   └── event_encoder       # Conversión de eventos para una mejor predicción
-|   └── hyperparameter_optimizer.py # Dan ayuda
+|   └── hyperparameter_optimizer.py # Entrenamiento y optimización de modelo de predicción
 |   └── peak_classifier.py  # Definición y clasificación de picos
 |   └── data_filler.py      # Realizar Predicciones (1 semana)
 |   └── meteo.py            # Archivo y predicción meteorológica
@@ -93,7 +93,7 @@ De la misma manera que para el archivo meteorológico, utilizaremos la API de `O
 Para conocer los eventos y los de la semana siguiente hemos creado un sistema de **web-scrapping**. En `llm_scrapper.py`, utilizamos `playwright` y `bs4` para obtener el texto de las páginas web de nuestro interés, y un LLM (`gemini`) que formatea los eventos y festivos encontrados para dejarlos listos para entrenar al modelo.
 
 ### 2.3. Codificación de Eventos
-Con la finalidad de extraer la información más importante y usarla en nuestro modelo de predicción, codificamos los eventos de un día en un barrio en un espacio latente de 5 dimensiones. Para ello entrenamos 2 modelos: un codificador y un descodificador. Esta arquitectura permite entrenar un modelo usando los eventos como *input* y *validation* al mismo tiempo, pues el descodificador debería actuar como una función inversa y llevar el vector del espacio latente de vuelta al espacio de eventos.
+Con la finalidad de normalizar el formato de entrada, extraer la información más importante y usarla en nuestro modelo de predicción, codificamos los eventos de un día en un barrio en un espacio latente de 5 dimensiones. Para ello entrenamos 2 modelos: un codificador y un descodificador. Esta arquitectura permite entrenar un modelo usando los eventos como *input* y *validation* al mismo tiempo, pues el descodificador debería actuar como una función inversa y llevar el vector del espacio latente de vuelta al espacio de eventos.
 
 Una vez tenemos el modelo entrenado, guardamos la primera mitad del modelo entrenado en `models/encoder.keras`. Además, codificamos los eventos hasta la fecha necesaria (una semana a partir del día en el que se ejecuta el programa) usando el codificador. El resultado se guarda en `data/encoded_events.csv`.
 
@@ -103,7 +103,7 @@ La predicción de los datos se hará usando un modelo de extreme gradient boosti
 - tiene documentación y uso extensos
 - es una de las más adecuadas para tratar datos de naturaleza tabular (todos nuestros datos se estructuran en archivos `.csv`)
 
-La definición del modelo y las herramientas para su entrenamiento y su optimización se encuentran en el archivo `hyperparameter_optimizer.py`.
+La definición del modelo y las herramientas para su entrenamiento y su optimización se encuentran en los archivos `xgb_model.py` y `hyperparameter_optimizer.py`. En `xgb_model.py` se define la clase `Multiregressor`, que crea predicciones combinando una cantidad determinada de modelos sencillos para eliminar posible ruido y obtener más consistencia en los resultados.
 
 A continuación están las características utilizadas y su descripción:
 | Característica | Tipo | Descripción |
@@ -119,8 +119,8 @@ A continuación están las características utilizadas y su descripción:
 | lag_14 | Numérica | Intensidad calculada hace 14 días |
 | lag_21 | Numérica | Intensidad calculada hace 21 días |
 | lag_28 | Numérica | Intensidad calculada hace 28 días |
-| dt_7_w1 | Numérica | Derivada discreta de la semana más reciente: (lag_7 - lag_14) / 7 |
-| dt_7_w2 | Numérica | Derivada discreta de la segunda semana más reciente: (lag_14 - lag_21) / 7 |
+| dt_7_w1 | Numérica | Derivada discreta de la semana más reciente: $\frac{lag_7 - lag_{14}}{7}$ |
+| dt_7_w2 | Numérica | Derivada discreta de la segunda semana más reciente: $\frac{lag_{14} - lag_{21}}{7}$ |
 | enc1 | Numérica | Coordenada 1 de la codificación de los eventos para el día en el barrio especificado |
 | enc2 | Numérica | Coordenada 2 de la codificación de los eventos para el día en el barrio especificado |
 | enc3 | Numérica | Coordenada 3 de la codificación de los eventos para el día en el barrio especificado |

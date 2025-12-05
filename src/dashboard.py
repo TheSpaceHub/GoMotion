@@ -1,4 +1,4 @@
-from __future__ import annotations  # <--- MUST be the very first line of the file
+from __future__ import annotations
 
 import streamlit as st
 import pandas as pd
@@ -135,7 +135,7 @@ def centered_image(path: str, width_ratio=50):
     _, col, _ = st.columns([ (100-width_ratio)/2, width_ratio, (100-width_ratio)/2 ]) 
     
     with col:
-        return st.image(path, use_container_width=True)
+        return st.image(path,  width="stretch")
 
 def capitalize_first_letter(s) -> str:
     """Given a string makes first letter capital letter"""
@@ -151,8 +151,6 @@ def update_predictions() -> None:
 
     manager = MetadataManager()
     last_date_str = str(manager.get("last_predicted_day"))
-    print(type(last_date_str))
-    print("STRING:", last_date_str)
     if last_date_str == "nan":
         fill_data(pd.read_csv('data/data_processed.csv'), pd.to_datetime(ONE_WEEK.strftime("%Y-%m-%d")))
     else:
@@ -275,14 +273,14 @@ def plot_barri_heatmap(df_current_day: pd.DataFrame, stats: pd.DataFrame, gdf: g
     lat_center = 41.395
     lon_center = 2.17
     
-    fig = px.choropleth_mapbox(
+    fig = px.choropleth_map(
         gdf_day,
         geojson=gdf_day.geometry,     
         locations=df_day.index,     
         color="zscore",               
         color_continuous_scale="plasma", 
         range_color=[-2.5, 2.5],    
-        mapbox_style="carto-positron", 
+        map_style="carto-positron", 
         opacity=0.75,  
         zoom=11.1,
         center={"lat": lat_center, "lon": lon_center},
@@ -398,7 +396,7 @@ def render_map_ranking_section(df_day: pd.DataFrame, stats: pd.DataFrame, gdf: g
         fig = plot_barri_heatmap(df_day, stats, gdf)
         st.plotly_chart(
                     fig,
-                    use_container_width=True,
+                    width="stretch",
                     on_select=handle_map_selection, 
                     selection_mode="points",       
                     key="barri_heatmap_chart"
@@ -444,7 +442,7 @@ def render_map_ranking_section(df_day: pd.DataFrame, stats: pd.DataFrame, gdf: g
                     "Nivel Z": "Desviación"
                 },
                 hide_index=True,
-                use_container_width=True,
+                width="stretch",
                 height=550
             )
         else:
@@ -466,7 +464,7 @@ def wrap_chart_in_card(fig, title_text, height=300):
         font=dict(family='Segoe UI, sans-serif')
     )
     
-    st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
+    st.plotly_chart(fig, width="stretch", config={'displayModeBar': False})
 
 
 def plot_barri_details(df_full: pd.DataFrame, df_events: pd.DataFrame) -> None:
@@ -634,14 +632,9 @@ def main() -> None:
         st.session_state.selected_barri_from_map = "El Raval" 
             
     selected_date = st.session_state.selected_date
-
-    #df_barri['weekday_num'] = df_barri['day'].dt.weekday
-    #df_barri['day_of_the_week'] = df_barri['day'].dt.strftime('%A')
     
     df_filtered = df[df['day'].dt.date == selected_date].copy()
     df_prev_month = df[(df['day'].dt.date >= (selected_date - datetime.timedelta(days=30))) & (df['day'].dt.date < selected_date)].copy()
-    print(selected_date)
-    print(df_prev_month.head())
     df_prev_month = df_prev_month[pd.to_datetime(df_prev_month['day']).dt.dayofweek == pd.to_datetime(selected_date).dayofweek]
     render_kpis(df_filtered, df_prev_month, df_events, max_date)
     render_map_ranking_section(df_filtered, stats, gdf, min_date, max_date)

@@ -1,9 +1,8 @@
 import pandas as pd
 import numpy as np
 import joblib
-import keras
 from meteo import daily_weather_summary, ONE_WEEK, TODAY, weather_forecast_1_week
-from event_encoder import apply_masking_logic, sum_axis
+from event_encoder import apply_masking_logic, sum_axis #needed for encoder
 from hyperparameter_optimizer import features
 from datetime import timedelta
 

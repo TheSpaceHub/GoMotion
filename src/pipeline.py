@@ -135,7 +135,7 @@ def main():
 
         # run event_encoder.py
         # the file creates an encoder (which takes existing events and projects them to a 5-dimensional latent space conserving all information) and processes all events for given data
-        event_encoder.main()
+        event_encoder.main(manager)
 
         # keep track of this; if the encoder is rebuilt, the weights might have changed, so we need to retrain XGB model
         encoder_created = True

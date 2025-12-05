@@ -68,7 +68,7 @@ st.markdown(CARD_STYLE_CSS, unsafe_allow_html=True)
 st.markdown(f"""
 <style>
 /* Hide Streamlit default elements */
-#MainMenu, footer {{visibility: hidden;}}"""+
+# MainMenu, footer {{visibility: hidden;}}"""+
 """.block-container {
             padding-top: 0rem !important;
             padding-bottom: 0rem !important;
@@ -89,7 +89,6 @@ f"""/* General Layout & Background */
     font-size: 1.3rem;
     font-weight: 400;
     margin-bottom: 30px;
-    padding-left: 5px; /* Slight alignment adjustment */
 }}
 
 /* Section Header (Uppercase, small, clean) */

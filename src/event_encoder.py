@@ -114,7 +114,7 @@ def predict(
     return pd.DataFrame(data_dict)
 
 
-def main():
+def main(manager: metadata_manager.MetadataManager):
     try:
         event_data = pd.read_csv("data/all_events.csv")
     except:
@@ -184,7 +184,6 @@ def main():
     os.makedirs("models/", exist_ok=True)
     encoder.save("models/encoder.keras")
     
-    manager = metadata_manager.MetadataManager()
     manager.set("encoder_max_len", str(max_len))
 
     # encode event data and output to csv

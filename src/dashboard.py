@@ -200,28 +200,6 @@ def compute_zscore_stats(df: pd.DataFrame) -> pd.DataFrame:
     stats = df.groupby("barri")["intensity"].agg(['mean','std'])
     return stats
 
-@st.cache_data
-def avg_month_events(df_events: pd.DataFrame, max_date: date) -> float:
-    """
-    Filters events to the last 30 days, counts events per day, 
-    and returns the mean of those daily counts.
-    """
-    
-    max_date = pd.to_datetime(max_date)
-    last_month = max_date - pd.Timedelta(days=30)
-
-    df_last_month = df_events[
-        (df_events['day'] >= last_month) & 
-        (df_events['day'] <= max_date)
-    ].copy()
-    if df_last_month.empty:
-        return 0.0
-   
-    daily_event_counts = df_last_month.groupby(df_last_month['day'].dt.date).size()
-    average_daily_events = daily_event_counts.mean()
-    
-    return round(average_daily_events, 1)
-
 
 @st.cache_data
 def avg_month_temp(df: pd.DataFrame) -> float:
@@ -325,10 +303,8 @@ def render_kpis(df_filtered: pd.DataFrame, df_prev_month: pd.DataFrame, df_event
     delta_traffic = (traffic_today - traffic_mean)
     delta_traffic_str = f"{(delta_traffic / traffic_mean) * 100:.1f}%"
 
-    num_anomalies_today = len(df_events[df_events["day"] == target_date_pddatetime]["description"].unique())
-    num_anomalies_prev = avg_month_events(df_events, max_date)
-    delta_anomalies = num_anomalies_today - num_anomalies_prev
-    delta_anomalies_str = f"{delta_anomalies:.1f}"
+    num_events = len(df_events[df_events["day"] == target_date_pddatetime]["description"].unique())
+    category = "No hay eventos" if num_events == 0 else df_events[df_events['day'].dt.date == target_date]['category'].iloc[0]
     
     is_holiday = (df_filtered.iloc[0] == 1).any()
     holiday_status = "Día Normal" if not is_holiday else "Festivo"
@@ -350,8 +326,17 @@ def render_kpis(df_filtered: pd.DataFrame, df_prev_month: pd.DataFrame, df_event
         st.metric("Tráfico Total", traffic_today, delta=delta_traffic_str)
 
     with col2: 
-        st.metric("Nº Anomalías", f"{num_anomalies_today} Eventos", delta=delta_anomalies_str)
-
+        st.markdown(f"""
+        <div data-testid="stMetric" style="background-color: {SECONDARY_BACKGROUND}; border: 1px solid #E5E7EB; border-radius: 8px; padding: 13px 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.03);">
+            <div data-testid="stMetricLabel" style="color: {SUBTITLE_COLOR}; text-transform: uppercase; font-size: 0.9rem;">Nº ANOMALÍAS</div>
+            <div data-testid="stMetricValue" style="color: {PRIMARY_TEXT_COLOR}; font-size: 1.8rem; font-weight: 700;">
+                {num_events} Eventos
+            </div>
+            <div style="font-size: 0.9rem; color: {SUBTITLE_COLOR}; padding-top: 5px; font-weight: 500;">
+                {category}
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
     with col3: 
         st.markdown(f"""
         <div data-testid="stMetric" style="background-color: {SECONDARY_BACKGROUND}; border: 1px solid #E5E7EB; border-radius: 8px; padding: 13px 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.03);">
@@ -372,8 +357,8 @@ def render_kpis(df_filtered: pd.DataFrame, df_prev_month: pd.DataFrame, df_event
         st.metric("Precipitación", f"{precip_today} mm", delta=delta_precip_str) 
         
     st.markdown('<div style="margin-top: 10px;"></div>', unsafe_allow_html=True) 
-    with st.expander(f"Ver Detalles de Anomalías ({num_anomalies_today} Eventos)", expanded=False):
-        if num_anomalies_today > 0:
+    with st.expander(f"Ver Detalles de Eventos", expanded=False):
+        if num_events > 0:
             df_events_today = df_events[(df_events["day"] == target_date_pddatetime)]
             df_events_today = df_events_today[["category","description","barri","impact"]]
             df_events_today = df_events_today.rename(columns=str.capitalize)
@@ -382,7 +367,7 @@ def render_kpis(df_filtered: pd.DataFrame, df_prev_month: pd.DataFrame, df_event
                 hide_index=True
             )
         else:
-            st.info("No se registraron anomalías para la fecha seleccionada.")
+            st.info("No se registraron eventos para la fecha seleccionada.")
 
 def render_map_ranking_section(df_day: pd.DataFrame, stats: pd.DataFrame, gdf: gpd.GeoDataFrame, min_date: date, max_date: date) -> None:
     """Renders heat map, date selector and ranking"""

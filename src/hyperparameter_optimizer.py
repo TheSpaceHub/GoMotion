@@ -1,8 +1,9 @@
 import pandas as pd
 import numpy as np
 import xgb_model as xgb_model
-from peak_classifier import peak_loss, classify_peaks
+from peak_classifier import peak_loss
 from sklearn.metrics import mean_absolute_error
+import metadata_manager
 import joblib
 from datetime import datetime
 import keras
@@ -104,9 +105,8 @@ def calculate_sample_weights(df: pd.DataFrame, base: float) -> pd.Series:
 def load_events(df: pd.DataFrame) -> pd.DataFrame:
     """Returns DataFrame with all events and holidays added"""
     encoder = keras.models.load_model("models/encoder.keras")
-    encoder_max_len = 0
-    with open("models/encoder_data.txt") as encoder_data_file:
-        encoder_max_len = int(encoder_data_file.read())
+    manager = metadata_manager.MetadataManager()
+    encoder_max_len = int(manager.get("encoder_max_len"))
 
     # predict no events (need bias)
     zero_prediction = encoder.predict(

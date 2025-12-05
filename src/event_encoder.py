@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 import os
+import metadata_manager
 
 
 @keras.saving.register_keras_serializable()
@@ -182,8 +183,9 @@ def main():
     # store encoder and necessary data
     os.makedirs("models/", exist_ok=True)
     encoder.save("models/encoder.keras")
-    with open("models/encoder_data.txt", "w") as file:
-        file.write(str(max_len))
+    
+    manager = metadata_manager.MetadataManager()
+    manager.set("encoder_max_len", str(max_len))
 
     # encode event data and output to csv
     all_encoded_events = encoder.predict(

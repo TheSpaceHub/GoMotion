@@ -11,6 +11,7 @@ El proyecto de GoMotion consiste en la creación de un sistema de predicción de
 - Conexión a internet
 - Acceso a la carpeta `output_limite_legal` proporcionada por Telefónica
 - Acceso a los archivos `barris.csv`, `events.csv` y `festius.csv`
+- Una llave de API para Gemini
 
 ## Instalación
 
@@ -75,6 +76,12 @@ Los archivos de eventos y festivos han sido recopilados a mano y se encuentran e
 Cada evento tiene asociados una fecha, una categoría, una lista de barrios en los que tiene lugar, y un impacto (del 1 al 5) relativo a su categoría. Los festivos únicamente tienen asociada una fecha.
 Para recopilar archivos meteorológicos utilizaremos la API de `OpenMeteo`, en el archivo `meteo.py`. Por simplicidad y porque creemos que es lo mejor para el modelo, recopilaremos para cada día, el nivel de lluvia y las temperaturas máxima y mínima .
 
+### 1.3. Metadatos
+A lo largo del uso del programa hay información que necesita compartirse entre varios archivos y entre sesiones que no corresponde a datos en sí. Esta información la denominamos metadatos y la almacenamos en `data/metadata.py` (archivo creado automáticamente). No conviene modificar manualmente los metadatos, pues pueden haber comportamientos inesperados.
+
+### 1.4. Dot-env
+Este proyecto hace uso de la API de Google Gemini. Su utilización está sujeta a la posesión de una llave que deberá almacenarse en un archivo `.env` en el mismo directorio que el resto de carpetas.
+
 ## 2. Predicción de Picos de Movilidad
 
 GoMotion es capaz de predecir las intensidades de cada barrio con 7 días de antelación.
@@ -86,6 +93,48 @@ De la misma manera que para el archivo meteorológico, utilizaremos la API de `O
 Para conocer los eventos y los de la semana siguiente hemos creado un sistema de **web-scrapping**. En `llm_scrapper.py`, utilizamos `playwright` y `bs4` para obtener el texto de las páginas web de nuestro interés, y un LLM (`gemini`) que formatea los eventos y festivos encontrados para dejarlos listos para entrenar al modelo.
 
 ### 2.3. Codificación de Eventos
+Con la finalidad de extraer la información más importante y usarla en nuestro modelo de predicción, codificamos los eventos de un día en un barrio en un espacio latente de 5 dimensiones. Para ello entrenamos 2 modelos: un codificador y un descodificador. Esta arquitectura permite entrenar un modelo usando los eventos como *input* y *validation* al mismo tiempo, pues el descodificador debería actuar como una función inversa y llevar el vector del espacio latente de vuelta al espacio de eventos.
+
+Una vez tenemos el modelo entrenado, guardamos la primera mitad del modelo entrenado en `models/encoder.keras`. Además, codificamos los eventos hasta la fecha necesaria (una semana a partir del día en el que se ejecuta el programa) usando el codificador. El resultado se guarda en `data/encoded_events.csv`.
+
+### 2.4 Creación de modelo de predicción
+La predicción de los datos se hará usando un modelo de extreme gradient boosting (`XGBoost`), dado que es una arquitectura que:
+- permite la fácil integración de características categóricas
+- tiene documentación y uso extensos
+- es una de las más adecuadas para tratar datos de naturaleza tabular (todos nuestros datos se estructuran en archivos `.csv`)
+
+La definición del modelo y las herramientas para su entrenamiento y su optimización se encuentran en el archivo `hyperparameter_optimizer.py`.
+
+A continuación están las características utilizadas y su descripción:
+| Característica | Tipo | Descripción |
+| ------------- |-------------| -------------|
+| barri | Categórica | Nombre del barrio |
+| temperature_2m_max | Numérica | Temperatura máxima para el día (ºC) |
+| temperature_2m_min | Numérica | Temperatura mínima para el día (ºC) |
+| precipitation_sum | Numérica | Suma de mm de precipitación en el día |
+| is_holiday | Booleana | Si el día es festivo o no |
+| month_cat | Categórica | Nombre del mes |
+| day_cat | Categórica | Día de la semana |
+| lag_7 | Numérica | Intensidad calculada hace 7 días |
+| lag_14 | Numérica | Intensidad calculada hace 14 días |
+| lag_21 | Numérica | Intensidad calculada hace 21 días |
+| lag_28 | Numérica | Intensidad calculada hace 28 días |
+| dt_7_w1 | Numérica | Derivada discreta de la semana más reciente: (lag_7 - lag_14) / 7 |
+| dt_7_w2 | Numérica | Derivada discreta de la segunda semana más reciente: (lag_14 - lag_21) / 7 |
+| enc1 | Numérica | Coordenada 1 de la codificación de los eventos para el día en el barrio especificado |
+| enc2 | Numérica | Coordenada 2 de la codificación de los eventos para el día en el barrio especificado |
+| enc3 | Numérica | Coordenada 3 de la codificación de los eventos para el día en el barrio especificado |
+| enc4 | Numérica | Coordenada 4 de la codificación de los eventos para el día en el barrio especificado |
+| enc5 | Numérica | Coordenada 5 de la codificación de los eventos para el día en el barrio especificado |
+
+El archivo permite entrenar el modelo en una variedad de hiperparámetros. Para ello implementa un *grid search* personalizado: dada una colección de rangos de hiperparámetros, se entrenan modelos para todos los elementos de su producto cartesiano y se guarda aquel con mayor precisión (evaluada según los aciertos en la predicción). Los hiperparámetros que se pueden ajustar son:
+
+- Base de los pesos: el modelo XGBoost asigna unos pesos a los errores de cada muestra según su *z-score* con la siguiente formula: $weight = max(1, base ^{\text{z-score}})$. Aumentar el hiperparámetro *base* pondera más fuertemente los errores en días con movilidad excesiva.
+- Learning rate: se permite modificar el *learning rate* para variar el ritmo de convergencia y explorar nuevos mínimos
+- Tree depth: también se permite modificar el número máximo de árboles que puede usar el modelo (más información en https://xgboosting.com/configure-xgboost-max_depth-parameter/)
+
+Cuando se escoge el mejor modelo, se guarda en `models/regressor.joblib`.
+
 
 ## Autores
 - Javier Badesa

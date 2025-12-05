@@ -172,9 +172,7 @@ def main():
 
         # need to encode new events
         encoder = keras.models.load_model("models/encoder.keras")
-        encoder_max_len = 0
-        with open("models/encoder_data.txt") as encoder_data_file:
-            encoder_max_len = int(encoder_data_file.read())
+        encoder_max_len = int(manager.get("encoder_max_len"))
 
         # predict no events (need bias)
         if len(new_events) > 0:

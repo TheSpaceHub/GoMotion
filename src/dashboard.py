@@ -390,7 +390,10 @@ def render_map_ranking_section(df_day: pd.DataFrame, stats: pd.DataFrame, gdf: g
     import geopandas as gpd
     
     c_map, c_tab = st.columns([1.17, 1], gap="large")
-
+    
+    gdf_superf = gdf[['barri','superficie','codi_districte']]
+    df_day = df_day.merge(gdf_superf, on='barri', how='left')
+    
     with c_map:
         st.markdown('<div class="section-header">Mapa de calor</div>', unsafe_allow_html=True)
         fig = plot_barri_heatmap(df_day, stats, gdf)
@@ -419,8 +422,10 @@ def render_map_ranking_section(df_day: pd.DataFrame, stats: pd.DataFrame, gdf: g
             
             df_view['Saturación'] = df_view['Actual'] / df_view['Media']
             df_view['Nivel Z'] = (df_view['Actual'] - df_view['Media']) / df_view['std']
-
-            cols_final = df_view[['barri', 'Actual', 'Media', 'Saturación', 'Nivel Z']].sort_values('Actual', ascending=False)
+            
+            df_view['Densidad'] = (df_view['Actual'] / df_view['superficie']).fillna(0).astype(int)
+            
+            cols_final = df_view[['barri', 'Actual', 'Media', 'Densidad', 'Nivel Z', 'Saturación']].sort_values('Actual', ascending=False)
             
             st.dataframe(
                 cols_final.style.background_gradient(
@@ -439,7 +444,9 @@ def render_map_ranking_section(df_day: pd.DataFrame, stats: pd.DataFrame, gdf: g
                         min_value=0,
                         max_value=2, 
                     ),
+                    "Densidad": "Densidad",
                     "Nivel Z": "Desviación"
+                    
                 },
                 hide_index=True,
                 width="stretch",
@@ -467,15 +474,22 @@ def wrap_chart_in_card(fig, title_text, height=300):
     st.plotly_chart(fig, width="stretch", config={'displayModeBar': False})
 
 
-def plot_barri_details(df_full: pd.DataFrame, df_events: pd.DataFrame) -> None:
+def plot_barri_details(df_full: pd.DataFrame, df_events: pd.DataFrame, df_filtered: pd.DataFrame, gdf: gpd.GeoDataFrame) -> None:
     """Plots details about a given barri"""
     
     import pandas as pd
     import streamlit as st
     import plotly.express as px 
     import plotly.graph_objects as go
-        
+    import geopandas as gpd
+    import plotly.colors
+    
     barri_name = st.session_state.selected_barri_from_map
+    
+    gdf = gdf[['barri','superficie','codi_districte']]
+    df_filtered = df_filtered.merge(gdf, on='barri', how='left')
+    df_filtered['is_selected'] = df_filtered['barri'] == barri_name
+    
     
     df_barri = df_full[df_full['barri'] == barri_name].copy()
     df_events_barri = df_events[df_events["barri"] == barri_name].copy()
@@ -530,7 +544,7 @@ def plot_barri_details(df_full: pd.DataFrame, df_events: pd.DataFrame) -> None:
     # 4. Distribución: Festivo vs Laborable (Box Plot)
     # ----------------------------------------------------------------------
     fig_hol = px.box(df_barri, x='is_holiday', y='intensity', color='is_holiday',
-        color_discrete_map={0.0: ACCENT_COLOR, 1.0: DELTA_POSITIVE_COLOR}, 
+        color_discrete_map={0.0: ACCENT_COLOR, 1.0: DELTA_NEGATIVE_COLOR}, 
         labels={'is_holiday': 'Tipo de Día', 'intensity': 'Intensidad de Tráfico'}, hover_data={'is_holiday': False})
     fig_hol.update_traces(marker_size=5, line_width=1.5, selector=dict(type='box'))
     fig_hol.update_layout(showlegend=False, xaxis=dict(title_text='', tickvals=[0, 1], ticktext=['LABORABLE', 'FESTIVO'], 
@@ -540,7 +554,7 @@ def plot_barri_details(df_full: pd.DataFrame, df_events: pd.DataFrame) -> None:
     # ----------------------------------------------------------------------
     # 5. Correlación Lluvia / Tráfico (Scatter Plot)
     # ----------------------------------------------------------------------
-    fig_rain = px.scatter(df_barri, x="precipitation_sum", y="intensity", trendline="ols", 
+    fig_rain = px.scatter(df_barri, x="precipitation_sum", y="intensity", trendline="ols",
         trendline_color_override=DELTA_NEGATIVE_COLOR, opacity=0.6, color_discrete_sequence=[ACCENT_COLOR], 
         labels={"precipitation_sum": "Precipitación (mm)", "intensity": "Intensidad de Tráfico"},
         hover_data={"day": "|%Y-%m-%d", "precipitation_sum": ':.1f', "intensity": ':.0f'})
@@ -550,11 +564,29 @@ def plot_barri_details(df_full: pd.DataFrame, df_events: pd.DataFrame) -> None:
         yaxis=dict(showgrid=True, gridcolor=GRID_COLOR, zeroline=False, tickfont=AXIS_FONT))
 
     # ----------------------------------------------------------------------
-    # Display Layout: FILA 1 (3 PLOTS) y FILA 2 (2 PLOTS)
+    # 6. Tráfico / superficie
+    # ----------------------------------------------------------------------
+    # Get the selected day from the global session state
+
+    fig_superf = px.scatter(df_filtered, x="superficie", y="intensity", trendline="ols", hover_name="barri",
+        trendline_color_override=DELTA_NEGATIVE_COLOR, opacity=0.6, color_discrete_sequence=[ACCENT_COLOR], 
+        labels={"superficie": "Superficie (km^2)", "intensity": "Tráfico"},
+        hover_data={"superficie": ':.1f', "intensity": ':.0f'}, color='is_selected', 
+        color_discrete_map={
+        True: 'red',
+        False: ACCENT_COLOR
+        },)
+    fig_superf.update_traces(marker=dict(size=8, line=dict(width=1, color=SECONDARY_BACKGROUND)))
+    fig_superf.update_layout(xaxis_title="SUPERFICIE (KM^2)", yaxis_title="INTENSIDAD",
+        xaxis=dict(showgrid=True, gridcolor=GRID_COLOR, zeroline=False, tickfont=AXIS_FONT), 
+        yaxis=dict(showgrid=True, gridcolor=GRID_COLOR, zeroline=False, tickfont=AXIS_FONT), showlegend=False)
+    
+    # ----------------------------------------------------------------------
+    # Display Layout: FILA 1 (3 PLOTS) y FILA 2 (3 PLOTS)
     # ----------------------------------------------------------------------
     
     # FILA 1: 3 PLOTS (Ajustamos el tamaño de columna para 3 elementos)
-    c1, c2, c3 = st.columns([1, 1, 1], gap="medium") # [1, 1, 1] asegura 3 columnas de igual ancho
+    c1, c2, c3 = st.columns([1, 1, 1], gap="small") # [1, 1, 1] asegura 3 columnas de igual ancho
     
     with c1: 
         st.markdown('<div class="kpi-plot-card-style">', unsafe_allow_html=True)
@@ -575,22 +607,83 @@ def plot_barri_details(df_full: pd.DataFrame, df_events: pd.DataFrame) -> None:
         st.markdown('</div>', unsafe_allow_html=True)
 
 
-    # FILA 2: 2 PLOTS (Ajustamos el tamaño de columna para 2 elementos)
-    c4, c5 = st.columns([1, 1], gap="medium")
+    # FILA 2: 3 PLOTS (Ajustamos el tamaño de columna para 2 elementos)
+    c4, c5, c6 = st.columns([1, 1, 1], gap="small")
     
     with c4: 
-        st.markdown('<div class="kpi-plot-card-style">', unsafe_allow_html=True)
-        with st.container():
-            wrap_chart_in_card(fig_hol, "DISTRIBUCIÓN: LABORABLE VS FESTIVO")
-        st.markdown('</div>', unsafe_allow_html=True)
-
-    with c5: 
         st.markdown('<div class="kpi-plot-card-style">', unsafe_allow_html=True)
         with st.container():
             wrap_chart_in_card(fig_rain, "CORRELACIÓN PRECIPITACIÓN / INTENSIDAD")
         st.markdown('</div>', unsafe_allow_html=True)
 
+    with c5: 
+        st.markdown('<div class="kpi-plot-card-style">', unsafe_allow_html=True)
+        with st.container():
+            wrap_chart_in_card(fig_hol, "DISTRIBUCIÓN: LABORABLE VS FESTIVO")
+        st.markdown('</div>', unsafe_allow_html=True)
 
+    with c6:
+        st.markdown('<div class="kpi-plot-card-style">', unsafe_allow_html=True)
+        with st.container():
+            wrap_chart_in_card(fig_superf, "INTENSIDAD / SUPERFICIE")
+        st.markdown('</div>', unsafe_allow_html=True)
+  
+  
+def plot_shap_summary(df, model_path="models/regressor.joblib", barri=None, dia=None):
+    """
+    Muestra un SHAP Summary Plot. 
+    Puede filtrar por barrio y/o por día si se especifica.
+    """
+    import joblib
+    import shap
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+
+    st.subheader("SHAP Summary Plot")
+    dia = pd.to_datetime(dia)
+    if df is None or df.empty:
+        st.warning("No hay datos cargados.")
+        return
+
+    df_filtered = df.copy()
+
+    # --- NORMALIZAR FILTROS ---
+    if barri not in [None, "", "Todos"]:
+        df_filtered = df_filtered[df_filtered["barri"] == barri]
+
+    if dia not in [None, ""]:
+        dia_str = pd.to_datetime(dia).strftime("%Y-%m-%d")
+        df_filtered = df_filtered[df_filtered["day"] == dia_str]
+
+    if df_filtered.empty:
+        st.warning("⚠ No hay datos tras aplicar los filtros.")
+        return
+
+    # --- FEATURES ---
+    X = df_filtered.drop(columns=["intensity", "day", "barri"], errors="ignore")
+    X = X.select_dtypes(include=["float", "int"])  # muy importante
+
+    # --- CARGAR MODELO ---
+    try:
+        model = joblib.load(model_path)
+    except:
+        st.error("No se pudo cargar el modelo.")
+        return
+
+    # --- SHAP UNIVERSAL ---
+    try:
+        explainer = shap.Explainer(model.predict, X)
+        shap_values = explainer(X)
+    except Exception as e:
+        st.error(f"Error al calcular SHAP: {e}")
+        return
+
+    # --- PLOT ---
+    fig, ax = plt.subplots(figsize=(10, 6))
+    shap.summary_plot(shap_values.values, X, show=False)
+    st.pyplot(fig)
+
+        
 def main() -> None:
     """Main function"""
     loader_placeholder = st.empty()
@@ -638,7 +731,10 @@ def main() -> None:
     df_prev_month = df_prev_month[pd.to_datetime(df_prev_month['day']).dt.dayofweek == pd.to_datetime(selected_date).dayofweek]
     render_kpis(df_filtered, df_prev_month, df_events, max_date)
     render_map_ranking_section(df_filtered, stats, gdf, min_date, max_date)
-    plot_barri_details(df, df_events)
+    plot_barri_details(df, df_events, df_filtered, gdf)
+
+    plot_shap_summary(df, barri=st.session_state.selected_barri_from_map, dia=selected_date)
+
 
 if __name__ == "__main__":
     main()

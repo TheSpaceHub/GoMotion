@@ -4,21 +4,43 @@ from shapely import wkt, Point
 import networkx as nx
 import matplotlib.pyplot as plt
 from geopy.distance import geodesic
-
+import requests
+import numpy as np
 
 def load_gdf() -> gpd.GeoDataFrame:
     """Returns the geospatial data of the neighborhoods"""
 
     # load csv
     df = pd.read_csv("data/barris.csv")
-
-    # build gdf
+    
     df["geometria_wgs84"] = df["geometria_wgs84"].apply(wkt.loads)
     gdf = gpd.GeoDataFrame(df, geometry="geometria_wgs84")
     gdf = gdf.set_crs("EPSG:4326")
 
-    return gdf
+    superf_url = "https://opendata-ajuntament.barcelona.cat/data/api/action/datastore_search?resource_id=bb402991-6226-4b33-a901-7d23843ec9e1"
+    try:
+        r = requests.get(superf_url, timeout=10)
+        r.raise_for_status() 
+        api_data = r.json()['result']['records']
+        
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching data from API: {e}")
+        gdf['superficie'] = np.nan
+        return gdf
 
+    surface_data = []
+    for record in api_data:
+        nom_barri = record.get('Nom_Barri')
+        if nom_barri == "el Poble Sec":
+            nom_barri = "el Poble-sec"
+        surface_data.append({
+            'nom_barri': nom_barri,
+            'superficie': float(record.get('Superfície (ha)', np.nan)) * 0.01 # Pasar hectárea a km^2  
+        })
+
+    df_surface = pd.DataFrame(surface_data)
+    gdf = gdf.merge(df_surface, on='nom_barri', how='left')
+    return gdf
 
 def get_barri(point: Point, gdf: gpd.GeoDataFrame = None) -> str | None:
     """Returns the neighborhood that cointains a given point"""
@@ -87,3 +109,5 @@ def create_graph(draw: bool = False) -> nx.Graph:
         )
         plt.show()
     return G
+
+load_gdf()

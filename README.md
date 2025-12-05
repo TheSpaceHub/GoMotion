@@ -26,9 +26,52 @@ Para poder utilizar GoMotion, es necesario crear un entorno virtual y descargar 
 
 ## Estructura del Proyecto
 
+```
+GoMotion/
+├── data/                   
+│   ├── output_limite_legal # Datos proporcionados por Telefónica
+│   └── events.csv          # Registro de eventos brutos
+|   └── holidays.csv          # Registro de festivos brutos
+│
+├── media/                  
+│    └── GoMotionLogo.png    
+|    └── GoMotionShortLogo.png  
+|    └── GoMotionShortLogo.ico 
+│
+├── src/                    
+│   ├── llm_scraper.py      # Extracción de eventos y festivos con web scrapping
+│   └── barri_manager.py    # Creación del "mapa/grafo" con los barrios de Barcelona
+|   └── metadata_manager.py # Metadatos Supongo (dan ayuda)
+|   └── stats.py            # Cálculo de estadísticas útiles
+|   └── xgb_model.py        # Modelo de xgb para la predicción
+|   └── event_encoder       # Conversión de eventos para una mejor predicción
+|   └── hyperparameter_optimizer.py # Dan ayuda
+|   └── peak_classifier.py  # Definición y clasificación de picos
+|   └── data_filler.py      # Realizar Predicciones (1 semana)
+|   └── meteo.py            # Archivo y predicción meteorológica
+|   └── intensities.py      # Modelo matemático para definir las intensidades
+|   └── pipeline.py         # Pipeline y archivo principal del proyecto
+|   └── dashboard.py        # Visualización con Streamlit
+│
+├── .env                    # Variables de entorno (API Keys - No subir al repo)
+└── requirements.txt        # Dependencias del proyecto
+```
+
 ## Ejecución
-Para acceder a todas las funciones del proyecto es suficiente con ejecutar el pipeline.
-Desde la raiz del proyecto: `python3 src/pipeline.py`
+Para acceder a todas las funciones del proyecto es suficiente con ejecutar el pipeline.  
+Desde **la raiz** del proyecto: `python3 src/pipeline.py`
+
+## 1. Preparación de los datos
+### 1.1. Limpieza y organización de datos 
+Una vez descargados los datos movilidad entre barrios proporcionados por Telefónica, eliminaremos las columnas irrelevantes para nuestro proyecto, y nos quedaremos únicamente con
+las columnas siguientes: `day`, `barrio_origen_name`, `barrio_destino_name` y `viajes`.  
+Utilizaremos el dataset resultante y el modelo explicado en el pdf adjunto para crear un nuevo dataset con las siguientes columnas: `day`, `barri`, `intensity`.  
+Estas funciones se implementan en los archivos `barri_manager.py` y `intensities.py`
+
+### 1.2. Archivo de Eventos, Festivos y Meteorología
+Para mejorar la precisión de nuestro modelo utilizaremos datos históricos de eventos, festivos y meteorología.  
+Los archivos de eventos y festivos han sido recopilados a mano y se encuentran en `data/events.csv` y `data/holidays.csv` respectivamente.  
+Para recopilar archivos meteorológicos utilizaremos la API de `OpenMeteo`, en el archivo `meteo.py`. 
 
 ## Autores
 - Javier Badesa

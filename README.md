@@ -1,11 +1,36 @@
-# GoMotion
-El proyecto de GoMotion consiste en la creación de un sistema de predicción de picos de movilidad utilizando datos históricos de Telefónica combinados con datos públicos como pueden ser la información de transporte público, metereología y calendario de eventos. Se implementan modelos predictivos que anticipen flujos de movilidad con la finalidad de mejorar la red de movilidad local.
+<p align="center">
+  <img src="media/GoMotionLogo.png" alt="Logo GoMotion" width="200">
+</p>
 
-La solución identifica patrones de movilidad considerando diferentes variables como podrían ser el día de la semana, eventos especiales o condiciones meteorológicas. Integramos estos pronósticos con datos públicos de transporte público para generar recomendaciones automatizadas de optimización como refuerzo de líneas y alertas preventivas.
+## Predicción de picos de movilidad en Barcelona
 
-El valor del proyecto se centra en mejorar la red de movilidad y ayudar a operadores de transporte a anticiparse a las congestiones así mejorando la experiencia de los ciudadanos. Al proponer estas mejoras se reduce el impacto ambiental mediante una planificación basada en datos más eficiente y reduciendo la contaminación innecesaria del tráfico.
+El proyecto de GoMotion consiste en la creación de un sistema de predicción de picos de movilidad utilizando datos históricos de Telefónica combinados con datos públicos como son archivos metereologicos y calendarios de eventos. Se implementan modelos predictivos que anticipen flujos de movilidad con la finalidad de mejorar la red de movilidad local.
 
-## Autores:
+## Requisitos
+- Python 3.12+
+- Conexión a internet
+- Acceso a la carpeta `output_limite_legal` proporcionada por Telefónica
+- Acceso a los archivos `barris.csv`, `events.csv` y `festius.csv`
+
+## Instalación
+
+Para poder utilizar GoMotion, es necesario crear un entorno virtual y descargar las librerías necesarias.
+
+1) Crear el entorno virtual:
+`python -m venv .venv`
+2) Activar el entorno virtual:
+- MacOS / Linux: `source .venv/bin/activate`
+- Windows PowerShell / Windows Cmd: `.venv\Scripts\Activate.ps1` / `.venv\Scripts\activate.bat`
+3) Descargar librerías
+`pip install -r requirements.txt`
+
+## Estructura del Proyecto
+
+## Ejecución
+Para acceder a todas las funciones del proyecto es suficiente con ejecutar el pipeline.
+Desde la raiz del proyecto: `python3 src/pipeline.py`
+
+## Autores
 - Javier Badesa
 - Alexander Cameron Hall
 - Oscar Senesi Aladjem

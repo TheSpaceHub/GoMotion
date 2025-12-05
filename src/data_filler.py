@@ -84,7 +84,7 @@ def add_weather_features(
     return df
 
 
-def add_event_encodings(df: pd.DataFrame, last_date: pd.Timestamp) -> pd.DataFrame:
+def add_event_encodings(df: pd.DataFrame) -> pd.DataFrame:
     """Returns DataFrame with added events and holidays (self-explanatory)"""
     # load existing events
     encoded_events = pd.read_csv("data/encoded_events.csv")
@@ -154,7 +154,7 @@ def fill_data(
     df = add_weather_features(df, last_date, date)
 
     # add event data
-    df = add_event_encodings(df, last_date)
+    df = add_event_encodings(df)
 
     # add categorical features
     df = add_categorical_features(df)

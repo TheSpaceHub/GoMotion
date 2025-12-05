@@ -164,7 +164,7 @@ def create_features(data: pd.DataFrame, drop_empty: bool = True) -> pd.DataFrame
     ).astype("category")
 
     # add lags (intensities {1, 2, 3, 4} weeks ago)
-    for lag in [1, 2, 7, 14, 21, 28]:
+    for lag in [7, 14, 21, 28]:
         df[f"lag_{lag}"] = df.groupby("barri")["intensity"].shift(lag)
 
     # add some derivatives

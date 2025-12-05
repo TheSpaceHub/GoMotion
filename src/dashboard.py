@@ -68,9 +68,14 @@ st.markdown(CARD_STYLE_CSS, unsafe_allow_html=True)
 st.markdown(f"""
 <style>
 /* Hide Streamlit default elements */
-#MainMenu, footer {{visibility: hidden;}}
+#MainMenu, footer {{visibility: hidden;}}"""+
+""".block-container {
+            padding-top: 0rem !important;
+            padding-bottom: 0rem !important;
+            margin-top: 0rem !important;
+        }"""+
 
-/* General Layout & Background */
+f"""/* General Layout & Background */
 .stApp {{
     background-color: {BACKGROUND_COLOR};    st.markdown(f'<p class="subtitle">Movilidad en Barcelona</p>', unsafe_allow_html=True)
 
@@ -306,7 +311,7 @@ def plot_barri_heatmap(df_current_day: pd.DataFrame, stats: pd.DataFrame, gdf: g
 
 def render_header() -> None:
     """Renders the main title and subtitle using the defined CSS classes."""
-    st.image("media/GoMotionLogo.png", width=300)
+    st.image("media/GoMotionLogo.png", width=250)
     st.markdown(f'<p class="subtitle">Movilidad en Barcelona</p>', unsafe_allow_html=True)
 
 def render_kpis(df_filtered: pd.DataFrame, df_prev_month: pd.DataFrame, df_events: pd.DataFrame, max_date: date) -> None:
@@ -591,8 +596,9 @@ def plot_barri_details(df_full: pd.DataFrame, df_events: pd.DataFrame) -> None:
 
 def main() -> None:
     """Main function"""
-    
-    loading_logo = centered_image("media/GoMotionShortLogo.png", width_ratio=30)
+    loader_placeholder = st.empty()
+    with loader_placeholder.container():
+        centered_image("media/GoMotionShortLogo.png", width_ratio=30)
     
     with st.spinner("Cargando..."):
         try:
@@ -616,7 +622,7 @@ def main() -> None:
             
 
 
-    loading_logo.empty()
+    loader_placeholder.empty()
     render_header()
 
      

@@ -109,5 +109,3 @@ def create_graph(draw: bool = False) -> nx.Graph:
         )
         plt.show()
     return G
-
-load_gdf()

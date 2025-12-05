@@ -214,7 +214,7 @@ def avg_month_temp(df: pd.DataFrame) -> float:
         df_daily_temps['daily_max'] + df_daily_temps['daily_min']
     ) / 2
 
-    return round(df_daily_temps['daily_mean_temp'].mean(), 1)
+    return round(df_daily_temps['daily_mean_temp'].mean(), 3)
 
 @st.cache_data
 def avg_month_precipitation(df: pd.DataFrame) -> float:
@@ -317,8 +317,8 @@ def render_kpis(df_filtered: pd.DataFrame, df_prev_month: pd.DataFrame, df_event
     delta_temp_str = f"{avg_target_date - avg_prev:.1f}°C"
 
     precip_today = df_filtered["precipitation_sum"].iloc[0]
-    precip_prev = avg_month_precipitation(df_prev_month)
-    delta_precip_str = f"{precip_today - precip_prev:+.0f} mm"
+    precip_avg_prev = avg_month_precipitation(df_prev_month)
+    delta_precip_str = f"{precip_today - precip_avg_prev:+.2f} mm"
 
     col1, col2, col3, col4, col5 = st.columns(5)
     
@@ -610,7 +610,7 @@ def plot_barri_details(df_full: pd.DataFrame, df_events: pd.DataFrame, df_filter
     with c6:
         st.markdown('<div class="kpi-plot-card-style">', unsafe_allow_html=True)
         with st.container():
-            wrap_chart_in_card(fig_superf, "INTENSIDAD / SUPERFICIE")
+            wrap_chart_in_card(fig_superf, "INTENSIDAD / SUPERFICIE (TODOS LOS BARRIOS)")
         st.markdown('</div>', unsafe_allow_html=True)
   
   

@@ -223,13 +223,12 @@ def main():
         # define empty hyperspace; adding values next
         hyperspace = []
 
-        # weights base
-        hyperspace.append([1, 5, 10])
+         # weights base
+        hyperspace.append([10])
         # learning rate
-        hyperspace.append([0.01, 0.001, 0.0005])
+        hyperspace.append([0.0005])
         # tree depth
-        hyperspace.append([6, 9, 10])
-
+        hyperspace.append([9])
         hyperparameter_optimizer.grid_search(
             hyperspace, 0, [], hyperparameter_optimizer.features, train, test
         )

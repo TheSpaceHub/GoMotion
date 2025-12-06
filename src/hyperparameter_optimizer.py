@@ -232,11 +232,11 @@ def main():
     hyperspace = []
 
     # weights base
-    hyperspace.append([10])
+    hyperspace.append([5, 10, 20])
     # learning rate
-    hyperspace.append([0.0005])
+    hyperspace.append([0.01, 0.0005])
     # tree depth
-    hyperspace.append([9])
+    hyperspace.append([5, 9, 10])
 
     grid_search(hyperspace, 0, [], features, train, test)
 

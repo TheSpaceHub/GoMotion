@@ -55,9 +55,15 @@ def process_df(df):
     df['intensity'] = np.log(df['intensity'])
     return clean_month(clean_day_cat(df))
 
-df_og=pd.read_csv('data/data_processed.csv')
-df_og["month"] = [int(x) for x in df_og["month_cat"]]
-df = process_df(df_og)
-print(f"Correlación entre temperatura máxima e intensidad: {np.corrcoef(df['intensity'], df['temperature_2m_max'])[0][1]}.")
-print(f"Correlación entre temperatura mínima e intensidad: {np.corrcoef(df['intensity'], df['temperature_2m_min'])[0][1]}.")
-print(f"Correlación entre precipitación e intensidad: {np.corrcoef(df['intensity'], df['precipitation_sum'])[0][1]}.")
+def get_correlations():
+    '''Gets correlations between max_temp and intensity, min_temp and intensity and precipitation and intensity'''
+    df_og=pd.read_csv('data/data_processed.csv')
+    df_og["month"] = [int(x) for x in df_og["month_cat"]]
+    df = process_df(df_og)
+    maxt_int = np.corrcoef(df['intensity'], df['temperature_2m_max'])[0][1]
+    mint_int = np.corrcoef(df['intensity'], df['temperature_2m_min'])[0][1]
+    prec_int = np.corrcoef(df['intensity'], df['precipitation_sum'])[0][1]
+    print(f"Correlación entre temperatura máxima e intensidad: {maxt_int}.")
+    print(f"Correlación entre temperatura mínima e intensidad: {mint_int}.")
+    print(f"Correlación entre precipitación e intensidad: {prec_int}.")
+    return maxt_int, mint_int, prec_int

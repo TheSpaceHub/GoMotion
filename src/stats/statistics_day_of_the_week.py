@@ -29,8 +29,9 @@ def by_barri(df):
     return df2
 
 
-def by_day_cat_analysis(df):
+def by_day_cat_analysis():
     '''It represents average excess of intensity by day of the week as percentage. It returns variances of these averages.'''
+    df = pd.read_csv('data/data_processed.csv')
     df2 = df.copy()
     df2 = pd.read_csv('data/data_processed.csv')
     weekdays = {'Lunes': 0, 'Martes': 1, 'Miércoles': 2, 'Jueves': 3, 'Viernes': 4, 'Sábado': 5, 'Domingo': 6}
@@ -46,11 +47,17 @@ def by_day_cat_analysis(df):
                                   if row['day_cat']==day])) for day in range(7)]
     weekdays = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']
 
-    plt.errorbar(weekdays, averages, yerr=np.sqrt(variances), fmt="o")
-    plt.xlabel("Día")
-    plt.ylabel("Exceso de intensidad(%)")
-    plt.savefig("by_day_cat.png")
-    return variances
+    fig, ax = plt.subplots()
+    ax.errorbar(
+        weekdays, 
+        averages, 
+        yerr=np.sqrt(variances), 
+        fmt="o", 
+        capsize=5, 
+        label="Average Intensity"
+    )
+    ax.set_xlabel("Día")
+    ax.set_ylabel("Exceso de intensidad(%)")
+    ax.set_title("Exceso de Intensidad por Día de la Semana")
+    return fig
 
-df = pd.read_csv('data/data_processed.csv')
-by_day_cat_analysis(df)

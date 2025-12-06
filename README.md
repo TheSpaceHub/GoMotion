@@ -65,7 +65,7 @@ GoMotion/
 ## Ejecución
 Para acceder a todas las funciones del proyecto es suficiente con ejecutar el pipeline.  
 Desde **la raiz** del proyecto: `python3 src/pipeline.py`  
-- Nota: Es normal que a primera vez que ejecutemos `pipeline.py` tarde un buen rato. El programa tiene que hacer una serie de procesos con costes computacionales relativamente alto. Sin embargo, una vez ejecutado, los archivos se guardan y solo necesitan actualizarse poco a poco, lo que reduce enormemente el tiempo de espera.
+- Nota: Es normal que a primera vez que ejecutemos `pipeline.py` tarde un buen rato. El programa tiene que hacer una serie de procesos con costes computacionales relativamente alto. Sin embargo, una vez ejecutado, los archivos se guardan y solo necesitan actualizarse poco a poco, lo que reduce drásticamente el tiempo de espera.
 
 ## 1. Preparación de los datos
 
@@ -75,13 +75,21 @@ las columnas siguientes: `day`, `barrio_origen_name`, `barrio_destino_name` y `v
 Utilizaremos el dataset resultante y el modelo explicado en el pdf adjunto para crear un nuevo dataset con las siguientes columnas: `day`, `barri`, `intensity`.  
 Estas funciones se implementan en los archivos `barri_manager.py` y `intensities.py`
 
-### 1.2. Archivo de Eventos, Festivos y Meteorología
+### 1.2.1 Archivo de Eventos, Festivos y Meteorología
 Para mejorar la precisión de nuestro modelo utilizaremos datos históricos de eventos, festivos y meteorología.  
 Los archivos de eventos y festivos han sido recopilados a mano y se encuentran en `data/events.csv` y `data/holidays.csv` respectivamente.  
 Cada evento tiene asociados una fecha, una categoría, una lista de barrios en los que tiene lugar, y un impacto (del 1 al 5) relativo a su categoría. Los festivos únicamente tienen asociada una fecha.
 
 Para recopilar archivos meteorológicos utilizaremos la API de `OpenMeteo`, en el archivo `meteo.py`. Por simplicidad y porque creemos que es lo mejor para el modelo, recopilaremos para cada día, únicamente el nivel de lluvia y las temperaturas máxima y mínima.
 
+#### 1.2.2. Eventos Seleccionados
+También por simplicidad, y porque es prácticamente imposible tener controlados todos los eventos de una ciudad tan activa como Barcelona, hemos seleccionado para nuestro análisis los eventos que creemos más relevantes. Es decir:  
+- Eventos del Estadio Olímpico
+- Partidos locales del Fútbol Club Barcelona
+- Festivales de música: Primavera Sound, Crüilla y Sonar
+- Eventos de Running: Cursa del Corte Inglés y Zurich Maratón de Barcelona
+- Eventos de la Fira de Barcelona
+- Fiestas Populares: Sant Jordi, La Diada y La Mercè
 
 ### 1.3. Metadatos
 A lo largo del uso del programa hay información que necesita compartirse entre varios archivos y entre sesiones que no corresponde a datos en sí. Esta información la denominamos metadatos y la almacenamos en `data/metadata.py` (archivo creado automáticamente). No conviene modificar manualmente los metadatos, pues pueden haber comportamientos inesperados.
@@ -97,7 +105,7 @@ GoMotion es capaz de predecir las intensidades de cada barrio con 7 días de ant
 De la misma manera que para el archivo meteorológico, utilizaremos la API de `OpenMeteo` (en `meteo.py`) para obtener las predicciones de temperatura y lluvia de la semana siguiente.
 
 ### 2.2. Datos Futuros de Festivos y Eventos
-Para conocer los eventos y los de la semana siguiente hemos creado un sistema de **web-scrapping**. En `llm_scrapper.py`, utilizamos `playwright` y `bs4` para obtener el texto de las páginas web de nuestro interés, y un LLM (`gemini`) que formatea los eventos y festivos encontrados para dejarlos listos para entrenar al modelo.
+Para conocer los eventos y los de la semana siguiente hemos creado un sistema de **web-scrapping**. En `llm_scrapper.py`, utilizamos `playwright` y `bs4` para obtener el texto de las páginas web de nuestro interés (mencionadas en el apartado [1.2.2](#122-eventos-seleccionados)), y un LLM (`gemini`) que formatea los eventos y festivos encontrados para dejarlos listos para entrenar al modelo.
 
 ### 2.3. Codificación de Eventos
 Con la finalidad de extraer la información más importante y usarla en nuestro modelo de predicción, codificamos los eventos de un día en un barrio en un espacio latente de 5 dimensiones. Para ello entrenamos 2 modelos: un codificador y un descodificador. Esta arquitectura permite entrenar un modelo usando los eventos como *input* y *validation* al mismo tiempo, pues el descodificador debería actuar como una función inversa y llevar el vector del espacio latente de vuelta al espacio de eventos.
@@ -153,7 +161,8 @@ Nada más entrar al dashboard se llamará a la función `fill_data()`, que se en
 Tendremos la opción de seleccionar una fecha. Una vez seleccionada, se nos mostrarán algunas métricas relevantes de ese día: temperatura, lluvia, eventos, festivos y el tráfico total del día. Además obtenemos una comparación histórica de estos valores. En concreto:  
 Temperatura y Precipitaciones: Comparación con la media de los últimos 30 días.  
 Eventos: Comparación con la media de eventos diarios que hubo en los últimos 30 días.  
-Tráfico Total: Comparación con la media de los 4 últimos días con el mísmo día de la semana (por ej. Domingo)  
+Tráfico Total: Comparación con la media de los 4 últimos días con el mísmo día de la semana (por ej. Domingo) 
+  
 ![plot](./media/daily_metrics.png)
 
 ### 3.3. Tabla de Barrios
@@ -163,6 +172,7 @@ Para el día seleccionado se nos mostrará una tabla con, para cada barrio, su i
 
 ### 3.4. Mapa de Calor
 Además se mostrará un mapa de calor de las intensidades de cada barrio. Estas intensidades son relativas al barrio, es decir: se considera que hay un pico cuando el valor se aleja mucho de lo que suele haber en ese barrio. Podremos hacer clic en un barrio en concreto para seleccionarlo.  
+  
 ![plot](./media/heatmap.png)
 
 ### 3.5. Análisis Detallado por Barrio
@@ -172,8 +182,13 @@ Una vez seleccionado un barrio en el mapa, obtendremos una serie de gráficas qu
 - Impacto del día de la semana
 - Impacto del mes
 - Impacto de la precipitación  
+  
 ![plot](./media/analysis.png)
 
+### 3.6. Análisis del Modelo
+Finalmente, encontraremos un análisis detallado del modelo, para tener una visión más general de cuales son los parámetros que afectan en mayor medida a la intensidad de la movilidad en Barcelona.  
+  
+![plot](./media/model_analysis.png)
 
 ## Autores
 - Javier Badesa

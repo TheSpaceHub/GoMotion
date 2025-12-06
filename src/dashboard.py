@@ -177,8 +177,6 @@ def load_event_df() -> pd.DataFrame:
 def load_geodata() -> tuple[nx.Graph, gpd.GeoDataFrame]:
     """Returns Graph and GeoDataFrame"""
     #lazy imports to improve speed
-    import geopandas as gpd
-    import networkx as nx
     import barri_manager as bm
     
     G = bm.create_graph()
@@ -455,11 +453,8 @@ def wrap_chart_in_card(fig, title_text, height=300):
 def plot_barri_details(df_full: pd.DataFrame, df_events: pd.DataFrame, df_filtered: pd.DataFrame, gdf: gpd.GeoDataFrame) -> None:
     """Plots details about a given barri"""
     
-    import pandas as pd
-    import streamlit as st
     import plotly.express as px 
     import plotly.graph_objects as go
-    import plotly.colors
     
     barri_name = st.session_state.selected_barri_from_map
     

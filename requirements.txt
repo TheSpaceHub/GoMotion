@@ -25,4 +25,4 @@ bs4
 playwright
 xgboost
 requests
-
+streamlit

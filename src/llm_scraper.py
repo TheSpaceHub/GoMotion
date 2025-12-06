@@ -286,9 +286,19 @@ def scrape_week_ahead(end_date: datetime.date = None) -> Tuple[pd.DataFrame,pd.D
     event_cols = ["date", "category", "description", "barris", "impact"]
     festius_cols = ["date", "description"]
 
-    df_events = pd.DataFrame(events_list)[event_cols] 
-    df_festius = pd.DataFrame(festius_list)[festius_cols]
-    
+
+    if events_list:
+        df_events = pd.DataFrame(events_list)[event_cols] # Runs ONLY if list has data
+    else:
+        print("No events extracted.")
+        df_events = pd.DataFrame(columns=event_cols) # Runs ONLY if list is empty
+
+    if festius_list:
+        df_festius = pd.DataFrame(festius_list)[festius_cols] # Runs ONLY if list has data
+    else:
+        print("No festius extracted.")
+        df_festius = pd.DataFrame(columns=festius_cols) # Runs ONLY if list is empty
+
     print(df_events.to_markdown(index=False))
     print(df_festius.to_markdown(index=False))
     

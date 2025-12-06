@@ -221,7 +221,6 @@ def avg_month_precipitation(df: pd.DataFrame) -> float:
     """Returns the average daily precipitation sum for the last 30 days."""
     
     df_daily_precip = df.groupby('day')['precipitation_sum'].mean().reset_index(name='daily_precip_sum')
-    print(df_daily_precip)
     return round(df_daily_precip['daily_precip_sum'].mean(), 1)
 
 def handle_map_selection() -> None: 
@@ -372,6 +371,7 @@ def render_kpis(df_filtered: pd.DataFrame, df_prev_month: pd.DataFrame, df_event
 def render_map_ranking_section(df_day: pd.DataFrame, stats: pd.DataFrame, gdf: gpd.GeoDataFrame, min_date: date, max_date: date) -> None:
     """Renders heat map, date selector and ranking"""
     #lazy imports to improve speed
+    import peak_classifier
     
     c_map, c_tab = st.columns([1.17, 1], gap="large")
     
@@ -404,30 +404,24 @@ def render_map_ranking_section(df_day: pd.DataFrame, stats: pd.DataFrame, gdf: g
             df_view['Actual'] = np.ceil(df_view['intensity']).astype(int)
             df_view['Media'] = np.ceil(df_view['mean']).astype(int)
             
-            df_view['Saturación'] = df_view['Actual'] / df_view['Media']
             df_view['Nivel Z'] = (df_view['Actual'] - df_view['Media']) / df_view['std']
+            df_view['Pico'] = peak_classifier.classify_peaks(df_view["Nivel Z"])
             
             df_view['Densidad'] = (df_view['Actual'] / df_view['superficie']).fillna(0).astype(int)
             
-            cols_final = df_view[['barri', 'Actual', 'Media', 'Densidad', 'Nivel Z', 'Saturación']].sort_values('Actual', ascending=False)
+            cols_final = df_view[['barri', 'Actual', 'Media', 'Densidad', 'Nivel Z', 'Pico']].sort_values('Actual', ascending=False)
             
             st.dataframe(
                 cols_final.style.background_gradient(
                     subset=['Nivel Z'], cmap="plasma", vmin=-2.5, vmax=2.5
                 ).format({
-                    'Saturación': '{:.1%}', 
                     'Nivel Z': '{:.2f}'
                 }),
                 column_config={
                     "barri": "Barrio",
                     "Actual": st.column_config.NumberColumn("Tráfico", format="%d"),
                     "Media": "Media Hist.",
-                    "Saturación": st.column_config.ProgressColumn(
-                        "Saturación Relativa",
-                        format="%.2f",
-                        min_value=0,
-                        max_value=2, 
-                    ),
+                    "Pico": st.column_config.TextColumn("Pico", width=150),
                     "Densidad": "Densidad",
                     "Nivel Z": "Desviación"
                     
@@ -615,8 +609,17 @@ def plot_feature_importances(model: Multiregressor) -> None:
     """Plots feature importances"""
     import plotly.graph_objects as go
 
-    importances = model.get_feature_importances()
-    features = model.features
+    importances = list(model.get_feature_importances())
+    print(importances)
+    enc_keys = [""]
+    event_importance = sum(importances[-5:])
+    importances = importances[:-5] + [event_importance]
+        
+    
+    features = list(model.features)
+    print(features)
+    features = features[:-5]
+    features.append("events")
     st.markdown(f'<div class="section-header">ANÁLISIS DEL MODELO<span style="color:{PRIMARY_TEXT_COLOR};"></span></div>', unsafe_allow_html=True)
     
     # Feature importances
@@ -641,6 +644,7 @@ def main() -> None:
         centered_image("media/GoMotionShortLogo.png", width_ratio=30)
     
     with st.spinner("Cargando..."):
+        model = update_predictions()
         try:
             model = update_predictions()
         except:

@@ -605,14 +605,11 @@ def plot_feature_importances(model: Multiregressor) -> None:
     import plotly.graph_objects as go
 
     importances = list(model.get_feature_importances())
-    print(importances)
-    enc_keys = [""]
     event_importance = sum(importances[-5:])
     importances = importances[:-5] + [event_importance]
         
     
     features = list(model.features)
-    print(features)
     features = features[:-5]
     features.append("events")
     st.markdown(f'<div class="section-header">ANÁLISIS DEL MODELO<span style="color:{PRIMARY_TEXT_COLOR};"></span></div>', unsafe_allow_html=True)

@@ -9,6 +9,7 @@ from google.genai import types
 from dotenv import load_dotenv
 from bs4 import BeautifulSoup
 from playwright.async_api import async_playwright, BrowserContext, Error as PlaywrightError
+from typing import List, Tuple, Dict, Any
 
 load_dotenv() 
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY") 
@@ -23,7 +24,6 @@ EventType = [
 
 class Holiday(BaseModel):
     """A single holiday from the web page text."""
-    
     date: str = Field(
         description="The exact date of the holiday in YYYY-MM-DD format, which must match the target interval."
     )
@@ -39,7 +39,6 @@ class HolidayList(BaseModel):
 
 class Event(BaseModel):
     """A single event extracted from the web page text."""
-    
     date: str = Field(
         description="The exact dates of the event in YYYY-MM-DD format, which must match the target interval. If an event happens for a few days, you must create a new row for each days it takes place."
     )
@@ -53,14 +52,14 @@ class Event(BaseModel):
         description="The neighborhood where the event takes place. If the event takes place in several neighbourhoods concatenate neighbourhoods with '|'. Use 'all' if the event covers all neighborhoods in Barcelona."
     )
     impact: int = Field(
-            description="""The estimated impact level of the event on the local area and/or city traffic/crowds, rated on a scale of 1 to 5:
+        description="""The estimated impact level of the event on the local area and/or city traffic/crowds, rated on a scale of 1 to 5:
     - **1:** Very Low (Minimal impact, small local gathering, no traffic disruption.)
     - **2:** Low (Minor event, regular small-scale event, very limited neighborhood-level disruption.)
     - **3:** Medium (Standard large event, such as a regular league match or concert, causing noticeable neighborhood-level traffic or crowd disruption.)
     - **4:** High (Major event, such as a high-profile European match, large conference, or significant festival, causing considerable disruption in a large area.)
     - **5:** Very High (Maximum impact, such as a 'Clásico' football match, a large city-wide festival, or an event causing massive, city-wide disruption or widespread traffic closure.)
     """
-        )
+    )
 
 class EventList(BaseModel):
     """The root container for all extracted events."""
@@ -74,6 +73,7 @@ def extract_festius(text: str, today: datetime.date, end_date: datetime.date, mo
     prompt = f"""You are an expert holidays data extraction system. Your task is to analyze the provided web page text and identify all events that occur within a specified time interval.
     **Target Interval:** You must extract ALL holidays that occur between the start date, **{today.strftime('%Y-%m-%d')}**, and the end date, **{end_date.strftime('%Y-%m-%d')}**, inclusive.
         **Exclusions:** You must ignore any events that fall outside of this interval.
+    **URL-SPECIFIC EXTRACTION INSTRUCTIONS:** {more_info}
     **WEB PAGE TEXT:**
     {text}"""
     
@@ -92,7 +92,7 @@ def extract_festius(text: str, today: datetime.date, end_date: datetime.date, mo
         return data_dict.get('holidays', [])
     
     except (json.JSONDecodeError, Exception) as e:
-        print(f"--- Warning: LLM extraction failed. Error: {e} ---")
+        print(f"--- Warning: LLM (Festius) extraction failed. Error: {e} ---")
         return []
 
 def extract_events(text: str, today: datetime.date, end_date: datetime.date, more_info: str) -> list[dict]:
@@ -134,18 +134,33 @@ def extract_events(text: str, today: datetime.date, end_date: datetime.date, mor
         return data_dict.get('events', [])
     
     except (json.JSONDecodeError, Exception) as e:
-        print(f"--- Warning: LLM extraction failed. Error: {e} ---")
+        print(f"--- Warning: LLM (Events) extraction failed. Error: {e} ---")
         return []
-    
+
 async def scrape_web_with_context(context: BrowserContext, url: str) -> str:
-    """Uses an existing browser context to scrape a single URL and clean the HTML."""
+    """
+    Uses an existing browser context to scrape a single URL and clean the HTML.
+    Includes special handling for highly dynamic sites like Primavera Sound.
+    """
     
     page = await context.new_page()
     print(f"Navigating to {url}...")
     
     try:
-        await page.goto(url, wait_until="domcontentloaded") 
-        await asyncio.sleep(2) 
+        await page.goto(url, wait_until="domcontentloaded", timeout=30000) # Aumentar a 60s
+
+        if "primaverasound.com" in url:
+            content_selector = "body" 
+            print(f"Aplicando espera Cloudflare/SPA para {url}...")
+            await asyncio.sleep(5) 
+            await page.mouse.wheel(0, 500) # Desplazarse 500 píxeles hacia abajo
+            await asyncio.sleep(1) # Espera post-scroll
+            await page.wait_for_selector(content_selector, state="visible", timeout=30000)
+            await asyncio.sleep(2) 
+        
+        else:
+            await asyncio.sleep(2) 
+
         raw_html = await page.content()
         
     except PlaywrightError as e:
@@ -155,37 +170,37 @@ async def scrape_web_with_context(context: BrowserContext, url: str) -> str:
     finally:
         await page.close()
 
-    print("Cleaning HTML content...")
+    print(f"Cleaning HTML content for {url}...")
     
     soup = BeautifulSoup(raw_html, 'html.parser')
     body_tag = soup.find('body')
-
+         
     if not body_tag:
         return soup.get_text(separator=' ', strip=True) 
 
     unwanted_tags = [
-                "script", 
-                "style", 
-                "noscript", 
-                "nav", 
-                "footer", 
-                "form", 
-                "iframe"
-            ]
+        "script", 
+        "style", 
+        "noscript", 
+        "nav", 
+        "footer", 
+        "form", 
+        "iframe"
+    ]
 
-    for element in body_tag(unwanted_tags):
+    for element in body_tag.find_all(unwanted_tags):
         element.decompose()
         
     clean_content = body_tag.get_text(separator=' ', strip=True)
     return clean_content
 
-async def scrape_and_extract_all(event_webs: list[str], festius_webs: list[str], more_info: dict, today: datetime.date, end_date: datetime.date) -> tuple[list[dict], list[dict]]:
-    """Returns a list[dict] with all events in time interval. Perofrms Browser launch, scraping loop, and LLM extraction."""
-    events_list: list[dict] = []
-    festius_list: list[dict] = []
+async def scrape_and_extract_all(event_webs: List[str], festius_webs: List[str], more_info: Dict[str, str], today: datetime.date, end_date: datetime.date) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
+    """
+    Orchestrates browser launch and concurrently runs all scraping tasks.
+    """
+    all_urls = event_webs + festius_webs
     
     async with async_playwright() as p:
-
         browser = await p.chromium.launch(headless=True)
         print("Browser launched successfully.")
         
@@ -194,37 +209,38 @@ async def scrape_and_extract_all(event_webs: list[str], festius_webs: list[str],
             extra_http_headers={"Accept-Language": "en-US,en;q=0.9"},
             viewport={'width': 1280, 'height': 800}
         )
+        
+        all_scrape_tasks = []
+        for url in all_urls:
+            all_scrape_tasks.append(
+                scrape_web_with_context(context, url)
+            )
 
-        for url in event_webs:
-            
-            url_specific_info = more_info.get(url, "No additional information")
-            text = await scrape_web_with_context(context, url)
-            if text:
-                url_events = extract_events(text, today, end_date, url_specific_info)
-                events_list.extend(url_events)
-                
-            else:
-                print(f"Skipping extraction for {url} due to empty content.")
-        
-        for url in festius_webs:
-            
-            url_specific_info = more_info.get(url, "No additional information")
-            text = await scrape_web_with_context(context, url)
-            if text:
-                url_events = extract_festius(text, today, end_date, url_specific_info)
-                festius_list.extend(url_events)
-                
-            else:
-                print(f"Skipping extraction for {url} due to empty content.")
-        
-               
+        scraped_texts = await asyncio.gather(*all_scrape_tasks)
+
         await browser.close()
         print("Scraping complete.")
+
+        events_list = []
+        festius_list = []
         
-    return events_list, festius_list
+        for i, text in enumerate(scraped_texts):
+            url = all_urls[i]
+            url_specific_info = more_info.get(url, "No additional information")
 
+            if text and text.strip():
+                if url in event_webs:
+                    url_events = extract_events(text, today, end_date, url_specific_info)
+                    events_list.extend(url_events)
+                elif url in festius_webs:
+                    url_events = extract_festius(text, today, end_date, url_specific_info)
+                    festius_list.extend(url_events)
+            else:
+                print(f"Skipping extraction for {url} due to empty or stripped content.")
 
-def scrape_week_ahead(end_date: datetime = None) -> tuple[pd.DataFrame,pd.DataFrame]:
+        return events_list, festius_list
+
+def scrape_week_ahead(end_date: datetime.date = None) -> Tuple[pd.DataFrame,pd.DataFrame]:
     """Returns two dataframes, one with events, the other with holidays. 
     Main function to orchestrate the scraping and extraction of events and holidays"""
     
@@ -234,7 +250,7 @@ def scrape_week_ahead(end_date: datetime = None) -> tuple[pd.DataFrame,pd.DataFr
         end_date = start_date + datetime.timedelta(days=day_interval)
 
     assert end_date >= start_date, "end_date must be later than today"
-    
+
     event_webs = [
         "https://www.fcbarcelona.es/es/futbol/primer-equipo/calendario", 
         "https://estadiolimpic.barcelona/en/events", 
@@ -248,7 +264,7 @@ def scrape_week_ahead(end_date: datetime = None) -> tuple[pd.DataFrame,pd.DataFr
         "https://www.barcelona.cat/es/vivir-en-bcn/diada", 
         "https://www.barcelona.cat/lamerce/es/preguntas-frecuentes"
     ]
-                   
+                        
     more_info = {
         event_webs[0]: "Extract only home games played in Spotify Camp Nou. Spotify Camp Nou is in the 'les Corts' neighbourhood.",
         event_webs[1]: "All events from this text are in the 'el Poble-sec' neighbourhood.",
@@ -266,9 +282,14 @@ def scrape_week_ahead(end_date: datetime = None) -> tuple[pd.DataFrame,pd.DataFr
     festius_webs = ["https://ajuntament.barcelona.cat/calendarifestius/ca/"]
 
     events_list, festius_list = asyncio.run(scrape_and_extract_all(event_webs, festius_webs, more_info, start_date, end_date))
-    df_events = pd.DataFrame(events_list)
-    df_festius = pd.DataFrame(festius_list)
+    
+    event_cols = ["date", "category", "description", "barris", "impact"]
+    festius_cols = ["date", "description"]
+
+    df_events = pd.DataFrame(events_list)[event_cols] 
+    df_festius = pd.DataFrame(festius_list)[festius_cols]
     
     print(df_events.to_markdown(index=False))
     print(df_festius.to_markdown(index=False))
+    
     return df_events, df_festius

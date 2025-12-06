@@ -223,7 +223,6 @@ def main():
         # define empty hyperspace; adding values next
         hyperspace = []
 
-         # weights base
         hyperspace.append([10])
         # learning rate
         hyperspace.append([0.0005])
@@ -232,6 +231,7 @@ def main():
         hyperparameter_optimizer.grid_search(
             hyperspace, 0, [], hyperparameter_optimizer.features, train, test
         )
+        
     os.system("streamlit run src/dashboard.py")
 
 

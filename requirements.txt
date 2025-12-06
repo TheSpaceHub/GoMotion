@@ -18,11 +18,12 @@ collections
 asyncio
 json
 pdantic
-google
-google.genai
+google-genai
 dotenv
 bs4
 playwright
 xgboost
 requests
 streamlit
+plotly
+pydantic

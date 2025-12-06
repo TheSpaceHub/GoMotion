@@ -9,7 +9,6 @@ import datetime
 import data_filler
 import hyperparameter_optimizer
 import keras
-import numpy as np
 from metadata_manager import MetadataManager
 
 

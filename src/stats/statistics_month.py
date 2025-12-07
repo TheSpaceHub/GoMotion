@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from matplotlib import pyplot as plt
+import plotly.graph_objects as go
 
 def to_dict(df):
     '''It returns a dicitionary created from df['intensity'].'''
@@ -29,8 +29,9 @@ def by_barri(df):
     return df2
 
 
-def by_month_analysis(df):
+def by_month_analysis(df: pd.DataFrame):
     '''It represents average excess of intensity by month as percentage. It returns variances of these averages.'''
+    df["month"] = [int(x) for x in df["month_cat"]]
     df2 = df.copy()
     df2 = pd.read_csv('data/data_processed.csv')
     df2["month"] = [int(x) for x in df2["month_cat"]]
@@ -46,12 +47,31 @@ def by_month_analysis(df):
     months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio',
                'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
 
-    plt.errorbar(months, averages, yerr=np.sqrt(variances), fmt="o")
-    plt.xlabel("Mes")
-    plt.ylabel("Exceso de intensidad(%)")
-    plt.savefig("by_month.png")
-    return variances
+    trace = go.Scatter(
+        x=months,
+        y=averages,
+        mode='markers', # Equivalent to Matplotlib's fmt="o"
+        marker=dict(size=10, color='red'),
+        error_y=dict(
+            type='data',
+            array=np.sqrt(variances),
+            visible=True,
+            thickness=1.5,
+            width=5
+        ),
+        name='Average Intensity'
+    )
 
-df = pd.read_csv('data/data_processed.csv')
-df["month"] = [int(x) for x in df["month_cat"]]
-by_month_analysis(df)
+    # 2. Create the Figure object and apply layout
+    fig = go.Figure(data=[trace])
+
+    fig.update_layout(
+        title="EXCESO DE INTESNIDAD MENSUAL",
+        xaxis_title="Mes",
+        yaxis_title="Exceso de intensidad(%)",
+        template="plotly_white"
+    )
+
+    return fig, variances
+
+

@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from matplotlib import pyplot as plt
+import plotly.graph_objects as go
 
 def to_dict(df):
     '''It returns a dicitionary created from df['intensity'].'''
@@ -29,11 +29,9 @@ def by_barri(df):
     return df2
 
 
-def by_day_cat_analysis():
+def by_day_cat_analysis(df: pd.DataFrame):
     '''It represents average excess of intensity by day of the week as percentage. It returns variances of these averages.'''
-    df = pd.read_csv('data/data_processed.csv')
     df2 = df.copy()
-    df2 = pd.read_csv('data/data_processed.csv')
     weekdays = {'Lunes': 0, 'Martes': 1, 'Miércoles': 2, 'Jueves': 3, 'Viernes': 4, 'Sábado': 5, 'Domingo': 6}
     df2['day_cat'] = [weekdays[x] for x in df['day_cat']]
     df2['intensity'] = np.log(df['intensity'])
@@ -47,17 +45,28 @@ def by_day_cat_analysis():
                                   if row['day_cat']==day])) for day in range(7)]
     weekdays = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']
 
-    fig, ax = plt.subplots()
-    ax.errorbar(
-        weekdays, 
-        averages, 
-        yerr=np.sqrt(variances), 
-        fmt="o", 
-        capsize=5, 
-        label="Average Intensity"
+    trace = go.Scatter(
+        x=weekdays,
+        y=averages,
+        mode='markers', # Display points (equivalent to Matplotlib's fmt="o")
+        marker=dict(size=10, color='blue'),
+        error_y=dict(
+            type='data',
+            array=np.sqrt(variances), # The values for the error bars
+            visible=True,
+            thickness=1.5,
+            width=5 # Equivalent to Matplotlib's capsize
+        ),
+        name='Average Intensity'
     )
-    ax.set_xlabel("Día")
-    ax.set_ylabel("Exceso de intensidad(%)")
-    ax.set_title("Exceso de Intensidad por Día de la Semana")
+
+    fig = go.Figure(data=[trace])
+
+    fig.update_layout(
+        title="EXCESO DE INTENSIDAD POR DÍA DE LA SEMANA",
+        xaxis_title="Día",
+        yaxis_title="Exceso de intensidad(%)",
+        template="plotly_white" # Optional: provides a clean white background
+    )
     return fig
 

@@ -143,7 +143,7 @@ def capitalize_first_letter(s) -> str:
         return s
     return s[0].upper() + s[1:]
 
-@st.cache_data
+@st.cache_resource
 def update_predictions() -> Multiregressor:
     #lazy imports to improve speed
     from data_filler import fill_data
@@ -599,7 +599,7 @@ def plot_barri_details(df_full: pd.DataFrame, df_events: pd.DataFrame, df_filter
         with st.container():
             wrap_chart_in_card(fig_superf, "INTENSIDAD / SUPERFICIE (TODOS LOS BARRIOS)")
         st.markdown('</div>', unsafe_allow_html=True)
-  
+        
 def plot_feature_importances(model: Multiregressor) -> None:
     """Plots feature importances"""
     import plotly.graph_objects as go
@@ -628,6 +628,31 @@ def plot_feature_importances(model: Multiregressor) -> None:
     ))
 
     wrap_chart_in_card(fig_importances, "SHAP FEATURE IMPORTANCES", height=400)
+    
+@st.cache_data
+def plot_stats(df: pd.DataFrame) -> None:
+    """Plots general stats"""
+    from stats import correlations, statistics_day_of_the_week, statistics_month
+    import plotly.tools as tls
+    
+    fig_week = statistics_day_of_the_week.by_day_cat_analysis(df)
+    fig_month, _ = statistics_month.by_month_analysis(df)
+    st.markdown(f'<div class="section-header">ESTADÍSTICAS DE TODOS LOS BARRIOS<span style="color:{PRIMARY_TEXT_COLOR};"></span></div>', unsafe_allow_html=True)
+    
+    c1, c2 = st.columns([1, 1], gap="small") 
+    
+    with c1: 
+        st.markdown('<div class="kpi-plot-card-style">', unsafe_allow_html=True)
+        with st.container():
+            wrap_chart_in_card(fig_week, "EXCESO DE INTENSIDAD POR DÍA DE LA SEMANA")
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    with c2: 
+        st.markdown('<div class="kpi-plot-card-style">', unsafe_allow_html=True)
+        with st.container():
+            wrap_chart_in_card(fig_month, "EXCESO DE INTESNIDAD MENSUAL") 
+        st.markdown('</div>', unsafe_allow_html=True)
+
 
 def main() -> None:
     """Main function"""
@@ -679,6 +704,7 @@ def main() -> None:
     render_map_ranking_section(df_filtered, stats, gdf, min_date, max_date)
     plot_barri_details(df, df_events, df_filtered, gdf)
     plot_feature_importances(model)
-
+    plot_stats(df)
+    
 if __name__ == "__main__":
     main()

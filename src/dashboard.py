@@ -556,54 +556,42 @@ def plot_barri_details(df_full: pd.DataFrame, df_events: pd.DataFrame, df_filter
     # ----------------------------------------------------------------------
     # Display Layout: FILA 1 (3 PLOTS) y FILA 2 (3 PLOTS)
     # ----------------------------------------------------------------------
-    
     # FILA 1: 3 PLOTS (Ajustamos el tamaño de columna para 3 elementos)
+    st.markdown(f'<div class="section-header">ANÁLISIS DEL MODELO<span style="color:{PRIMARY_TEXT_COLOR};"></span></div>', unsafe_allow_html=True)
     c1, c2, c3 = st.columns([1, 1, 1], gap="small") # [1, 1, 1] asegura 3 columnas de igual ancho
     
     with c1: 
-        st.markdown('<div class="kpi-plot-card-style">', unsafe_allow_html=True)
         with st.container():
             wrap_chart_in_card(fig_week, "PERFIL SEMANAL DE TRÁFICO")
-        st.markdown('</div>', unsafe_allow_html=True)
-
+    
     with c2: 
-        st.markdown('<div class="kpi-plot-card-style">', unsafe_allow_html=True)
         with st.container():
             wrap_chart_in_card(fig_mon, "EVOLUCIÓN MENSUAL DE TRÁFICO") 
-        st.markdown('</div>', unsafe_allow_html=True)
+    
     
     with c3: 
-        st.markdown('<div class="kpi-plot-card-style">', unsafe_allow_html=True)
         with st.container():
             wrap_chart_in_card(fig_cat, "IMPACTO MEDIO DE EVENTOS")
-        st.markdown('</div>', unsafe_allow_html=True)
 
-
-    # FILA 2: 3 PLOTS (Ajustamos el tamaño de columna para 2 elementos)
     c4, c5, c6 = st.columns([1, 1, 1], gap="small")
     
     with c4: 
-        st.markdown('<div class="kpi-plot-card-style">', unsafe_allow_html=True)
         with st.container():
             wrap_chart_in_card(fig_rain, "CORRELACIÓN PRECIPITACIÓN / INTENSIDAD")
-        st.markdown('</div>', unsafe_allow_html=True)
 
     with c5: 
-        st.markdown('<div class="kpi-plot-card-style">', unsafe_allow_html=True)
         with st.container():
             wrap_chart_in_card(fig_hol, "DISTRIBUCIÓN: LABORABLE VS FESTIVO")
-        st.markdown('</div>', unsafe_allow_html=True)
 
     with c6:
-        st.markdown('<div class="kpi-plot-card-style">', unsafe_allow_html=True)
         with st.container():
             wrap_chart_in_card(fig_superf, "INTENSIDAD / SUPERFICIE (TODOS LOS BARRIOS)")
-        st.markdown('</div>', unsafe_allow_html=True)
         
 def plot_model_analysis(model: Multiregressor) -> None:
     """Plots feature importances"""
     import plotly.graph_objects as go
     import plotly.express as px
+    
     st.markdown(f'<div class="section-header">ANÁLISIS DEL MODELO<span style="color:{PRIMARY_TEXT_COLOR};"></span></div>', unsafe_allow_html=True)
     c1, c2 = st.columns([2, 1], gap="small")
     importances = list(model.get_feature_importances())
@@ -670,16 +658,11 @@ def plot_stats(df: pd.DataFrame) -> None:
     c1, c2 = st.columns([1, 1], gap="small") 
     
     with c1: 
-        st.markdown('<div class="kpi-plot-card-style">', unsafe_allow_html=True)
         with st.container():
             wrap_chart_in_card(fig_week, "EXCESO DE INTENSIDAD POR DÍA DE LA SEMANA")
-        st.markdown('</div>', unsafe_allow_html=True)
-
     with c2: 
-        st.markdown('<div class="kpi-plot-card-style">', unsafe_allow_html=True)
         with st.container():
             wrap_chart_in_card(fig_month, "EXCESO DE INTESNIDAD MENSUAL") 
-        st.markdown('</div>', unsafe_allow_html=True)
 
 
 def main() -> None:

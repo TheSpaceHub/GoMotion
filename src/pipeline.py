@@ -229,6 +229,11 @@ def main():
         hyperparameter_optimizer.grid_search(
             manager, hyperspace, 0, [], hyperparameter_optimizer.features, train, test
         )
+        
+        
+        hyperparameter_optimizer.train_best(
+            manager, hyperparameter_optimizer.features, train, test
+        )
 
     os.system("streamlit run src/dashboard.py")
 

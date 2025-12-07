@@ -605,9 +605,12 @@ def plot_model_analysis(model: Multiregressor) -> None:
         opacity=0.9
     ))
  
-    accuracy = model.get("model_accuracy")  # Get model details
-    under_estimated = model.get("model_error_under")
-    over_estimated = model.get("model_error_over")
+    
+    manager = MetadataManager()
+    
+    accuracy = manager.get("model_accuracy") 
+    under_estimated = manager.get("model_error_under")
+    over_estimated = manager.get("model_error_over")
     
     # Model precisions
     fig_precision =  px.pie(values = [float(accuracy), float(under_estimated), float(over_estimated)],
@@ -637,7 +640,7 @@ def plot_model_analysis(model: Multiregressor) -> None:
 @st.cache_data
 def plot_stats(df: pd.DataFrame) -> None:
     """Plots general stats for all barris"""
-    from stats import correlations, statistics_day_of_the_week, statistics_month
+    from stats import statistics_day_of_the_week, statistics_month
     import plotly.tools as tls
     
     fig_week = statistics_day_of_the_week.by_day_cat_analysis(df)

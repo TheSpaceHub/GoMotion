@@ -31,7 +31,6 @@ class Multiregressor:
         train_weights,
         learning_rate: float,
         depth: int,
-        callbacks = None
     ) -> None:
         """Creates n XGB regressors with the hyperparameters provided and fits them with the data provided"""
         self.features = X_train.columns
@@ -94,6 +93,7 @@ def create_and_fit_regressor(
             early_stopping_rounds=150,
             max_depth=depth,
             enable_categorical=True,
+            random_state=np.random.randint(0, 100000)
         )
 
     if learning_rate is None:

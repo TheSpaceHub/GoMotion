@@ -80,14 +80,55 @@ def grid_search(
         if loss < min_loss:
             min_loss = loss
             print("New minimum loss achieved:", min_loss)
+
+            # store accuracies in metadata
             manager.set("model_accuracy", 1 - loss)
             over, under = peak_loss_over_under(peak_loss_df)
             manager.set("model_error_over", over)
             manager.set("model_error_under", under)
-            joblib.dump(model, "models/regressor.joblib")
 
-            for i, x in enumerate(model.get_feature_importances()):
-                print(features[i] + ":", x)
+            # store best hyperparameters
+            manager.set("best_base", base)
+            manager.set("best_learning_rate", learning_rate)
+            manager.set("best_depth", depth)
+
+
+def train_best(
+    manager: metadata_manager.MetadataManager,
+    features: list[str],
+    train: pd.DataFrame,
+    test: pd.DataFrame,
+) -> None:
+    """Trains model with best chosen hyperparameters"""
+    # unpack
+    base = manager.get("best_base")
+    learning_rate = manager.get("best_learning_rate")
+    depth = manager.get("best_depth")
+
+    print(f"Training with base = {base}, l_rate = {learning_rate}, depth = {depth}")
+
+    # calculate weights
+    weights = calculate_sample_weights(train, base)
+
+    X_train = train[features]
+    y_train = np.log1p(train["intensity"])
+    X_test = test[features]
+    y_test = np.log1p(test["intensity"])
+
+    model = xgb_model.Multiregressor()
+    model.fit_multiregressor(
+        3,
+        X_train,
+        y_train,
+        X_test,
+        y_test,
+        weights,
+        learning_rate,
+        depth,
+    )
+
+    # save model
+    joblib.dump(model, "models/regressor.joblib")
 
 
 def calculate_sample_weights(df: pd.DataFrame, base: float) -> pd.Series:

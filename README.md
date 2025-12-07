@@ -33,6 +33,7 @@ Para poder utilizar GoMotion, es necesario crear un entorno virtual y descargar 
 `pip install -r requirements.txt`
 4) Añadir API key en `.env`:
 `GEMINI_API_KEY="key"`
+- Nota: dependiendo del _tier_ de Gemini API que tenga el usuario, es posible que el regenerado repetido del programa consuma el límite de _requests_.
 
 ## Estructura del Proyecto
 

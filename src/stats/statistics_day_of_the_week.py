@@ -2,6 +2,8 @@ import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 
+ACCENT_COLOR = '#577399'
+
 def to_dict(df):
     '''It returns a dicitionary created from df['intensity'].'''
     df2 = df.copy()
@@ -49,7 +51,7 @@ def by_day_cat_analysis(df: pd.DataFrame):
         x=weekdays,
         y=averages,
         mode='markers', # Display points (equivalent to Matplotlib's fmt="o")
-        marker=dict(size=10, color='blue'),
+        marker=dict(size=10, color=ACCENT_COLOR),
         error_y=dict(
             type='data',
             array=np.sqrt(variances), # The values for the error bars

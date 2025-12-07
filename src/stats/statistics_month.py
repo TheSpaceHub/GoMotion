@@ -2,6 +2,8 @@ import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 
+ACCENT_COLOR = '#577399'
+
 def to_dict(df):
     '''It returns a dicitionary created from df['intensity'].'''
     df2 = df.copy()
@@ -51,7 +53,7 @@ def by_month_analysis(df: pd.DataFrame):
         x=months,
         y=averages,
         mode='markers', # Equivalent to Matplotlib's fmt="o"
-        marker=dict(size=10, color='red'),
+        marker=dict(size=10, color=ACCENT_COLOR),
         error_y=dict(
             type='data',
             array=np.sqrt(variances),

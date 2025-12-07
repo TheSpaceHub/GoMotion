@@ -605,7 +605,7 @@ def plot_model_analysis(model: Multiregressor) -> None:
     import plotly.graph_objects as go
     import plotly.express as px
     st.markdown(f'<div class="section-header">ANÁLISIS DEL MODELO<span style="color:{PRIMARY_TEXT_COLOR};"></span></div>', unsafe_allow_html=True)
-    c1, c2 = st.columns([3, 1], gap="small")
+    c1, c2 = st.columns([2, 1], gap="small")
     importances = list(model.get_feature_importances())
     event_importance = sum(importances[-5:])
     importances = importances[:-5] + [event_importance]
@@ -633,15 +633,31 @@ def plot_model_analysis(model: Multiregressor) -> None:
     accuracy = model.get("model_accuracy")
     under_estimated = model.get("model_error_under")
     over_estimated = model.get("model_error_over")
+    
     with c1:
         wrap_chart_in_card(fig_importances, "IMPORTANCIAS DE LAS CARACTERISTICAS SHAP", height=400)
     with c2:
         fig = px.pie(values = [float(accuracy), float(under_estimated), float(over_estimated)],
-            names = ['Pico Acertado', 'Pico Subestimado', 'Pico Sobreestimado' ], color = ['Pico Acertado', 'Pico Subestimado', 'Pico Sobreestimado' ] ,color_discrete_map= {"Pico Acertado" : "#ffd127", "Pico Subestimado":"#69298f", "Pico Sobreestimado":"#ffa900"})
-        wrap_chart_in_card(fig, "PRECISION DEL MODELO", height=400)
+            names = ['Pico Acertado', 'Subestimación', 'Sobrestimación' ], color = ['Pico Acertado', 'Subestimación', 'Sobrestimación' ] ,color_discrete_map= {"Pico Acertado" : "#ffd127", "Subestimación":"#69298f", "Sobrestimación":"#ffa900"})
+        fig.update_layout(
+        paper_bgcolor=SECONDARY_BACKGROUND, 
+        plot_bgcolor=SECONDARY_BACKGROUND,
+        title=dict(text='PRECISIÓN DEL MODELO', font=TITLE_FONT, x=0.01),
+        height=400,
+        autosize=True,
+        template='plotly_white', 
+        font=dict(family='Segoe UI, sans-serif'),
+        margin=dict(t=50, b=20, l=20, r=200), 
+        legend=dict(
+            x=1.75, 
+            y=0.5,
+            xanchor='right',
+            yanchor='middle',
+            font=dict(size=14) 
+        )
+        )
+        st.plotly_chart(fig, width="stretch", config={'displayModeBar': False})
 
-
-    
 @st.cache_data
 def plot_stats(df: pd.DataFrame) -> None:
     """Plots general stats"""
@@ -717,7 +733,9 @@ def main() -> None:
     render_map_ranking_section(df_filtered, stats, gdf, min_date, max_date)
     plot_barri_details(df, df_events, df_filtered, gdf)
     plot_model_analysis(model)
-    plot_stats(df)
+    
+    with st.spinner("Cargando..."):
+        plot_stats(df)
     
 if __name__ == "__main__":
     main()

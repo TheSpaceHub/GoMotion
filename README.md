@@ -28,7 +28,7 @@ Para poder utilizar GoMotion, es necesario crear un entorno virtual y descargar 
 `python -m venv .venv`
 2) Activar el entorno virtual:
 - MacOS / Linux: `source .venv/bin/activate`
-- Windows PowerShell / Windows Cmd: `.venv\Scripts\Activate.ps1` / `.venv/bin/activate`
+- Windows PowerShell / Windows Cmd: `.venv\Scripts\Activate.ps1` / `.venv\Scripts\activate`
 3) Descargar librerías
 `pip install -r requirements.txt`
 

@@ -183,15 +183,3 @@ def fill_data(
         df.to_csv(f"data/data_extended.csv", index=None)
         
     return df, model
-
-
-def main():
-    pd.set_option("display.max_columns", None)
-    df = pd.read_csv("data/final_data.csv")
-    df["day"] = pd.to_datetime(df["day"])
-
-    fill_data(df, pd.Timestamp(day=2, year=2025, month=12))
-
-
-if __name__ == "__main__":
-    main()

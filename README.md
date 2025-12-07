@@ -8,14 +8,15 @@ El proyecto de GoMotion consiste en la creación de un sistema de predicción de
 
 ## Importante
 
-- GoMotion ha sido creado con la única intención de hacer una precisa predicción de la movilidad en Barcelona para poder detectar fuertes picos y comprender de dónde vienen. La falta de datos precisos e útiles sobre el transporte público en Barcelona hace que de momento no tenga sentido intentar proponer cambios en el transporte para lidiar con éstos. Sin embargo, hemos creado un modelo capaz de predecir picos de movilidad con gran precisión que hace que sea fácil, teniendo datos de calidad sobre el transporte público de Barcelona (como proporciones de trayectos en transporte privado / público, capacidades exactas de autobuses y metro, número diario de buses/metro de cada línea, etc...), proponer cambios en éste para hacer frente a dichos picos.
+- GoMotion ha sido creado con la intención de hacer una predicción de la movilidad en Barcelona para poder detectar fuertes picos y comprender de dónde vienen. La falta de datos precisos e útiles sobre el transporte público en Barcelona hace que sea complicado intentar proponer cambios en el transporte para lidiar con éstos. Sin embargo, hemos creado un modelo capaz de predecir picos de movilidad con gran precisión que hace que, teniendo datos de calidad sobre el transporte público de Barcelona (como proporciones de trayectos en transporte privado / público, capacidades exactas de autobuses y metro, número diario de buses/metro de cada línea, etc...), sea fácil proponer cambios en éste para hacer frente a dichos picos.
 - Para realizar un proyecto realmente útil es importante construir una buena base, por ello hemos creado un documento `mathematical_model.pdf` cuyo objetivo es crear una abstracción matemática de la ciudad que permita modelar las propiedades reales a partir de un conjunto de datos proporcionados.
+- El alcance predictivo del programa es el estipulado de 7 días. Una implementación completa requeriría una conexión con los datos de Telefónica a tiempo real (granularidad diaria). Puesto que esto no es posible, la aplicación incluye un proceso de "relleno de datos", donde se crean datos utilizando el modelo predictivo desde la última fecha con datos determinados (31 de agosto de 2025) hasta el día de ejecución. Esto provoca una acumulación de error a medida que la fecha de predicción se aleja de la última estipulada (dado que hacemos predicciones sobre predicciones), por lo que los datos que se observan pueden presentar discrepancias mayores con la realidad que las medidas por las herramientas del programa.
 
 
 ## Requisitos
 - Python 3.12+
 - Conexión a internet
-- Acceso a la carpeta `output_limite_legal` proporcionada por Telefónica
+- Acceso a la carpeta `output_limite_legal` proporcionada por Telefónica (de no ser el caso, se pueden generar datos usando `example_data.py`)
 - Acceso a los archivos `barris.csv`, `events.csv` y `festius.csv`
 - Una llave de API para Gemini
 
@@ -41,14 +42,19 @@ GoMotion/
 │   └── events.csv          # Registro de eventos
 |   └── holidays.csv          # Registro de festivos sacados del ajuntament de Barcelona 
 │
-├── media/                  
+├── media/               
+|    └── analysis.png   
 │    └── GoMotionLogo.png    
 |    └── GoMotionShortLogo.png  
 |    └── GoMotionShortLogo.ico 
+|    └── barri_list.png
+|    └── daily_metrics.png
+|    └── general_stats.png
+|    └── heatmap.png
+|    └── model_analysis.png
 │
 ├── stats/   
 |   ├── stats/                  
-│   |     └── correlations.py               # Correlaciones entre clima e intensidad
 |   |     └── statistics_day_of_the_week.py # Exceso de intensidad promedia por día de la semana
 |   |     └── statistics_month.py           # Exceso de intensidad promedia por mes del año
 |   |                
@@ -65,14 +71,17 @@ GoMotion/
 |   └── intensities.py      # Modelo matemático para definir las intensidades
 |   └── pipeline.py         # Pipeline y archivo principal del proyecto
 |   └── dashboard.py        # Visualización con Streamlit
+|   └── example_data.py     # Generación de datos de prueba simulando datos reales
 │
 ├── .env                    # Variables de entorno (API Keys - No subir al repo)
 └── requirements.txt        # Dependencias del proyecto
+└── mathematical_model.pdf  # Documento con fundamentos matemáticos
 ```
 
 ## Ejecución
 Para acceder a todas las funciones del proyecto es suficiente con ejecutar el pipeline.  
 Desde **la raíz** del proyecto MacOS / Linux: `python3 src/pipeline.py`, Windows Cmd: `python src/pipeline.py`.
+- Si no se dispone de la carpeta `output_limite_legal`, se debe ejecutar anteriormente el archivo `src/example_data.py` para crear los datos de ejemplo.
 - Nota: Es normal que la primera vez que se ejecute `pipeline.py` tarde un buen rato. El programa tiene que hacer una serie de procesos con costes computacionales relativamente alto. Sin embargo, una vez ejecutado, los archivos se guardan y sólo necesitan actualizarse poco a poco, lo que reduce drásticamente el tiempo de espera.
 
 ## 1. Preparación de los datos
@@ -81,7 +90,7 @@ Desde **la raíz** del proyecto MacOS / Linux: `python3 src/pipeline.py`, Window
 Una vez descargados los datos movilidad entre barrios proporcionados por Telefónica, eliminaremos las columnas irrelevantes para nuestro proyecto, y nos quedaremos únicamente con
 las columnas siguientes: `day`, `barrio_origen_name`, `barrio_destino_name` y `viajes`.  
 Utilizaremos el dataset resultante y el modelo explicado en el pdf adjunto para crear un nuevo dataset con las siguientes columnas: `day`, `barri`, `intensity`.  
-Estas funciones se implementan en los archivos `barri_manager.py` y `intensities.py`
+Estas funciones se implementan en los archivos `barri_manager.py` y `intensities.py`.
 
 ### 1.2 Archivo de Eventos, Festivos y Meteorología
 Para mejorar la precisión de nuestro modelo utilizaremos datos históricos de eventos, festivos y meteorología.  
@@ -211,7 +220,7 @@ Finalmente, se podrá visualizar las siguientes estadísticas de todos los barri
 ![plot](./media/general_stats.png)
 
 ## Autores
-- Javier Badesa
-- Alexander Cameron Hall
+- Javier Badesa Pérez
+- Alexander Cameron Hall Parrilla
 - Oscar Senesi Aladjem
-- Dan Manuel Vancea
+- Dan Manuel Vancea Boros

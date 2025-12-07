@@ -16,6 +16,7 @@ except locale.Error:
     except locale.Error:
         locale.setlocale(locale.LC_TIME, '')
 
+# Declare useful color palette and fonts
 PRIMARY_TEXT_COLOR = "#0f172a"  
 ACCENT_COLOR = '#577399'
 BACKGROUND_COLOR = "#FAFAFA"    
@@ -23,10 +24,11 @@ SECONDARY_BACKGROUND = "#F4F7F9"
 SUBTITLE_COLOR = "#4B5563"      
 DELTA_POSITIVE_COLOR = "#10B981" 
 DELTA_NEGATIVE_COLOR = "#EF4444" 
-GRID_COLOR = '#E5E7EB' # Usado para la cuadrícula y simular el borde sutil
+GRID_COLOR = '#E5E7EB' 
 TITLE_FONT = dict(size=11, color=PRIMARY_TEXT_COLOR, family='Segoe UI, sans-serif')
 AXIS_FONT = dict(size=10, color=SUBTITLE_COLOR, family='Segoe UI, sans-serif')
 
+#Streamlit config
 st.set_page_config(
     page_title="GoMotion: Movilidad en Barcelona",
     page_icon="media/GoMotionShortLogo.ico",
@@ -34,6 +36,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
+# Markdown to personalize web page 
 st.markdown(
     """
     <style>
@@ -50,9 +53,7 @@ st.markdown(
 
 CARD_STYLE_CSS = f"""
     <style>
-    /* Estilo para envolver el contenedor (st.container o columna) que contiene el gráfico.
-    El selector apunta al div principal de un bloque vertical (como el generado por st.container() o st.column()).
-    */
+    /* Estilo para envolver el contenedor que contiene el gráfico */
     div[data-testid="stVerticalBlock"] > div:has(.stPlotlyChart) > div:first-child {{
         background-color: {SECONDARY_BACKGROUND};
         border: 1px solid {GRID_COLOR}; 
@@ -83,7 +84,7 @@ f"""/* General Layout & Background */
     padding-top: 2rem;
 }}
 
-/* Subtitle (Movilidad en Barcelona) - Dark Gray, Subtle */
+/* Subtitle */
 .subtitle {{
     color: {SUBTITLE_COLOR}; 
     font-size: 1.3rem;
@@ -91,7 +92,7 @@ f"""/* General Layout & Background */
     margin-bottom: 30px;
 }}
 
-/* Section Header (Uppercase, small, clean) */
+/* Section Header */
 .section-header {{
     font-size: 1rem !important;
     font-weight: 600 !important;
@@ -101,7 +102,7 @@ f"""/* General Layout & Background */
     margin-bottom: 10px;
 }}
 
-/* KPI Metrics Styling (Clean, rounded, secondary background) */
+/* KPI Metrics Styling */
 [data-testid="stMetric"] {{
     background-color: {SECONDARY_BACKGROUND};
     border: 1px solid #E5E7EB; /* Very subtle light border */
@@ -145,6 +146,7 @@ def capitalize_first_letter(s) -> str:
 
 @st.cache_resource
 def update_predictions() -> Multiregressor:
+    """Returns model and updates predictions for following 7 days by calling fill_data"""
     #lazy imports to improve speed
     from data_filler import fill_data
     from meteo import ONE_WEEK
@@ -168,6 +170,7 @@ def load_df() -> pd.DataFrame:
 
 @st.cache_data  
 def load_event_df() -> pd.DataFrame:
+    """Loads and returns events DataFrame"""
     df = pd.read_csv('data/all_events.csv')
     df['day'] = pd.to_datetime(df['day'])
     df['barri'] = df['barri'].apply(capitalize_first_letter)
@@ -175,7 +178,7 @@ def load_event_df() -> pd.DataFrame:
 
 @st.cache_resource  
 def load_geodata() -> tuple[nx.Graph, gpd.GeoDataFrame]:
-    """Returns Graph and GeoDataFrame"""
+    """Returns Graph of barris and GeoDataFrame storing barris geodata"""
     #lazy imports to improve speed
     import barri_manager as bm
     
@@ -194,7 +197,7 @@ def load_geodata() -> tuple[nx.Graph, gpd.GeoDataFrame]:
 
 @st.cache_data
 def compute_zscore_stats(df: pd.DataFrame) -> pd.DataFrame:
-    """Returns dataframe with columns barri, mean and std of intensities"""
+    """Returns dataframe with columns: barri, mean and std of intensities"""
     stats = df.groupby("barri")["intensity"].agg(['mean','std'])
     return stats
 
@@ -232,10 +235,10 @@ def handle_map_selection() -> None:
                 barri_name = first_point['hovertext']
                 st.session_state.selected_barri_from_map = barri_name
 
-def plot_barri_heatmap(df_current_day: pd.DataFrame, stats: pd.DataFrame, gdf: gpd.GeoDataFrame):
+def barri_heatmap(df_current_day: pd.DataFrame, stats: pd.DataFrame, gdf: gpd.GeoDataFrame) -> plotly.graph_objects.Figure:
+    """Computes and returns heatmap as a plotly figure"""
     #lazy imports to improve speed
     import plotly.express as px 
-    
     
     df_day = df_current_day.merge(stats, on="barri", how="left")
     df_day['intensity'] = np.ceil(df_day['intensity']).astype(int)
@@ -282,12 +285,12 @@ def plot_barri_heatmap(df_current_day: pd.DataFrame, stats: pd.DataFrame, gdf: g
 
 
 def render_header() -> None:
-    """Renders the main title and subtitle using the defined CSS classes."""
+    """Renders main title and subtitle using the defined CSS classes"""
     st.image("media/GoMotionLogo.png", width=250)
     st.markdown(f'<p class="subtitle">Movilidad en Barcelona</p>', unsafe_allow_html=True)
 
-def render_kpis(df_filtered: pd.DataFrame, df_prev_month: pd.DataFrame, df_events: pd.DataFrame, max_date: date) -> None:
-    """Renders KPI cards with updated Daily Summary content in 5 columns"""
+def render_kpis(df_filtered: pd.DataFrame, df_prev_month: pd.DataFrame, df_events: pd.DataFrame) -> None:
+    """Computes and renders KPI cards with updated Daily Summary content in 5 columns"""
     
     target_date = st.session_state.selected_date
     target_date_pddatetime = pd.to_datetime(target_date)
@@ -376,9 +379,9 @@ def render_map_ranking_section(df_day: pd.DataFrame, stats: pd.DataFrame, gdf: g
     gdf_superf = gdf[['barri','superficie','codi_districte']]
     df_day = df_day.merge(gdf_superf, on='barri', how='left')
     
-    with c_map:
+    with c_map: #Heatmap 
         st.markdown('<div class="section-header">Mapa de calor</div>', unsafe_allow_html=True)
-        fig = plot_barri_heatmap(df_day, stats, gdf)
+        fig = barri_heatmap(df_day, stats, gdf)
         st.plotly_chart(
                     fig,
                     width="stretch",
@@ -386,9 +389,9 @@ def render_map_ranking_section(df_day: pd.DataFrame, stats: pd.DataFrame, gdf: g
                     selection_mode="points",       
                     key="barri_heatmap_chart"
                 )
-    with c_tab:
+    with c_tab: # Date selector and ranking
         
-        st.markdown('<div class="section-header">Seleccione fecha</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-header">Seleccione fecha</div>', unsafe_allow_html=True)   #Date selector
         st.date_input(
             "Fecha",
             min_value=min_date,
@@ -396,7 +399,7 @@ def render_map_ranking_section(df_day: pd.DataFrame, stats: pd.DataFrame, gdf: g
             label_visibility="collapsed",
             key="selected_date"  
         )
-        st.markdown('<div class="section-header">Ranking por barrio</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-header">Ranking por barrio</div>', unsafe_allow_html=True) #Ranking
         if not df_day.empty:
             df_view = df_day.merge(stats, on="barri", how="left")
             df_view['Actual'] = np.ceil(df_view['intensity']).astype(int)
@@ -433,8 +436,8 @@ def render_map_ranking_section(df_day: pd.DataFrame, stats: pd.DataFrame, gdf: g
 
 
 
-def wrap_chart_in_card(fig, title_text, height=300):
-    """Configures the figure with a background and title and renders it inside the Streamlit container."""
+def wrap_chart_in_card(fig: plotly.graph_objects.Figure, title_text: str, height: int = 300) -> None:
+    """Plots plotly figure in a container"""
     
     fig.update_layout(
         paper_bgcolor=SECONDARY_BACKGROUND, 
@@ -451,7 +454,7 @@ def wrap_chart_in_card(fig, title_text, height=300):
 
 
 def plot_barri_details(df_full: pd.DataFrame, df_events: pd.DataFrame, df_filtered: pd.DataFrame, gdf: gpd.GeoDataFrame) -> None:
-    """Plots details about a given barri"""
+    """Plots details about a given selected barri"""
     
     import plotly.express as px 
     import plotly.graph_objects as go
@@ -491,7 +494,6 @@ def plot_barri_details(df_full: pd.DataFrame, df_events: pd.DataFrame, df_filter
     
     fig_mon = go.Figure()
     fig_mon.add_trace(go.Scatter(x=mon_stats['month_name'], y=mon_stats['intensity'], mode='lines+markers',
-        # Usamos DELTA_NEGATIVE_COLOR (Rojo) y ajustamos la opacidad del relleno
         line=dict(color=DELTA_NEGATIVE_COLOR, width=3, shape='spline'), 
         marker=dict(size=8, color=DELTA_NEGATIVE_COLOR, line=dict(width=2, color=SECONDARY_BACKGROUND)), 
         fill='tozeroy',
@@ -552,12 +554,8 @@ def plot_barri_details(df_full: pd.DataFrame, df_events: pd.DataFrame, df_filter
         xaxis=dict(showgrid=True, gridcolor=GRID_COLOR, zeroline=False, tickfont=AXIS_FONT), 
         yaxis=dict(showgrid=True, gridcolor=GRID_COLOR, zeroline=False, tickfont=AXIS_FONT), showlegend=False)
     
-    # ----------------------------------------------------------------------
-    # Display Layout: FILA 1 (3 PLOTS) y FILA 2 (3 PLOTS)
-    # ----------------------------------------------------------------------
-    # FILA 1: 3 PLOTS (Ajustamos el tamaño de columna para 3 elementos)
     st.markdown(f'<div class="section-header">ANÁLISIS DETALLADO: <span style="color:{PRIMARY_TEXT_COLOR};">{barri_name.upper()}</span></div>', unsafe_allow_html=True)
-    c1, c2, c3 = st.columns(3, gap="small") # [1, 1, 1] asegura 3 columnas de igual ancho
+    c1, c2, c3 = st.columns(3, gap="small") 
 
     with c1: 
         wrap_chart_in_card(fig_week, "PERFIL SEMANAL DE TRÁFICO")
@@ -590,11 +588,9 @@ def plot_model_analysis(model: Multiregressor) -> None:
     event_importance = sum(importances[-5:])
     importances = importances[:-5] + [event_importance]
     
-    
     features = list(model.features)
     features = features[:-5]
     features.append("events")
-    
     
     # Feature importances
     fig_importances = go.Figure(go.Bar(
@@ -608,18 +604,16 @@ def plot_model_analysis(model: Multiregressor) -> None:
         ),
         opacity=0.9
     ))
-
-    model = MetadataManager()
-    accuracy = model.get("model_accuracy")
+ 
+    accuracy = model.get("model_accuracy")  # Get model details
     under_estimated = model.get("model_error_under")
     over_estimated = model.get("model_error_over")
     
-    with c1:
-        wrap_chart_in_card(fig_importances, "IMPORTANCIAS DE LAS CARACTERISTICAS SHAP", height=400)
-    with c2:
-        fig = px.pie(values = [float(accuracy), float(under_estimated), float(over_estimated)],
+    # Model precisions
+    fig_precision =  px.pie(values = [float(accuracy), float(under_estimated), float(over_estimated)],
             names = ['Pico Acertado', 'Subestimación', 'Sobrestimación' ], color = ['Pico Acertado', 'Subestimación', 'Sobrestimación' ] ,color_discrete_map= {"Pico Acertado" : "#ffd127", "Subestimación":"#69298f", "Sobrestimación":"#ffa900"})
-        fig.update_layout(
+    
+    fig_precision.update_layout(
         paper_bgcolor=SECONDARY_BACKGROUND, 
         plot_bgcolor=SECONDARY_BACKGROUND,
         title=dict(text='PRECISIÓN DEL MODELO', font=TITLE_FONT, x=0.01),
@@ -632,13 +626,17 @@ def plot_model_analysis(model: Multiregressor) -> None:
             xanchor='left',
             yanchor="top",
             font=dict(size=14) 
+            )
         )
-        )
-        st.plotly_chart(fig, width="stretch", config={'displayModeBar': False})
+    
+    with c1:    # Feature importances plot
+        wrap_chart_in_card(fig_importances, "IMPORTANCIAS DE LAS CARACTERISTICAS SHAP", height=400)
+    with c2:    # Model presicion plot
+        st.plotly_chart(fig_precision, width="stretch", config={'displayModeBar': False})
 
 @st.cache_data
 def plot_stats(df: pd.DataFrame) -> None:
-    """Plots general stats"""
+    """Plots general stats for all barris"""
     from stats import correlations, statistics_day_of_the_week, statistics_month
     import plotly.tools as tls
     
@@ -699,7 +697,7 @@ def main() -> None:
     
     df_filtered = df[df['day'].dt.date == selected_date].copy()
     df_prev_month = df[(df['day'].dt.date >= (selected_date - datetime.timedelta(days=30))) & (df['day'].dt.date < selected_date)].copy()
-    render_kpis(df_filtered, df_prev_month, df_events, max_date)
+    render_kpis(df_filtered, df_prev_month, df_events)
     render_map_ranking_section(df_filtered, stats, gdf, min_date, max_date)
     plot_barri_details(df, df_events, df_filtered, gdf)
     plot_model_analysis(model)

@@ -134,7 +134,8 @@ def generate_data(start: str, end: str) -> pd.DataFrame:
         
 
 
-def main():
+def main() -> None:
+    """Generate simulated data"""
     df = generate_data(start="2023-01-01", end="2025-08-01")
     df.to_csv("data/intensities.csv", index=None)
 

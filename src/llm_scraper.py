@@ -149,7 +149,7 @@ async def scrape_web_with_context(context: BrowserContext, url: str) -> str:
     try:
         await page.goto(url, wait_until="domcontentloaded", timeout=30000) # Aumentar a 60s
 
-        if "primaverasound.com" in url:
+        if "primaverasound.com" in url:     # This url gave anti-bot problems so perform human like behaviour
             content_selector = "body" 
             print(f"Aplicando espera Cloudflare/SPA para {url}...")
             await asyncio.sleep(5) 
@@ -161,7 +161,7 @@ async def scrape_web_with_context(context: BrowserContext, url: str) -> str:
         else:
             await asyncio.sleep(2) 
 
-        raw_html = await page.content()
+        raw_html = await page.content() # Scrape content
         
     except PlaywrightError as e:
         print(f"Playwright error on {url}: {e}")
@@ -178,7 +178,7 @@ async def scrape_web_with_context(context: BrowserContext, url: str) -> str:
     if not body_tag:
         return soup.get_text(separator=' ', strip=True) 
 
-    unwanted_tags = [
+    unwanted_tags = [   # Remove everything with these tags for more efficient extraction
         "script", 
         "style", 
         "noscript", 
@@ -204,7 +204,7 @@ async def scrape_and_extract_all(event_webs: List[str], festius_webs: List[str],
         browser = await p.chromium.launch(headless=True)
         print("Browser launched successfully.")
         
-        context = await browser.new_context(
+        context = await browser.new_context(    # Create context
             user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
             extra_http_headers={"Accept-Language": "en-US,en;q=0.9"},
             viewport={'width': 1280, 'height': 800}
@@ -216,7 +216,7 @@ async def scrape_and_extract_all(event_webs: List[str], festius_webs: List[str],
                 scrape_web_with_context(context, url)
             )
 
-        scraped_texts = await asyncio.gather(*all_scrape_tasks)
+        scraped_texts = await asyncio.gather(*all_scrape_tasks) # Runs all tasks in list concurrently
 
         await browser.close()
         print("Scraping complete.")
@@ -226,7 +226,7 @@ async def scrape_and_extract_all(event_webs: List[str], festius_webs: List[str],
         
         for i, text in enumerate(scraped_texts):
             url = all_urls[i]
-            url_specific_info = more_info.get(url, "No additional information")
+            url_specific_info = more_info.get(url, "No additional information") # Get added personalized info for url
 
             if text and text.strip():
                 if url in event_webs:

@@ -114,7 +114,9 @@ def predict(
     return pd.DataFrame(data_dict)
 
 
-def main(manager: metadata_manager.MetadataManager):
+def main(manager: metadata_manager.MetadataManager) -> None:
+    """Trains model to create a 5-dimensional numerical embedding of event groups aggregated by time and location,
+    then saves the model and the encoded data."""
     try:
         event_data = pd.read_csv("data/all_events.csv")
     except:

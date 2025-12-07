@@ -6,11 +6,11 @@ from datetime import datetime, timedelta
 TODAY = datetime.today()
 ONE_WEEK = TODAY+ timedelta(weeks=1)
 
-# Coordenadas de Barcelona
+# Bcn coordinates
 LATITUDE = 41.38
 LONGITUDE = 2.17
 
-# Rango de fechas
+# date range
 START_DATE = "2023-01-01"
 END_DATE = "2025-08-31"
 

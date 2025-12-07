@@ -4,7 +4,7 @@ import plotly.graph_objects as go
 
 ACCENT_COLOR = '#577399'
 
-def to_dict(df):
+def to_dict(df: pd.DataFrame) -> dict:
     '''It returns a dicitionary created from df['intensity'].'''
     df2 = df.copy()
     dictio: dict = {}
@@ -13,7 +13,7 @@ def to_dict(df):
         dictio[row['barri']] = y[index]
     return dictio
 
-def by_month(df):
+def by_month(df: pd.DataFrame) -> pd.DataFrame:
     '''It returns a dataframe with average intensities by barri and month.'''
     df2 = pd.DataFrame()
     df2['barri'] = np.concatenate([df['barri'].unique() for i in range(1, 13)])
@@ -23,7 +23,7 @@ def by_month(df):
         for barri in df['barri'].unique()]) for i in range(1, 13)])
     return df2
 
-def by_barri(df):
+def by_barri(df: pd.DataFrame) -> pd.DataFrame:
     '''It returns a dataframe with average intensities by barri.'''
     df2 = pd.DataFrame()
     df2['barri'] = df['barri'].unique()
@@ -31,7 +31,7 @@ def by_barri(df):
     return df2
 
 
-def by_month_analysis(df: pd.DataFrame):
+def by_month_analysis(df: pd.DataFrame) -> go.Figure:
     '''It represents average excess of intensity by month as percentage. It returns variances of these averages.'''
     df["month"] = [int(x) for x in df["month_cat"]]
     df2 = df.copy()
@@ -52,7 +52,7 @@ def by_month_analysis(df: pd.DataFrame):
     trace = go.Scatter(
         x=months,
         y=averages,
-        mode='markers', # Equivalent to Matplotlib's fmt="o"
+        mode='markers',
         marker=dict(size=10, color=ACCENT_COLOR),
         error_y=dict(
             type='data',

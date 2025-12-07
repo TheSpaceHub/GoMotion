@@ -4,7 +4,7 @@ import plotly.graph_objects as go
 
 ACCENT_COLOR = '#577399'
 
-def to_dict(df):
+def to_dict(df: pd.DataFrame) -> dict:
     '''It returns a dicitionary created from df['intensity'].'''
     df2 = df.copy()
     dictio: dict = {}
@@ -13,7 +13,7 @@ def to_dict(df):
         dictio[row['barri']] = y[index]
     return dictio
 
-def by_day_cat(df):
+def by_day_cat(df: pd.DataFrame) -> pd.DataFrame:
     '''It returns a dataframe with average intensities by barri and day of the week.'''
     df2 = pd.DataFrame()
     df2['barri'] = np.concatenate([df['barri'].unique() for i in range(7)])
@@ -23,7 +23,7 @@ def by_day_cat(df):
         for barri in df['barri'].unique()]) for i in range(7)])
     return df2
 
-def by_barri(df):
+def by_barri(df: pd.DataFrame) -> pd.DataFrame:
     '''It returns a dataframe with average intensities by barri.'''
     df2 = pd.DataFrame()
     df2['barri'] = df['barri'].unique()
@@ -31,7 +31,7 @@ def by_barri(df):
     return df2
 
 
-def by_day_cat_analysis(df: pd.DataFrame):
+def by_day_cat_analysis(df: pd.DataFrame) -> go.Figure:
     '''It represents average excess of intensity by day of the week as percentage. It returns variances of these averages.'''
     df2 = df.copy()
     weekdays = {'Lunes': 0, 'Martes': 1, 'Miércoles': 2, 'Jueves': 3, 'Viernes': 4, 'Sábado': 5, 'Domingo': 6}
@@ -57,7 +57,7 @@ def by_day_cat_analysis(df: pd.DataFrame):
             array=np.sqrt(variances), # The values for the error bars
             visible=True,
             thickness=1.5,
-            width=5 # Equivalent to Matplotlib's capsize
+            width=5 
         ),
         name='Average Intensity'
     )

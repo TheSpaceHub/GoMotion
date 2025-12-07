@@ -34,7 +34,7 @@ class MetadataManager:
 
         self.save()
 
-    def save(self):
+    def save(self) -> None:
         """Saves metadata file"""
         try:
             self.df.to_csv("data/metadata.csv", index=None)

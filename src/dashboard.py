@@ -600,14 +600,16 @@ def plot_barri_details(df_full: pd.DataFrame, df_events: pd.DataFrame, df_filter
             wrap_chart_in_card(fig_superf, "INTENSIDAD / SUPERFICIE (TODOS LOS BARRIOS)")
         st.markdown('</div>', unsafe_allow_html=True)
         
-def plot_feature_importances(model: Multiregressor) -> None:
+def plot_model_analysis(model: Multiregressor) -> None:
     """Plots feature importances"""
     import plotly.graph_objects as go
+    import plotly.express as px
 
+    c1, c2 = st.columns([3, 1], gap="small")
     importances = list(model.get_feature_importances())
     event_importance = sum(importances[-5:])
     importances = importances[:-5] + [event_importance]
-        
+    
     
     features = list(model.features)
     features = features[:-5]
@@ -627,7 +629,18 @@ def plot_feature_importances(model: Multiregressor) -> None:
         opacity=0.9
     ))
 
-    wrap_chart_in_card(fig_importances, "SHAP FEATURE IMPORTANCES", height=400)
+    model = MetadataManager()
+    accuracy = model.get("model_accuracy")
+    under_estimated = model.get("model_error_under")
+    over_estimated = model.get("model_error_over")
+    with c1:
+        wrap_chart_in_card(fig_importances, "SHAP FEATURE IMPORTANCES", height=400)
+    with c2:
+        fig = px.pie(values = [float(accuracy), float(under_estimated), float(over_estimated)],
+            names = ['Pico Acertado', 'Pico Subestimado', 'Pico Sobreestimado' ], color = ['Pico Acertado', 'Pico Subestimado', 'Pico Sobreestimado' ] ,color_discrete_map= {"Pico Acertado" : "#ffd127", "Pico Subestimado":"#69298f", "Pico Sobreestimado":"#ffa900"})
+        wrap_chart_in_card(fig, "MODEL ACCURACY", height=400)
+
+
     
 @st.cache_data
 def plot_stats(df: pd.DataFrame) -> None:
@@ -703,7 +716,7 @@ def main() -> None:
     render_kpis(df_filtered, df_prev_month, df_events, max_date)
     render_map_ranking_section(df_filtered, stats, gdf, min_date, max_date)
     plot_barri_details(df, df_events, df_filtered, gdf)
-    plot_feature_importances(model)
+    plot_model_analysis(model)
     plot_stats(df)
     
 if __name__ == "__main__":

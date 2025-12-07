@@ -31,6 +31,8 @@ Para poder utilizar GoMotion, es necesario crear un entorno virtual y descargar 
 - Windows PowerShell / Windows Cmd: `.venv\Scripts\Activate.ps1` / `.venv\Scripts\activate`
 3) Descargar librerías
 `pip install -r requirements.txt`
+4) Añadir API key en `.env`:
+`GEMINI_API_KEY="key"`
 
 ## Estructura del Proyecto
 

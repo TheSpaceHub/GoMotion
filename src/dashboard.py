@@ -604,7 +604,7 @@ def plot_model_analysis(model: Multiregressor) -> None:
     """Plots feature importances"""
     import plotly.graph_objects as go
     import plotly.express as px
-
+    st.markdown(f'<div class="section-header">ANÁLISIS DEL MODELO<span style="color:{PRIMARY_TEXT_COLOR};"></span></div>', unsafe_allow_html=True)
     c1, c2 = st.columns([3, 1], gap="small")
     importances = list(model.get_feature_importances())
     event_importance = sum(importances[-5:])
@@ -614,7 +614,7 @@ def plot_model_analysis(model: Multiregressor) -> None:
     features = list(model.features)
     features = features[:-5]
     features.append("events")
-    st.markdown(f'<div class="section-header">ANÁLISIS DEL MODELO<span style="color:{PRIMARY_TEXT_COLOR};"></span></div>', unsafe_allow_html=True)
+    
     
     # Feature importances
     fig_importances = go.Figure(go.Bar(
@@ -634,11 +634,11 @@ def plot_model_analysis(model: Multiregressor) -> None:
     under_estimated = model.get("model_error_under")
     over_estimated = model.get("model_error_over")
     with c1:
-        wrap_chart_in_card(fig_importances, "SHAP FEATURE IMPORTANCES", height=400)
+        wrap_chart_in_card(fig_importances, "IMPORTANCIAS DE LAS CARACTERISTICAS SHAP", height=400)
     with c2:
         fig = px.pie(values = [float(accuracy), float(under_estimated), float(over_estimated)],
             names = ['Pico Acertado', 'Pico Subestimado', 'Pico Sobreestimado' ], color = ['Pico Acertado', 'Pico Subestimado', 'Pico Sobreestimado' ] ,color_discrete_map= {"Pico Acertado" : "#ffd127", "Pico Subestimado":"#69298f", "Pico Sobreestimado":"#ffa900"})
-        wrap_chart_in_card(fig, "MODEL ACCURACY", height=400)
+        wrap_chart_in_card(fig, "PRECISION DEL MODELO", height=400)
 
 
     

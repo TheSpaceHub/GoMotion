@@ -201,7 +201,7 @@ Una vez seleccionado un barrio en el mapa, obtendremos una serie de gráficas qu
 ![plot](./media/analysis.png)
 
 ### 3.6. Análisis del Modelo
-Encontraremos un análisis detallado del modelo, para tener una visión más general de cuáles son los parámetros que afectan en mayor medida a la intensidad de la movilidad en Barcelona. Además, podremos ver el porcentaje de precisión de picos acertados del modelo, el porcentaje de picos subestimados y el porcentaje de picos sobrestimado.
+Encontraremos un análisis detallado del modelo, para tener una visión más general de cuáles son los parámetros que afectan en mayor medida a la intensidad de la movilidad en Barcelona. Además, podremos ver el porcentaje de precisión de picos acertados del modelo, el porcentaje de picos subestimados y el porcentaje de picos sobrestimado. 
   
 ![plot](./media/model_analysis.png)
 

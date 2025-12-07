@@ -565,7 +565,6 @@ def plot_barri_details(df_full: pd.DataFrame, df_events: pd.DataFrame, df_filter
     with c2: 
         wrap_chart_in_card(fig_mon, "EVOLUCIÓN MENSUAL DE TRÁFICO") 
     
-    
     with c3: 
         wrap_chart_in_card(fig_cat, "IMPACTO MEDIO DE EVENTOS")
 
@@ -581,7 +580,7 @@ def plot_barri_details(df_full: pd.DataFrame, df_events: pd.DataFrame, df_filter
         wrap_chart_in_card(fig_superf, "INTENSIDAD / SUPERFICIE (TODOS LOS BARRIOS)")
         
 def plot_model_analysis(model: Multiregressor) -> None:
-    """Plots feature importances"""
+    """Plots feature importances and model details"""
     import plotly.graph_objects as go
     import plotly.express as px
     
@@ -619,25 +618,8 @@ def plot_model_analysis(model: Multiregressor) -> None:
         wrap_chart_in_card(fig_importances, "IMPORTANCIAS DE LAS CARACTERISTICAS SHAP", height=400)
     with c2:
         fig = px.pie(values = [float(accuracy), float(under_estimated), float(over_estimated)],
-            names = ['Pico Acertado', 'Subestimación', 'Sobrestimación' ], color = ['Pico Acertado', 'Subestimación', 'Sobrestimación' ] ,color_discrete_map= {"Pico Acertado" : "#ffd127", "Subestimación":"#69298f", "Sobrestimación":"#ffa900"})
-        fig.update_layout(
-        paper_bgcolor=SECONDARY_BACKGROUND, 
-        plot_bgcolor=SECONDARY_BACKGROUND,
-        title=dict(text='PRECISIÓN DEL MODELO', font=TITLE_FONT, x=0.01),
-        height=400,
-        autosize=True,
-        template='plotly_white', 
-        font=dict(family='Segoe UI, sans-serif'),
-        margin=dict(t=50, b=20, l=20, r=200), 
-        legend=dict(
-            x=1.75, 
-            y=0.5,
-            xanchor='right',
-            yanchor='middle',
-            font=dict(size=14) 
-        )
-        )
-        st.plotly_chart(fig, width="stretch", config={'displayModeBar': False})
+            names = ['Correct', 'Under', 'Over'], color = ['Correct', 'Under','Over' ] ,color_discrete_map= {"Correct" : "#ffd127", "Under":"#69298f", "Over":"#ffa900"})
+        wrap_chart_in_card(fig, title_text='PRECISIÓN DEL MODELO' ,height=400)
 
 @st.cache_data
 def plot_stats(df: pd.DataFrame) -> None:

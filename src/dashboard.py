@@ -666,7 +666,6 @@ def plot_stats(df: pd.DataFrame) -> None:
     
     fig_week = statistics_day_of_the_week.by_day_cat_analysis(df)
     fig_month, _ = statistics_month.by_month_analysis(df)
-    st.markdown(f'<div class="section-header">ESTADÍSTICAS DE TODOS LOS BARRIOS<span style="color:{PRIMARY_TEXT_COLOR};"></span></div>', unsafe_allow_html=True)
     
     c1, c2 = st.columns([1, 1], gap="small") 
     
@@ -735,6 +734,7 @@ def main() -> None:
     plot_model_analysis(model)
     
     with st.spinner("Cargando..."):
+        st.markdown(f'<div class="section-header">ESTADÍSTICAS DE TODOS LOS BARRIOS<span style="color:{PRIMARY_TEXT_COLOR};"></span></div>', unsafe_allow_html=True)
         plot_stats(df)
     
 if __name__ == "__main__":

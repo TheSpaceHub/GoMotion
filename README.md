@@ -23,11 +23,11 @@ El proyecto de GoMotion consiste en la creación de un sistema de predicción de
 
 Para poder utilizar GoMotion, es necesario crear un entorno virtual y descargar las librerías necesarias.
 
-1) Crear el entorno virtual:
+1) Crear el entorno virtual desde **la raíz**:
 `python -m venv .venv`
 2) Activar el entorno virtual:
 - MacOS / Linux: `source .venv/bin/activate`
-- Windows PowerShell / Windows Cmd: `.venv\Scripts\Activate.ps1` / `.venv\Scripts\activate.bat`
+- Windows PowerShell / Windows Cmd: `.venv\Scripts\Activate.ps1` / `.venv/bin/activate`
 3) Descargar librerías
 `pip install -r requirements.txt`
 
@@ -72,7 +72,7 @@ GoMotion/
 
 ## Ejecución
 Para acceder a todas las funciones del proyecto es suficiente con ejecutar el pipeline.  
-Desde **la raiz** del proyecto: `python3 src/pipeline.py`  
+Desde **la raíz** del proyecto MacOS / Linux: `python3 src/pipeline.py`, Windows Cmd: `python src/pipeline.py`.
 - Nota: Es normal que la primera vez que se ejecute `pipeline.py` tarde un buen rato. El programa tiene que hacer una serie de procesos con costes computacionales relativamente alto. Sin embargo, una vez ejecutado, los archivos se guardan y sólo necesitan actualizarse poco a poco, lo que reduce drásticamente el tiempo de espera.
 
 ## 1. Preparación de los datos

@@ -565,7 +565,6 @@ def plot_barri_details(df_full: pd.DataFrame, df_events: pd.DataFrame, df_filter
     with c2: 
         wrap_chart_in_card(fig_mon, "EVOLUCIÓN MENSUAL DE TRÁFICO") 
     
-    
     with c3: 
         wrap_chart_in_card(fig_cat, "IMPACTO MEDIO DE EVENTOS")
 
@@ -581,7 +580,7 @@ def plot_barri_details(df_full: pd.DataFrame, df_events: pd.DataFrame, df_filter
         wrap_chart_in_card(fig_superf, "INTENSIDAD / SUPERFICIE (TODOS LOS BARRIOS)")
         
 def plot_model_analysis(model: Multiregressor) -> None:
-    """Plots feature importances"""
+    """Plots feature importances and model details"""
     import plotly.graph_objects as go
     import plotly.express as px
     

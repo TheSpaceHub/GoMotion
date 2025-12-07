@@ -35,6 +35,13 @@ def peak_loss(data: pd.DataFrame, day=None) -> int:
 
     if day is not None:
         df = df[df["day"] == day]
-        
     
-    return (classify_peaks(df["pred_z"]) != classify_peaks(df["true_z"])).sum() / len(df)
+    pred_peaks = classify_peaks(df["pred_z"])
+    true_peaks = classify_peaks(df["true_z"])
+    
+    count = 0
+    
+    for i in range(len(df)):
+        if pred_peaks[i] != true_peaks[i]:
+            count += 1
+    return count / len(df)

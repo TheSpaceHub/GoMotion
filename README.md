@@ -8,7 +8,9 @@ El proyecto de GoMotion consiste en la creación de un sistema de predicción de
 
 ## Importante
 
-GoMotion ha sido creado con la única intención de hacer una precisa predicción de la movilidad en Barcelona para poder detectar fuertes picos y comprender de dónde vienen. La falta de datos precisos e útiles sobre el transporte público en Barcelona hace que de momento no tenga sentido intentar proponer cambios en el transporte para lidiar con éstos. Sin embargo, hemos creado un modelo capaz de predecir picos de movilidad con gran precisión que hace que sea fácil, teniendo datos de calidad sobre el transporte público de Barcelona (como proporciones de trayectos en transporte privado / público, capacidades exactas de autobuses y metro, número diario de buses/metro de cada línea, etc...), proponer cambios en éste para hacer frente a dichos picos.
+- GoMotion ha sido creado con la única intención de hacer una precisa predicción de la movilidad en Barcelona para poder detectar fuertes picos y comprender de dónde vienen. La falta de datos precisos e útiles sobre el transporte público en Barcelona hace que de momento no tenga sentido intentar proponer cambios en el transporte para lidiar con éstos. Sin embargo, hemos creado un modelo capaz de predecir picos de movilidad con gran precisión que hace que sea fácil, teniendo datos de calidad sobre el transporte público de Barcelona (como proporciones de trayectos en transporte privado / público, capacidades exactas de autobuses y metro, número diario de buses/metro de cada línea, etc...), proponer cambios en éste para hacer frente a dichos picos.
+- Para realizar un proyecto realmente útil es importante construir una buena base, por ello hemos creado un documento `mathematical_model.pdf` cuyo objetivo es crear una abstracción matemática de la ciudad que permita modelar las propiedades reales a partir de un conjunto de datos proporcionados.
+
 
 ## Requisitos
 - Python 3.12+
@@ -35,15 +37,21 @@ Para poder utilizar GoMotion, es necesario crear un entorno virtual y descargar 
 GoMotion/
 ├── data/                   
 │   ├── output_limite_legal # Datos proporcionados por Telefónica
-│   └── events.csv          # Registro de eventos brutos
-|   └── holidays.csv          # Registro de festivos brutos
+|   └── barris.csv          # Datos públicos de OpenData BCN
+│   └── events.csv          # Registro de eventos
+|   └── holidays.csv          # Registro de festivos sacados del ajuntament de Barcelona 
 │
 ├── media/                  
 │    └── GoMotionLogo.png    
 |    └── GoMotionShortLogo.png  
 |    └── GoMotionShortLogo.ico 
 │
-├── src/                    
+├── stats/   
+|   ├── stats/                  
+│   |     └── correlations.py               # Correlaciones entre clima e intensidad
+|   |     └── statistics_day_of_the_week.py # Exceso de intensidad promedia por día de la semana
+|   |     └── statistics_month.py           # Exceso de intensidad promedia por mes del año
+|   |                
 │   ├── llm_scraper.py      # Extracción de eventos y festivos con web scrapping
 │   └── barri_manager.py    # Creación del "mapa/grafo" con los barrios de Barcelona
 |   └── metadata_manager.py # Metadatos 
@@ -151,7 +159,7 @@ El archivo permite entrenar el modelo en una variedad de hiperparámetros. Para 
 | :--- | :--- |
 | 0 | 0.1 |
 | 100 | 0.001 |
-| 200 | 0.0001 |
+| 150 | 0.0001 |
 
 - Tree depth: también se permite modificar el número máximo de árboles que puede usar el modelo (más información en https://xgboosting.com/configure-xgboost-max_depth-parameter/)
 
@@ -193,9 +201,14 @@ Una vez seleccionado un barrio en el mapa, obtendremos una serie de gráficas qu
 ![plot](./media/analysis.png)
 
 ### 3.6. Análisis del Modelo
-Finalmente, encontraremos un análisis detallado del modelo, para tener una visión más general de cuáles son los parámetros que afectan en mayor medida a la intensidad de la movilidad en Barcelona.  
+Encontraremos un análisis detallado del modelo, para tener una visión más general de cuáles son los parámetros que afectan en mayor medida a la intensidad de la movilidad en Barcelona. Además, podremos ver el porcentaje de precisión de picos acertados del modelo, el porcentaje de picos subestimados y el porcentaje de picos sobrestimado.
   
 ![plot](./media/model_analysis.png)
+
+### 3.7. Estadísticas de todos los barrios
+Finalmente, se podrá visualizar las siguientes estadísticas de todos los barrios: exceso de intensidad promedio como porcentaje según el día de la semana y exceso de intensidad promedio como porcentaje según el mes del año.
+  
+![plot](./media/general_stats.png)
 
 ## Autores
 - Javier Badesa

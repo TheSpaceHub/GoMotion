@@ -145,7 +145,14 @@ A continuación están las características utilizadas y su descripción:
 El archivo permite entrenar el modelo en una variedad de hiperparámetros. Para ello implementa un *grid search* personalizado: dada una colección de rangos de hiperparámetros, se entrenan modelos para todos los elementos de su producto cartesiano y se guarda aquel con mayor precisión (evaluada según los aciertos en la predicción). Los hiperparámetros que se pueden ajustar son:
 
 - Base de los pesos: el modelo XGBoost asigna unos pesos a los errores de cada muestra según su *z-score* con la siguiente formula: $weight = max(1, base ^{\text{z-score}})$. Aumentar el hiperparámetro *base* pondera más fuertemente los errores en días con movilidad excesiva.
-- Learning rate: se permite modificar el *learning rate* para variar el ritmo de convergencia y explorar nuevos mínimos
+- Learning rate: se permite modificar el *learning rate* para variar el ritmo de convergencia y explorar nuevos mínimos. El valor especial `None` implementa el siguiente schedule:
+
+| Ronda de corte | Learning rate |
+| :--- | :--- |
+| 0 | 0.1 |
+| 100 | 0.001 |
+| 200 | 0.0001 |
+
 - Tree depth: también se permite modificar el número máximo de árboles que puede usar el modelo (más información en https://xgboosting.com/configure-xgboost-max_depth-parameter/)
 
 Cuando se escoge el mejor modelo, se guarda en `models/regressor.joblib`.

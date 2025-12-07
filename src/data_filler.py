@@ -89,11 +89,7 @@ def add_event_encodings(df: pd.DataFrame) -> pd.DataFrame:
     # load existing events
     encoded_events = pd.read_csv("data/encoded_events.csv")
     encoded_events["day"] = pd.to_datetime(encoded_events["day"])
-    print("df before")
-    print(df.head())
     df = df.merge(encoded_events, on=["day", "barri"], how="left")
-    print("df after")
-    print(df.head())
 
     # read holidays and assign
     holiday_df = pd.read_csv("data/all_holidays.csv")
@@ -181,8 +177,6 @@ def fill_data(
         last_date = next_date
 
     # since original data does not have the event encodings added, we drop the columns
-    print(df.head())
-    print(df.columns)
     df.drop(inplace=True, columns=["enc1", "enc2", "enc3", "enc4", "enc5"])
 
     if export_to_csv:

@@ -8,6 +8,18 @@ class Multiregressor:
         self.regressors = []
         self.prediction_length = 0
         self.features = []
+        
+    def lr_schedule(round_index) -> float :
+        '''Defines the following schedule:
+        0 - 0.1
+        100 - 0.001
+        200 - 0.0001'''
+        if round_index < 100:
+            return 0.1
+        elif round_index < 200:
+            return 0.001
+        else:
+            return 0.0001
 
     def fit_multiregressor(
         self,
@@ -19,6 +31,7 @@ class Multiregressor:
         train_weights,
         learning_rate: float,
         depth: int,
+        callbacks = None
     ) -> None:
         """Creates n XGB regressors with the hyperparameters provided and fits them with the data provided"""
         self.features = X_train.columns
@@ -58,25 +71,45 @@ def create_and_fit_regressor(
     X_test: pd.DataFrame,
     y_test: pd.Series,
     train_weights,
-    learning_rate: float,
+    learning_rate: float | None,
     depth: int,
 ) -> xgb.XGBRegressor:
-    """Creates an XGB regressor with the hyperparameters provided and fits it with the data provided. Returns the trained model"""
-    model = xgb.XGBRegressor(
-        tree_method="hist",
-        n_estimators=20000,
-        learning_rate=learning_rate,
-        early_stopping_rounds=150,
-        max_depth=depth,
-        enable_categorical=True,
-    )
+    """Creates an XGB regressor with the hyperparameters provided and fits it with the data provided. If learning_rate is None, it uses the predefined schedule. Returns the trained model"""
+    if learning_rate is None:
+        model = xgb.XGBRegressor(
+            tree_method="hist",
+            n_estimators=20000,
+            learning_rate=0.1,
+            early_stopping_rounds=150,
+            max_depth=depth,
+            enable_categorical=True,
+            callbacks=[xgb.callback.LearningRateScheduler(Multiregressor.lr_schedule)]
+        )
+    else:
+            model = xgb.XGBRegressor(
+            tree_method="hist",
+            n_estimators=20000,
+            learning_rate=learning_rate,
+            early_stopping_rounds=150,
+            max_depth=depth,
+            enable_categorical=True,
+        )
 
-    model.fit(
-        X_train,
-        y_train,
-        eval_set=[(X_train, y_train), (X_test, y_test)],
-        verbose=1,
-        sample_weight=train_weights,
-    )
+    if learning_rate is None:
+        model.fit(
+            X_train,
+            y_train,
+            eval_set=[(X_train, y_train), (X_test, y_test)],
+            verbose=1,
+            sample_weight=train_weights,
+        )
+    else:
+        model.fit(
+            X_train,
+            y_train,
+            eval_set=[(X_train, y_train), (X_test, y_test)],
+            verbose=1,
+            sample_weight=train_weights,
+        )
 
     return model

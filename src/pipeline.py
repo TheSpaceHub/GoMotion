@@ -96,7 +96,7 @@ def process_scraped_events(
 
 def main():
     # run the whole pipeline
-    # metadata manager
+    # metadata manager (do not create multiple at the same time, concurrency problems are a thing)
     manager = MetadataManager()
 
     # useful vars
@@ -224,7 +224,7 @@ def main():
 
         hyperspace.append([10])
         # learning rate
-        hyperspace.append([0.0005])
+        hyperspace.append([None])
         # tree depth
         hyperspace.append([9])
         hyperparameter_optimizer.grid_search(

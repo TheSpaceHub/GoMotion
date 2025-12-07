@@ -1,6 +1,7 @@
 import os
-#shut tensorflow up if it doesn't need to say anything
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+
+# shut tensorflow up if it doesn't need to say anything
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 import pandas as pd
 import intensities
 import event_encoder
@@ -101,7 +102,6 @@ def main():
 
     # useful vars
     TODAY = datetime.datetime.today()
-    
 
     # ----------------------------------------------
     # MATHEMATICAL FRAMEWROK
@@ -204,9 +204,7 @@ def main():
         # store features for all
         df_to_save = hyperparameter_optimizer.create_features(data, False)
         df_to_save.drop(inplace=True, columns=["enc1", "enc2", "enc3", "enc4", "enc5"])
-        df_to_save.to_csv(
-            "data/data_processed.csv", index=None
-        )
+        df_to_save.to_csv("data/data_processed.csv", index=None)
 
         # training portion
         # choose where to split the dataset
@@ -222,6 +220,7 @@ def main():
         # define empty hyperspace; adding values next
         hyperspace = []
 
+        # base
         hyperspace.append([10])
         # learning rate
         hyperspace.append([None])
@@ -230,7 +229,7 @@ def main():
         hyperparameter_optimizer.grid_search(
             manager, hyperspace, 0, [], hyperparameter_optimizer.features, train, test
         )
-        
+
     os.system("streamlit run src/dashboard.py")
 
 

@@ -13,10 +13,10 @@ class Multiregressor:
         '''Defines the following schedule:
         0 - 0.1
         100 - 0.001
-        200 - 0.0001'''
+        150 - 0.0001'''
         if round_index < 100:
             return 0.1
-        elif round_index < 200:
+        elif round_index < 150:
             return 0.001
         else:
             return 0.0001

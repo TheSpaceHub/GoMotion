@@ -228,7 +228,7 @@ def main():
         # tree depth
         hyperspace.append([9])
         hyperparameter_optimizer.grid_search(
-            hyperspace, 0, [], hyperparameter_optimizer.features, train, test
+            manager, hyperspace, 0, [], hyperparameter_optimizer.features, train, test
         )
         
     os.system("streamlit run src/dashboard.py")

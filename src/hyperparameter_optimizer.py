@@ -14,6 +14,7 @@ min_loss = 1e9
 
 
 def grid_search(
+    manager: metadata_manager.MetadataManager, 
     hyperspace: list[
         list[any]
     ],  # hyperspace is a list which contains the values to test for each hyperparameter
@@ -28,6 +29,7 @@ def grid_search(
         # we need to select more hyperparams
         for param in hyperspace[index]:
             grid_search(
+                manager, 
                 hyperspace,
                 index + 1,
                 hyperparameters + [param],
@@ -78,6 +80,7 @@ def grid_search(
         if loss < min_loss:
             min_loss = loss
             print("New minimum loss achieved:", min_loss)
+            manager.set("model_accuracy", 1 - loss)
             joblib.dump(model, "models/regressor.joblib")
 
             for i, x in enumerate(model.get_feature_importances()):

@@ -630,10 +630,8 @@ def plot_model_analysis(model: Multiregressor) -> None:
         font=dict(family='Segoe UI, sans-serif'),
         margin=dict(t=50, b=20, l=20, r=200), 
         legend=dict(
-            x=1.75, 
-            y=0.5,
-            xanchor='right',
-            yanchor='middle',
+            xanchor='left',
+            yanchor="top",
             font=dict(size=14) 
         )
         )

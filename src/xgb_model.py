@@ -83,7 +83,8 @@ def create_and_fit_regressor(
             early_stopping_rounds=150,
             max_depth=depth,
             enable_categorical=True,
-            callbacks=[xgb.callback.LearningRateScheduler(Multiregressor.lr_schedule)]
+            callbacks=[xgb.callback.LearningRateScheduler(Multiregressor.lr_schedule)],
+            random_state=np.random.randint(0, 100000)
         )
     else:
             model = xgb.XGBRegressor(

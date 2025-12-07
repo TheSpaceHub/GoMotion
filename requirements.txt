@@ -7,17 +7,13 @@ geopy
 streamlit
 numpy
 plotly
-locale
 keras
 tensorflow
-xgb_model
 joblib
 datetime
-sklearn
-collections
+scikit-learn
 asyncio
-json
-pdantic
+pydantic
 google-genai
 dotenv
 bs4
@@ -26,4 +22,6 @@ xgboost
 requests
 streamlit
 plotly
-pydantic
+dill
+statsmodels
+tabulate

@@ -11,8 +11,8 @@ class MetadataManager:
             self.df = pd.DataFrame(
                 {
                     # default values
-                    "key": ["encoder_max_len", "last_day_event_checked", "model_accuracy", "last_predicted_day"],
-                    "value": [0, "2022-12-31", 0, None],
+                    "key": ["encoder_max_len", "last_day_event_checked", "model_accuracy", "model_error_over", "model_error_under", "last_predicted_day"],
+                    "value": [0, "2022-12-31", 0, 0, 0, None],
                 }
             )
             self.save()

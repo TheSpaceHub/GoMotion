@@ -45,3 +45,28 @@ def peak_loss(data: pd.DataFrame, day=None) -> int:
         if pred_peaks[i] != true_peaks[i]:
             count += 1
     return count / len(df)
+
+def peak_loss_over_under(data: pd.DataFrame, day=None) -> int:
+    """Returns over-predicted peaks and under-predicted peaks"""
+    df = data.copy()
+    
+    df["pred_z"] = df.groupby("barri")["prediction"].transform(lambda x: (x - x.mean()) / x.std())
+    df["true_z"] = df.groupby("barri")["true"].transform(lambda x: (x - x.mean()) / x.std())
+    
+
+    if day is not None:
+        df = df[df["day"] == day]
+    
+    pred_peaks = classify_peaks(df["pred_z"])
+    true_peaks = classify_peaks(df["true_z"])
+    
+    over_count = 0
+    under_count = 0
+    
+    for i in range(len(df)):
+        if pred_peaks[i] != true_peaks[i]:
+            if df["pred_z"].iloc[i] < df["true_z"].iloc[i]:
+                under_count += 1
+            else:
+                over_count += 1
+    return over_count / len(df), under_count / len(df)

@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import xgb_model as xgb_model
-from peak_classifier import peak_loss
+from peak_classifier import peak_loss, peak_loss_over_under
 from sklearn.metrics import mean_absolute_error
 import metadata_manager
 import joblib
@@ -14,7 +14,7 @@ min_loss = 1e9
 
 
 def grid_search(
-    manager: metadata_manager.MetadataManager, 
+    manager: metadata_manager.MetadataManager,
     hyperspace: list[
         list[any]
     ],  # hyperspace is a list which contains the values to test for each hyperparameter
@@ -29,7 +29,7 @@ def grid_search(
         # we need to select more hyperparams
         for param in hyperspace[index]:
             grid_search(
-                manager, 
+                manager,
                 hyperspace,
                 index + 1,
                 hyperparameters + [param],
@@ -81,6 +81,9 @@ def grid_search(
             min_loss = loss
             print("New minimum loss achieved:", min_loss)
             manager.set("model_accuracy", 1 - loss)
+            over, under = peak_loss_over_under(peak_loss_df)
+            manager.set("model_error_over", over)
+            manager.set("model_error_under", under)
             joblib.dump(model, "models/regressor.joblib")
 
             for i, x in enumerate(model.get_feature_importances()):

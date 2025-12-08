@@ -193,7 +193,7 @@ Tráfico Total: Comparación con la media de los 4 últimos días con el mismo d
 ![plot](./media/daily_metrics.png)
 
 ### 3.3. Tabla de Barrios
-Para el día seleccionado se nos mostrará una tabla con, para cada barrio, su intensidad, la media histórica de esta, su z-score, su densidad (intensidad/superficie), y su saturación (es decir, cómo se compara la intensidad a la media histórica de ese barrio).  
+Para el día seleccionado se nos mostrará una tabla con, para cada barrio, su intensidad, la media histórica de esta, su z-score, su densidad (intensidad/superficie), y el típo de pico frente al que estamos (definidos en `matematical_model.pdf` y `peak_classifier.py`).
   
 ![plot](./media/barri_list.png)
 

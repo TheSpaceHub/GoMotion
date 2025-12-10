@@ -3,7 +3,6 @@ venv/
 .csv
 .xslx
 .env
-data/
 models/
 test.py
 .vscode/

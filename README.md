@@ -19,7 +19,7 @@ For the English version of this readme, go <a href="README.en.md">here</a>.
 - Python 3.12+
 - Conexión a internet
 - Acceso a la carpeta `output_limite_legal` proporcionada por Telefónica (de no ser el caso, se pueden generar datos usando `example_data.py`)
-- Acceso a los archivos `barris.csv`, `events.csv` y `festius.csv`
+- Acceso a los archivos `barris.csv`, `events.csv` y `holidays.csv`
 - Una llave de API para Gemini
 
 ## Instalación

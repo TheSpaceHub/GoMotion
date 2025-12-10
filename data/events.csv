@@ -1,0 +1,1776 @@
+day,barri,category,impact,description
+2023-01-22,Les Corts,Sporting Event,3,La Liga - FC Barcelona vs Getafe (Jornada 18)
+2023-01-25,Les Corts,Sporting Event,4,Copa Del Rey - FC Barcelona vs Real Sociedad (Cuartos de final)
+2023-01-31,la Marina del Prat Vermell,Trade Show/Exhibition,4,ISE (Integrated Systems Europe) 2023 - Day 1
+2023-02-01,la Marina del Prat Vermell,Trade Show/Exhibition,4,ISE (Integrated Systems Europe) 2023 - Day 2
+2023-02-02,la Marina del Prat Vermell,Trade Show/Exhibition,4,ISE (Integrated Systems Europe) 2023 - Day 3
+2023-02-03,la Marina del Prat Vermell,Trade Show/Exhibition,4,ISE (Integrated Systems Europe) 2023 - Day 4
+2023-02-05,Les Corts,Sporting Event,4,La Liga - FC Barcelona vs Sevilla (Jornada 20)
+2023-02-16,Les Corts,Sporting Event,3,UEFA Europa League - FC Barcelona vs Manchester United (Play-Offs)
+2023-02-19,Diagonal Mar i el Front Marítim del Poblenou,Sporting Event,3,Mitja Marató de Barcelona 2023
+2023-02-19,Les Corts,Sporting Event,3,La Liga - FC Barcelona vs Cádiz (Jornada 22)
+2023-02-19,"Sant Pere, Santa Caterina i la Ribera",Sporting Event,3,Mitja Marató de Barcelona 2023
+2023-02-19,el Poblenou,Sporting Event,3,Mitja Marató de Barcelona 2023
+2023-02-19,la Barceloneta,Sporting Event,3,Mitja Marató de Barcelona 2023
+2023-02-19,la Vila Olímpica del Poblenou,Sporting Event,3,Mitja Marató de Barcelona 2023
+2023-02-27,la Marina del Prat Vermell,Trade Show/Exhibition,5,MWC Mobile World Congress 2023 - Day 1
+2023-02-28,la Marina del Prat Vermell,Trade Show/Exhibition,5,MWC Mobile World Congress 2023 - Day 2
+2023-03-01,la Marina del Prat Vermell,Trade Show/Exhibition,5,MWC Mobile World Congress 2023 - Day 3
+2023-03-02,la Marina del Prat Vermell,Trade Show/Exhibition,5,MWC Mobile World Congress 2023 - Day 4
+2023-03-05,Les Corts,Sporting Event,4,La Liga - FC Barcelona vs Valencia CF (Jornada 24)
+2023-03-19,Baró de Viver,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,Can Baró,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,Can Peguera,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,Canyelles,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,Ciutat Meridiana,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,Diagonal Mar i el Front Marítim del Poblenou,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,Horta,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,Hostafrancs,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,Les Corts,Sporting Event,5,La Liga - FC Barcelona vs Real Madrid (Jornada 26)
+2023-03-19,Montbau,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,Navas,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,Pedralbes,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,Porta,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,Provençals del Poblenou,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,Sant Andreu,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,Sant Antoni,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,Sant Genís dels Agudells,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,Sant Gervasi - Galvany,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,Sant Gervasi - la Bonanova,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,Sant Martí de Provençals,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,"Sant Pere, Santa Caterina i la Ribera",Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,Sants,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,Sants - Badal,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,Sarrià,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,Torre Baró,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,Vallbona,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,Vallcarca i els Penitents,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,"Vallvidrera, el Tibidabo i les Planes",Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,Verdun,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,Vilapicina i la Torre Llobeta,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,el Baix Guinardó,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,el Barri Gòtic,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,el Besòs i el Maresme,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,el Bon Pastor,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,el Camp d'en Grassot i Gràcia Nova,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,el Camp de l'Arpa del Clot,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,el Carmel,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,el Clot,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,el Coll,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,el Congrés i els Indians,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,el Fort Pienc,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,el Guinardó,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,el Parc i la Llacuna del Poblenou,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,el Poble-sec,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,el Poblenou,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,el Putxet i el Farró,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,el Raval,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,el Turó de la Peira,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,l'Antiga Esquerra de l'Eixample,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,la Barceloneta,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,la Bordeta,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,la Clota,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,la Dreta de l'Eixample,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,la Font d'en Fargues,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,la Font de la Guatlla,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,la Guineueta,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,la Marina de Port,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,la Marina del Prat Vermell,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,la Maternitat i Sant Ramon,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,la Nova Esquerra de l'Eixample,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,la Prosperitat,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,la Sagrada Família,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,la Sagrera,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,la Salut,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,la Teixonera,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,la Trinitat Nova,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,la Trinitat Vella,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,la Vall d'Hebron,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,la Verneda i la Pau,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,la Vila Olímpica del Poblenou,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,la Vila de Gràcia,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,les Corts,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,les Roquetes,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-03-19,les Tres Torres,Sporting Event,3,Zurich Marató Barcelona 2023
+2023-04-05,Les Corts,Sporting Event,5,"Copa Del Rey - FC Barcelona vs Real Madrid (Semifinal, Vuelta)"
+2023-04-10,Les Corts,Sporting Event,3,La Liga - FC Barcelona vs Girona (Jornada 28)
+2023-04-23,Baró de Viver,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,Can Baró,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,Can Peguera,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,Canyelles,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,Ciutat Meridiana,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,Diagonal Mar i el Front Marítim del Poblenou,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,Horta,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,Hostafrancs,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,Les Corts,Sporting Event,4,La Liga - FC Barcelona vs Atlético Madrid (Jornada 30)
+2023-04-23,Montbau,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,Navas,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,Pedralbes,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,Porta,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,Provençals del Poblenou,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,Sant Andreu,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,Sant Antoni,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,Sant Genís dels Agudells,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,Sant Gervasi - Galvany,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,Sant Gervasi - la Bonanova,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,Sant Martí de Provençals,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,"Sant Pere, Santa Caterina i la Ribera",Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,Sants,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,Sants - Badal,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,Sarrià,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,Torre Baró,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,Vallbona,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,Vallcarca i els Penitents,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,"Vallvidrera, el Tibidabo i les Planes",Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,Verdun,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,Vilapicina i la Torre Llobeta,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,el Baix Guinardó,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,el Barri Gòtic,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,el Besòs i el Maresme,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,el Bon Pastor,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,el Camp d'en Grassot i Gràcia Nova,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,el Camp de l'Arpa del Clot,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,el Carmel,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,el Clot,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,el Coll,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,el Congrés i els Indians,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,el Fort Pienc,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,el Guinardó,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,el Parc i la Llacuna del Poblenou,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,el Poble-sec,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,el Poblenou,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,el Putxet i el Farró,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,el Raval,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,el Turó de la Peira,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,l'Antiga Esquerra de l'Eixample,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,la Barceloneta,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,la Bordeta,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,la Clota,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,la Dreta de l'Eixample,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,la Font d'en Fargues,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,la Font de la Guatlla,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,la Guineueta,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,la Marina de Port,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,la Marina del Prat Vermell,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,la Maternitat i Sant Ramon,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,la Nova Esquerra de l'Eixample,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,la Prosperitat,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,la Sagrada Família,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,la Sagrera,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,la Salut,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,la Teixonera,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,la Trinitat Nova,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,la Trinitat Vella,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,la Vall d'Hebron,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,la Verneda i la Pau,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,la Vila Olímpica del Poblenou,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,la Vila de Gràcia,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,les Corts,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,les Roquetes,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-23,les Tres Torres,Traditional Festival,5,Diada de Sant Jordi 2023
+2023-04-28,el Poble-sec,Concert/Music Festival,5,Bruce Springsteen Concert (Estadi Olímpic)
+2023-04-29,Les Corts,Sporting Event,3,La Liga - FC Barcelona vs Real Betis (Jornada 32)
+2023-04-30,el Poble-sec,Concert/Music Festival,5,Bruce Springsteen Concert (Estadi Olímpic)
+2023-05-02,Les Corts,Sporting Event,3,La Liga - FC Barcelona vs Osasuna (Jornada 33)
+2023-05-07,"Sant Pere, Santa Caterina i la Ribera",Sporting Event,3,Cursa El Corte Inglés 2023
+2023-05-07,el Barri Gòtic,Sporting Event,3,Cursa El Corte Inglés 2023
+2023-05-07,l'Antiga Esquerra de l'Eixample,Sporting Event,3,Cursa El Corte Inglés 2023
+2023-05-07,la Dreta de l'Eixample,Sporting Event,3,Cursa El Corte Inglés 2023
+2023-05-07,la Nova Esquerra de l'Eixample,Sporting Event,3,Cursa El Corte Inglés 2023
+2023-05-20,Les Corts,Sporting Event,3,La Liga - FC Barcelona vs Real Sociedad (Jornada 35)
+2023-05-24,el Poble-sec,Concert/Music Festival,5,Coldplay Concert (Estadi Olímpic) - Night 1
+2023-05-25,el Poble-sec,Concert/Music Festival,5,Coldplay Concert (Estadi Olímpic) - Night 2
+2023-05-27,el Poble-sec,Concert/Music Festival,5,Coldplay Concert (Estadi Olímpic) - Night 3
+2023-05-28,Les Corts,Sporting Event,3,La Liga - FC Barcelona vs Mallorca (Jornada 37)
+2023-05-28,el Poble-sec,Concert/Music Festival,5,Coldplay Concert (Estadi Olímpic) - Night 4
+2023-05-31,Diagonal Mar i el Front Marítim del Poblenou,Concert/Music Festival,5,Primavera Sound 2023 - Day 1
+2023-05-31,el Besòs i el Maresme,Concert/Music Festival,5,Primavera Sound 2023 - Day 1
+2023-06-01,Diagonal Mar i el Front Marítim del Poblenou,Concert/Music Festival,5,Primavera Sound 2023 - Day 2
+2023-06-01,el Besòs i el Maresme,Concert/Music Festival,5,Primavera Sound 2023 - Day 2
+2023-06-02,Diagonal Mar i el Front Marítim del Poblenou,Concert/Music Festival,5,Primavera Sound 2023 - Day 3
+2023-06-02,el Besòs i el Maresme,Concert/Music Festival,5,Primavera Sound 2023 - Day 3
+2023-06-03,Diagonal Mar i el Front Marítim del Poblenou,Concert/Music Festival,5,Primavera Sound 2023 - Day 4
+2023-06-03,el Besòs i el Maresme,Concert/Music Festival,5,Primavera Sound 2023 - Day 4
+2023-06-04,Diagonal Mar i el Front Marítim del Poblenou,Concert/Music Festival,5,Primavera Sound 2023 - Closing
+2023-06-04,el Besòs i el Maresme,Concert/Music Festival,5,Primavera Sound 2023 - Closing
+2023-06-08,el Poble-sec,Concert/Music Festival,5,Beyoncé Concert (Estadi Olímpic)
+2023-06-15,el Poble-sec,Concert/Music Festival,4,Sónar Festival 2023 - Day 1
+2023-06-15,la Marina del Prat Vermell,Concert/Music Festival,4,Sónar Festival 2023 - Day 1
+2023-06-16,el Poble-sec,Concert/Music Festival,4,Sónar Festival 2023 - Day 2
+2023-06-16,la Marina del Prat Vermell,Concert/Music Festival,4,Sónar Festival 2023 - Day 2
+2023-06-17,el Poble-sec,Concert/Music Festival,4,Sónar Festival 2023 - Day 3
+2023-06-17,la Marina del Prat Vermell,Concert/Music Festival,4,Sónar Festival 2023 - Day 3
+2023-07-05,Diagonal Mar i el Front Marítim del Poblenou,Concert/Music Festival,3,Festival Cruïlla 2023 - Day 1
+2023-07-05,el Besòs i el Maresme,Concert/Music Festival,3,Festival Cruïlla 2023 - Day 1
+2023-07-06,Diagonal Mar i el Front Marítim del Poblenou,Concert/Music Festival,3,Festival Cruïlla 2023 - Day 2
+2023-07-06,el Besòs i el Maresme,Concert/Music Festival,3,Festival Cruïlla 2023 - Day 2
+2023-07-07,Diagonal Mar i el Front Marítim del Poblenou,Concert/Music Festival,3,Festival Cruïlla 2023 - Day 3
+2023-07-07,el Besòs i el Maresme,Concert/Music Festival,3,Festival Cruïlla 2023 - Day 3
+2023-07-08,Diagonal Mar i el Front Marítim del Poblenou,Concert/Music Festival,3,Festival Cruïlla 2023 - Day 4
+2023-07-08,el Besòs i el Maresme,Concert/Music Festival,3,Festival Cruïlla 2023 - Day 4
+2023-07-12,el Poble-sec,Concert/Music Festival,5,Harry Styles Concert (Estadi Olímpic)
+2023-07-20,el Poble-sec,Concert/Music Festival,5,The Weeknd Concert (Estadi Olímpic)
+2023-07-22,Diagonal Mar i el Front Marítim del Poblenou,Concert/Music Festival,3,Reggaeton Beach Festival 2023 - Day 1
+2023-07-22,el Besòs i el Maresme,Concert/Music Festival,3,Reggaeton Beach Festival 2023 - Day 1
+2023-07-23,Diagonal Mar i el Front Marítim del Poblenou,Concert/Music Festival,3,Reggaeton Beach Festival 2023 - Day 2
+2023-07-23,el Besòs i el Maresme,Concert/Music Festival,3,Reggaeton Beach Festival 2023 - Day 2
+2023-08-08,el Poble-sec,Sporting Event,2,Trofeo Joan Gamper - FC Barcelona vs Tottenham Hotspur (Final)
+2023-08-20,el Poble-sec,Sporting Event,3,La Liga - FC Barcelona vs Cádiz (Jornada 2)
+2023-09-11,Hostafrancs,Traditional Festival,3,La Diada Nacional de Catalunya 2023 (Pl. Espanya focus)
+2023-09-11,la Font de la Guatlla,Traditional Festival,3,La Diada Nacional de Catalunya 2023 (Pl. Espanya focus)
+2023-09-11,la Nova Esquerra de l'Eixample,Traditional Festival,3,La Diada Nacional de Catalunya 2023 (Pl. Espanya focus)
+2023-09-16,el Poble-sec,Sporting Event,3,La Liga - FC Barcelona vs Real Betis (Jornada 5)
+2023-09-19,el Poble-sec,Sporting Event,4,UEFA Champions League - FC Barcelona vs Royal Antwerp (Jornada 1)
+2023-09-22,Baró de Viver,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,Can Baró,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,Can Peguera,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,Canyelles,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,Ciutat Meridiana,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,Diagonal Mar i el Front Marítim del Poblenou,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,Horta,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,Hostafrancs,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,Montbau,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,Navas,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,Pedralbes,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,Porta,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,Provençals del Poblenou,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,Sant Andreu,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,Sant Antoni,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,Sant Genís dels Agudells,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,Sant Gervasi - Galvany,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,Sant Gervasi - la Bonanova,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,Sant Martí de Provençals,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,"Sant Pere, Santa Caterina i la Ribera",Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,Sants,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,Sants - Badal,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,Sarrià,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,Torre Baró,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,Vallbona,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,Vallcarca i els Penitents,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,"Vallvidrera, el Tibidabo i les Planes",Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,Verdun,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,Vilapicina i la Torre Llobeta,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,el Baix Guinardó,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,el Barri Gòtic,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,el Besòs i el Maresme,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,el Bon Pastor,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,el Camp d'en Grassot i Gràcia Nova,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,el Camp de l'Arpa del Clot,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,el Carmel,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,el Clot,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,el Coll,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,el Congrés i els Indians,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,el Fort Pienc,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,el Guinardó,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,el Parc i la Llacuna del Poblenou,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,el Poble-sec,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,el Poblenou,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,el Putxet i el Farró,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,el Raval,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,el Turó de la Peira,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,l'Antiga Esquerra de l'Eixample,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,la Barceloneta,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,la Bordeta,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,la Clota,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,la Dreta de l'Eixample,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,la Font d'en Fargues,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,la Font de la Guatlla,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,la Guineueta,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,la Marina de Port,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,la Marina del Prat Vermell,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,la Maternitat i Sant Ramon,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,la Nova Esquerra de l'Eixample,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,la Prosperitat,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,la Sagrada Família,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,la Sagrera,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,la Salut,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,la Teixonera,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,la Trinitat Nova,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,la Trinitat Vella,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,la Vall d'Hebron,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,la Verneda i la Pau,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,la Vila Olímpica del Poblenou,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,la Vila de Gràcia,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,les Corts,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,les Roquetes,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-22,les Tres Torres,Traditional Festival,4,La Mercè 2023 - Day 1
+2023-09-23,Baró de Viver,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,Can Baró,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,Can Peguera,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,Canyelles,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,Ciutat Meridiana,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,Diagonal Mar i el Front Marítim del Poblenou,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,Horta,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,Hostafrancs,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,Montbau,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,Navas,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,Pedralbes,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,Porta,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,Provençals del Poblenou,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,Sant Andreu,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,Sant Antoni,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,Sant Genís dels Agudells,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,Sant Gervasi - Galvany,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,Sant Gervasi - la Bonanova,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,Sant Martí de Provençals,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,"Sant Pere, Santa Caterina i la Ribera",Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,Sants,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,Sants - Badal,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,Sarrià,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,Torre Baró,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,Vallbona,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,Vallcarca i els Penitents,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,"Vallvidrera, el Tibidabo i les Planes",Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,Verdun,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,Vilapicina i la Torre Llobeta,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,el Baix Guinardó,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,el Barri Gòtic,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,el Besòs i el Maresme,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,el Bon Pastor,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,el Camp d'en Grassot i Gràcia Nova,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,el Camp de l'Arpa del Clot,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,el Carmel,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,el Clot,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,el Coll,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,el Congrés i els Indians,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,el Fort Pienc,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,el Guinardó,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,el Parc i la Llacuna del Poblenou,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,el Poble-sec,Sporting Event,3,La Liga - FC Barcelona vs Celta de Vigo (Jornada 6)
+2023-09-23,el Poble-sec,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,el Poblenou,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,el Putxet i el Farró,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,el Raval,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,el Turó de la Peira,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,l'Antiga Esquerra de l'Eixample,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,la Barceloneta,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,la Bordeta,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,la Clota,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,la Dreta de l'Eixample,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,la Font d'en Fargues,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,la Font de la Guatlla,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,la Guineueta,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,la Marina de Port,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,la Marina del Prat Vermell,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,la Maternitat i Sant Ramon,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,la Nova Esquerra de l'Eixample,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,la Prosperitat,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,la Sagrada Família,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,la Sagrera,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,la Salut,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,la Teixonera,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,la Trinitat Nova,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,la Trinitat Vella,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,la Vall d'Hebron,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,la Verneda i la Pau,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,la Vila Olímpica del Poblenou,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,la Vila de Gràcia,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,les Corts,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,les Roquetes,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-23,les Tres Torres,Traditional Festival,4,La Mercè 2023 - Day 2
+2023-09-24,Baró de Viver,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,Can Baró,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,Can Peguera,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,Canyelles,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,Ciutat Meridiana,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,Diagonal Mar i el Front Marítim del Poblenou,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,Horta,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,Hostafrancs,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,Montbau,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,Navas,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,Pedralbes,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,Porta,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,Provençals del Poblenou,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,Sant Andreu,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,Sant Antoni,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,Sant Genís dels Agudells,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,Sant Gervasi - Galvany,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,Sant Gervasi - la Bonanova,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,Sant Martí de Provençals,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,"Sant Pere, Santa Caterina i la Ribera",Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,Sants,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,Sants - Badal,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,Sarrià,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,Torre Baró,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,Vallbona,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,Vallcarca i els Penitents,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,"Vallvidrera, el Tibidabo i les Planes",Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,Verdun,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,Vilapicina i la Torre Llobeta,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,el Baix Guinardó,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,el Barri Gòtic,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,el Besòs i el Maresme,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,el Bon Pastor,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,el Camp d'en Grassot i Gràcia Nova,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,el Camp de l'Arpa del Clot,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,el Carmel,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,el Clot,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,el Coll,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,el Congrés i els Indians,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,el Fort Pienc,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,el Guinardó,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,el Parc i la Llacuna del Poblenou,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,el Poble-sec,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,el Poblenou,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,el Putxet i el Farró,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,el Raval,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,el Turó de la Peira,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,l'Antiga Esquerra de l'Eixample,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,la Barceloneta,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,la Bordeta,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,la Clota,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,la Dreta de l'Eixample,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,la Font d'en Fargues,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,la Font de la Guatlla,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,la Guineueta,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,la Marina de Port,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,la Marina del Prat Vermell,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,la Maternitat i Sant Ramon,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,la Nova Esquerra de l'Eixample,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,la Prosperitat,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,la Sagrada Família,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,la Sagrera,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,la Salut,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,la Teixonera,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,la Trinitat Nova,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,la Trinitat Vella,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,la Vall d'Hebron,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,la Verneda i la Pau,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,la Vila Olímpica del Poblenou,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,la Vila de Gràcia,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,les Corts,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,les Roquetes,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-24,les Tres Torres,Traditional Festival,4,La Mercè 2023 - Day 3
+2023-09-25,Baró de Viver,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,Can Baró,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,Can Peguera,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,Canyelles,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,Ciutat Meridiana,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,Diagonal Mar i el Front Marítim del Poblenou,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,Horta,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,Hostafrancs,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,Montbau,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,Navas,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,Pedralbes,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,Porta,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,Provençals del Poblenou,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,Sant Andreu,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,Sant Antoni,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,Sant Genís dels Agudells,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,Sant Gervasi - Galvany,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,Sant Gervasi - la Bonanova,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,Sant Martí de Provençals,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,"Sant Pere, Santa Caterina i la Ribera",Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,Sants,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,Sants - Badal,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,Sarrià,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,Torre Baró,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,Vallbona,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,Vallcarca i els Penitents,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,"Vallvidrera, el Tibidabo i les Planes",Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,Verdun,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,Vilapicina i la Torre Llobeta,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,el Baix Guinardó,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,el Barri Gòtic,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,el Besòs i el Maresme,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,el Bon Pastor,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,el Camp d'en Grassot i Gràcia Nova,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,el Camp de l'Arpa del Clot,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,el Carmel,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,el Clot,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,el Coll,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,el Congrés i els Indians,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,el Fort Pienc,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,el Guinardó,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,el Parc i la Llacuna del Poblenou,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,el Poble-sec,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,el Poblenou,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,el Putxet i el Farró,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,el Raval,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,el Turó de la Peira,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,l'Antiga Esquerra de l'Eixample,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,la Barceloneta,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,la Bordeta,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,la Clota,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,la Dreta de l'Eixample,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,la Font d'en Fargues,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,la Font de la Guatlla,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,la Guineueta,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,la Marina de Port,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,la Marina del Prat Vermell,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,la Maternitat i Sant Ramon,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,la Nova Esquerra de l'Eixample,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,la Prosperitat,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,la Sagrada Família,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,la Sagrera,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,la Salut,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,la Teixonera,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,la Trinitat Nova,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,la Trinitat Vella,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,la Vall d'Hebron,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,la Verneda i la Pau,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,la Vila Olímpica del Poblenou,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,la Vila de Gràcia,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,les Corts,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,les Roquetes,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-25,les Tres Torres,Traditional Festival,4,La Mercè 2023 - Day 4
+2023-09-29,el Poble-sec,Sporting Event,4,La Liga - FC Barcelona vs Sevilla (Jornada 8)
+2023-10-22,el Poble-sec,Sporting Event,3,La Liga - FC Barcelona vs Athletic Club (Jornada 10)
+2023-10-25,el Poble-sec,Sporting Event,4,UEFA Champions League - FC Barcelona vs Shakhtar Donetsk (Jornada 3)
+2023-10-28,el Poble-sec,Sporting Event,5,La Liga - FC Barcelona vs Real Madrid (Jornada 11)
+2023-11-01,el Poble-sec,Concert/Music Festival,5,Madonna Concert (Palau Sant Jordi) - Night 1
+2023-11-02,el Poble-sec,Concert/Music Festival,5,Madonna Concert (Palau Sant Jordi) - Night 2
+2023-11-12,el Poble-sec,Sporting Event,3,La Liga - FC Barcelona vs Alavés (Jornada 13)
+2023-11-28,el Poble-sec,Sporting Event,4,UEFA Champions League - FC Barcelona vs FC Porto (Jornada 5)
+2023-12-03,el Poble-sec,Sporting Event,4,La Liga - FC Barcelona vs Atlético Madrid (Jornada 15)
+2023-12-10,el Poble-sec,Sporting Event,3,La Liga - FC Barcelona vs Girona (Jornada 16)
+2023-12-20,el Poble-sec,Sporting Event,3,La Liga - FC Barcelona vs Almería (Jornada 18)
+2024-01-27,el Poble-sec,Sporting Event,3,La Liga - FC Barcelona vs Villarreal (Jornada 22)
+2024-01-30,la Marina del Prat Vermell,Trade Show/Exhibition,4,ISE (Integrated Systems Europe) 2024 - Day 1
+2024-01-31,el Poble-sec,Sporting Event,3,La Liga - FC Barcelona vs Osasuna (Jornada 20)
+2024-01-31,la Marina del Prat Vermell,Trade Show/Exhibition,4,ISE (Integrated Systems Europe) 2024 - Day 2
+2024-02-01,la Marina del Prat Vermell,Trade Show/Exhibition,4,ISE (Integrated Systems Europe) 2024 - Day 3
+2024-02-02,la Marina del Prat Vermell,Trade Show/Exhibition,4,ISE (Integrated Systems Europe) 2024 - Day 4
+2024-02-11,Diagonal Mar i el Front Marítim del Poblenou,Sporting Event,3,Mitja Marató de Barcelona 2024
+2024-02-11,"Sant Pere, Santa Caterina i la Ribera",Sporting Event,3,Mitja Marató de Barcelona 2024
+2024-02-11,el Poble-sec,Sporting Event,3,La Liga - FC Barcelona vs Granada CF (Jornada 24)
+2024-02-11,el Poblenou,Sporting Event,3,Mitja Marató de Barcelona 2024
+2024-02-11,la Barceloneta,Sporting Event,3,Mitja Marató de Barcelona 2024
+2024-02-11,la Vila Olímpica del Poblenou,Sporting Event,3,Mitja Marató de Barcelona 2024
+2024-02-24,el Poble-sec,Sporting Event,3,La Liga - FC Barcelona vs Getafe (Jornada 26)
+2024-02-26,la Marina del Prat Vermell,Trade Show/Exhibition,5,MWC Mobile World Congress 2024 - Day 1
+2024-02-27,la Marina del Prat Vermell,Trade Show/Exhibition,5,MWC Mobile World Congress 2024 - Day 2
+2024-02-28,la Marina del Prat Vermell,Trade Show/Exhibition,5,MWC Mobile World Congress 2024 - Day 3
+2024-02-29,la Marina del Prat Vermell,Trade Show/Exhibition,5,MWC Mobile World Congress 2024 - Day 4
+2024-03-08,el Poble-sec,Sporting Event,3,La Liga - FC Barcelona vs Mallorca (Jornada 28)
+2024-03-10,Baró de Viver,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,Can Baró,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,Can Peguera,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,Canyelles,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,Ciutat Meridiana,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,Diagonal Mar i el Front Marítim del Poblenou,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,Horta,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,Hostafrancs,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,Montbau,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,Navas,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,Pedralbes,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,Porta,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,Provençals del Poblenou,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,Sant Andreu,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,Sant Antoni,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,Sant Genís dels Agudells,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,Sant Gervasi - Galvany,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,Sant Gervasi - la Bonanova,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,Sant Martí de Provençals,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,"Sant Pere, Santa Caterina i la Ribera",Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,Sants,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,Sants - Badal,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,Sarrià,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,Torre Baró,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,Vallbona,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,Vallcarca i els Penitents,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,"Vallvidrera, el Tibidabo i les Planes",Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,Verdun,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,Vilapicina i la Torre Llobeta,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,el Baix Guinardó,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,el Barri Gòtic,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,el Besòs i el Maresme,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,el Bon Pastor,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,el Camp d'en Grassot i Gràcia Nova,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,el Camp de l'Arpa del Clot,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,el Carmel,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,el Clot,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,el Coll,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,el Congrés i els Indians,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,el Fort Pienc,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,el Guinardó,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,el Parc i la Llacuna del Poblenou,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,el Poble-sec,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,el Poblenou,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,el Putxet i el Farró,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,el Raval,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,el Turó de la Peira,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,l'Antiga Esquerra de l'Eixample,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,la Barceloneta,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,la Bordeta,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,la Clota,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,la Dreta de l'Eixample,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,la Font d'en Fargues,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,la Font de la Guatlla,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,la Guineueta,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,la Marina de Port,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,la Marina del Prat Vermell,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,la Maternitat i Sant Ramon,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,la Nova Esquerra de l'Eixample,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,la Prosperitat,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,la Sagrada Família,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,la Sagrera,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,la Salut,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,la Teixonera,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,la Trinitat Nova,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,la Trinitat Vella,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,la Vall d'Hebron,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,la Verneda i la Pau,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,la Vila Olímpica del Poblenou,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,la Vila de Gràcia,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,les Corts,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,les Roquetes,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-10,les Tres Torres,Sporting Event,3,Zurich Marató Barcelona 2024
+2024-03-12,el Poble-sec,Sporting Event,4,UEFA Champions League - FC Barcelona vs Napoli (Octavos de final)
+2024-03-30,el Poble-sec,Sporting Event,3,La Liga - FC Barcelona vs UD Las Palmas (Jornada 30)
+2024-04-16,el Poble-sec,Sporting Event,5,UEFA Champions League - FC Barcelona vs Paris Saint Germain (Cuartos de final)
+2024-04-23,Baró de Viver,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,Can Baró,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,Can Peguera,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,Canyelles,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,Ciutat Meridiana,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,Diagonal Mar i el Front Marítim del Poblenou,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,Horta,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,Hostafrancs,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,Montbau,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,Navas,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,Pedralbes,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,Porta,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,Provençals del Poblenou,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,Sant Andreu,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,Sant Antoni,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,Sant Genís dels Agudells,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,Sant Gervasi - Galvany,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,Sant Gervasi - la Bonanova,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,Sant Martí de Provençals,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,"Sant Pere, Santa Caterina i la Ribera",Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,Sants,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,Sants - Badal,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,Sarrià,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,Torre Baró,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,Vallbona,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,Vallcarca i els Penitents,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,"Vallvidrera, el Tibidabo i les Planes",Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,Verdun,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,Vilapicina i la Torre Llobeta,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,el Baix Guinardó,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,el Barri Gòtic,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,el Besòs i el Maresme,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,el Bon Pastor,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,el Camp d'en Grassot i Gràcia Nova,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,el Camp de l'Arpa del Clot,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,el Carmel,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,el Clot,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,el Coll,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,el Congrés i els Indians,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,el Fort Pienc,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,el Guinardó,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,el Parc i la Llacuna del Poblenou,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,el Poble-sec,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,el Poblenou,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,el Putxet i el Farró,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,el Raval,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,el Turó de la Peira,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,l'Antiga Esquerra de l'Eixample,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,la Barceloneta,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,la Bordeta,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,la Clota,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,la Dreta de l'Eixample,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,la Font d'en Fargues,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,la Font de la Guatlla,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,la Guineueta,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,la Marina de Port,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,la Marina del Prat Vermell,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,la Maternitat i Sant Ramon,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,la Nova Esquerra de l'Eixample,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,la Prosperitat,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,la Sagrada Família,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,la Sagrera,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,la Salut,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,la Teixonera,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,la Trinitat Nova,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,la Trinitat Vella,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,la Vall d'Hebron,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,la Verneda i la Pau,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,la Vila Olímpica del Poblenou,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,la Vila de Gràcia,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,les Corts,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,les Roquetes,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-23,les Tres Torres,Traditional Festival,4,Diada de Sant Jordi 2024
+2024-04-29,el Poble-sec,Sporting Event,4,La Liga - FC Barcelona vs Valencia CF (Jornada 33)
+2024-05-05,"Sant Pere, Santa Caterina i la Ribera",Sporting Event,3,Cursa El Corte Inglés 2024
+2024-05-05,el Barri Gòtic,Sporting Event,3,Cursa El Corte Inglés 2024
+2024-05-05,l'Antiga Esquerra de l'Eixample,Sporting Event,3,Cursa El Corte Inglés 2024
+2024-05-05,la Dreta de l'Eixample,Sporting Event,3,Cursa El Corte Inglés 2024
+2024-05-05,la Nova Esquerra de l'Eixample,Sporting Event,3,Cursa El Corte Inglés 2024
+2024-05-11,el Poble-sec,Sporting Event,5,La Liga - FC Barcelona vs Real Madrid (Jornada 35)
+2024-05-13,el Poble-sec,Sporting Event,3,La Liga - FC Barcelona vs Real Sociedad (Jornada 35)
+2024-05-18,el Poble-sec,Sporting Event,3,La Liga - FC Barcelona vs Villarreal (Jornada 37)
+2024-05-19,el Poble-sec,Sporting Event,3,La Liga - FC Barcelona vs Rayo Vallecano (Jornada 37)
+2024-05-29,Diagonal Mar i el Front Marítim del Poblenou,Concert/Music Festival,5,Primavera Sound 2024 - Day 1
+2024-05-29,el Besòs i el Maresme,Concert/Music Festival,5,Primavera Sound 2024 - Day 1
+2024-05-30,Diagonal Mar i el Front Marítim del Poblenou,Concert/Music Festival,5,Primavera Sound 2024 - Day 2
+2024-05-30,el Besòs i el Maresme,Concert/Music Festival,5,Primavera Sound 2024 - Day 2
+2024-05-31,Diagonal Mar i el Front Marítim del Poblenou,Concert/Music Festival,5,Primavera Sound 2024 - Day 3
+2024-05-31,el Besòs i el Maresme,Concert/Music Festival,5,Primavera Sound 2024 - Day 3
+2024-06-01,Diagonal Mar i el Front Marítim del Poblenou,Concert/Music Festival,5,Primavera Sound 2024 - Day 4
+2024-06-01,el Besòs i el Maresme,Concert/Music Festival,5,Primavera Sound 2024 - Day 4
+2024-06-02,Diagonal Mar i el Front Marítim del Poblenou,Concert/Music Festival,5,Primavera Sound 2024 - Closing
+2024-06-02,el Besòs i el Maresme,Concert/Music Festival,5,Primavera Sound 2024 - Closing
+2024-06-11,el Poble-sec,Concert/Music Festival,5,Rammstein Concert (Estadi Olímpic)
+2024-06-13,el Poble-sec,Concert/Music Festival,4,Sónar Festival 2024 - Day 1
+2024-06-13,la Marina del Prat Vermell,Concert/Music Festival,4,Sónar Festival 2024 - Day 1
+2024-06-14,el Poble-sec,Concert/Music Festival,4,Sónar Festival 2024 - Day 2
+2024-06-14,la Marina del Prat Vermell,Concert/Music Festival,4,Sónar Festival 2024 - Day 2
+2024-06-15,el Poble-sec,Concert/Music Festival,4,Sónar Festival 2024 - Day 3
+2024-06-15,la Marina del Prat Vermell,Concert/Music Festival,4,Sónar Festival 2024 - Day 3
+2024-06-20,el Poble-sec,Concert/Music Festival,5,Bruce Springsteen Concert (Estadi Olímpic)
+2024-06-22,el Poble-sec,Concert/Music Festival,5,Bruce Springsteen Concert (Estadi Olímpic)
+2024-07-06,el Poble-sec,Concert/Music Festival,5,Pearl Jam Concert (Palau Sant Jordi) - Night 1
+2024-07-08,el Poble-sec,Concert/Music Festival,5,Pearl Jam Concert (Palau Sant Jordi) - Night 2
+2024-07-10,Diagonal Mar i el Front Marítim del Poblenou,Concert/Music Festival,3,Festival Cruïlla 2024 - Day 1
+2024-07-10,el Besòs i el Maresme,Concert/Music Festival,3,Festival Cruïlla 2024 - Day 1
+2024-07-10,el Poble-sec,Concert/Music Festival,3,Estopa Concert (Estadi Olímpic)
+2024-07-11,Diagonal Mar i el Front Marítim del Poblenou,Concert/Music Festival,3,Festival Cruïlla 2024 - Day 2
+2024-07-11,el Besòs i el Maresme,Concert/Music Festival,3,Festival Cruïlla 2024 - Day 2
+2024-07-12,Diagonal Mar i el Front Marítim del Poblenou,Concert/Music Festival,3,Festival Cruïlla 2024 - Day 3
+2024-07-12,el Besòs i el Maresme,Concert/Music Festival,3,Festival Cruïlla 2024 - Day 3
+2024-07-13,Diagonal Mar i el Front Marítim del Poblenou,Concert/Music Festival,3,Festival Cruïlla 2024 - Day 4
+2024-07-13,el Besòs i el Maresme,Concert/Music Festival,3,Festival Cruïlla 2024 - Day 4
+2024-08-12,el Poble-sec,Sporting Event,2,Trofeo Joan Gamper - FC Barcelona vs Monaco (Final)
+2024-08-24,el Poble-sec,Sporting Event,3,La Liga - FC Barcelona vs Athletic Club (Jornada 2)
+2024-08-31,el Poble-sec,Sporting Event,3,La Liga - FC Barcelona vs Real Valladolid (Jornada 4)
+2024-09-11,"Sant Pere, Santa Caterina i la Ribera",Traditional Festival,4,La Diada Nacional de Catalunya 2024 (Arc de Triomf focus)
+2024-09-11,el Fort Pienc,Traditional Festival,4,La Diada Nacional de Catalunya 2024 (Arc de Triomf focus)
+2024-09-20,Baró de Viver,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,Can Baró,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,Can Peguera,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,Canyelles,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,Ciutat Meridiana,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,Diagonal Mar i el Front Marítim del Poblenou,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,Horta,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,Hostafrancs,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,Montbau,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,Navas,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,Pedralbes,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,Porta,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,Provençals del Poblenou,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,Sant Andreu,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,Sant Antoni,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,Sant Genís dels Agudells,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,Sant Gervasi - Galvany,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,Sant Gervasi - la Bonanova,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,Sant Martí de Provençals,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,"Sant Pere, Santa Caterina i la Ribera",Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,Sants,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,Sants - Badal,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,Sarrià,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,Torre Baró,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,Vallbona,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,Vallcarca i els Penitents,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,"Vallvidrera, el Tibidabo i les Planes",Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,Verdun,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,Vilapicina i la Torre Llobeta,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,el Baix Guinardó,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,el Barri Gòtic,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,el Besòs i el Maresme,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,el Bon Pastor,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,el Camp d'en Grassot i Gràcia Nova,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,el Camp de l'Arpa del Clot,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,el Carmel,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,el Clot,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,el Coll,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,el Congrés i els Indians,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,el Fort Pienc,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,el Guinardó,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,el Parc i la Llacuna del Poblenou,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,el Poble-sec,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,el Poblenou,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,el Putxet i el Farró,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,el Raval,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,el Turó de la Peira,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,l'Antiga Esquerra de l'Eixample,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,la Barceloneta,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,la Bordeta,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,la Clota,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,la Dreta de l'Eixample,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,la Font d'en Fargues,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,la Font de la Guatlla,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,la Guineueta,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,la Marina de Port,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,la Marina del Prat Vermell,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,la Maternitat i Sant Ramon,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,la Nova Esquerra de l'Eixample,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,la Prosperitat,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,la Sagrada Família,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,la Sagrera,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,la Salut,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,la Teixonera,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,la Trinitat Nova,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,la Trinitat Vella,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,la Vall d'Hebron,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,la Verneda i la Pau,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,la Vila Olímpica del Poblenou,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,la Vila de Gràcia,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,les Corts,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,les Roquetes,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-20,les Tres Torres,Traditional Festival,4,La Mercè 2024 - Day 1
+2024-09-21,Baró de Viver,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,Can Baró,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,Can Peguera,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,Canyelles,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,Ciutat Meridiana,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,Diagonal Mar i el Front Marítim del Poblenou,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,Horta,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,Hostafrancs,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,Montbau,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,Navas,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,Pedralbes,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,Porta,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,Provençals del Poblenou,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,Sant Andreu,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,Sant Antoni,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,Sant Genís dels Agudells,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,Sant Gervasi - Galvany,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,Sant Gervasi - la Bonanova,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,Sant Martí de Provençals,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,"Sant Pere, Santa Caterina i la Ribera",Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,Sants,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,Sants - Badal,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,Sarrià,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,Torre Baró,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,Vallbona,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,Vallcarca i els Penitents,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,"Vallvidrera, el Tibidabo i les Planes",Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,Verdun,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,Vilapicina i la Torre Llobeta,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,el Baix Guinardó,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,el Barri Gòtic,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,el Besòs i el Maresme,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,el Bon Pastor,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,el Camp d'en Grassot i Gràcia Nova,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,el Camp de l'Arpa del Clot,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,el Carmel,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,el Clot,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,el Coll,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,el Congrés i els Indians,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,el Fort Pienc,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,el Guinardó,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,el Parc i la Llacuna del Poblenou,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,el Poble-sec,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,el Poblenou,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,el Putxet i el Farró,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,el Raval,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,el Turó de la Peira,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,l'Antiga Esquerra de l'Eixample,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,la Barceloneta,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,la Bordeta,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,la Clota,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,la Dreta de l'Eixample,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,la Font d'en Fargues,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,la Font de la Guatlla,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,la Guineueta,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,la Marina de Port,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,la Marina del Prat Vermell,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,la Maternitat i Sant Ramon,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,la Nova Esquerra de l'Eixample,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,la Prosperitat,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,la Sagrada Família,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,la Sagrera,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,la Salut,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,la Teixonera,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,la Trinitat Nova,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,la Trinitat Vella,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,la Vall d'Hebron,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,la Verneda i la Pau,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,la Vila Olímpica del Poblenou,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,la Vila de Gràcia,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,les Corts,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,les Roquetes,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-21,les Tres Torres,Traditional Festival,4,La Mercè 2024 - Day 2
+2024-09-22,Baró de Viver,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,Can Baró,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,Can Peguera,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,Canyelles,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,Ciutat Meridiana,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,Diagonal Mar i el Front Marítim del Poblenou,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,Horta,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,Hostafrancs,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,Montbau,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,Navas,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,Pedralbes,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,Porta,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,Provençals del Poblenou,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,Sant Andreu,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,Sant Antoni,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,Sant Genís dels Agudells,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,Sant Gervasi - Galvany,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,Sant Gervasi - la Bonanova,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,Sant Martí de Provençals,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,"Sant Pere, Santa Caterina i la Ribera",Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,Sants,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,Sants - Badal,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,Sarrià,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,Torre Baró,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,Vallbona,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,Vallcarca i els Penitents,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,"Vallvidrera, el Tibidabo i les Planes",Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,Verdun,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,Vilapicina i la Torre Llobeta,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,el Baix Guinardó,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,el Barri Gòtic,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,el Besòs i el Maresme,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,el Bon Pastor,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,el Camp d'en Grassot i Gràcia Nova,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,el Camp de l'Arpa del Clot,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,el Carmel,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,el Clot,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,el Coll,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,el Congrés i els Indians,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,el Fort Pienc,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,el Guinardó,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,el Parc i la Llacuna del Poblenou,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,el Poble-sec,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,el Poblenou,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,el Putxet i el Farró,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,el Raval,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,el Turó de la Peira,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,l'Antiga Esquerra de l'Eixample,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,la Barceloneta,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,la Bordeta,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,la Clota,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,la Dreta de l'Eixample,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,la Font d'en Fargues,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,la Font de la Guatlla,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,la Guineueta,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,la Marina de Port,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,la Marina del Prat Vermell,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,la Maternitat i Sant Ramon,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,la Nova Esquerra de l'Eixample,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,la Prosperitat,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,la Sagrada Família,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,la Sagrera,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,la Salut,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,la Teixonera,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,la Trinitat Nova,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,la Trinitat Vella,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,la Vall d'Hebron,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,la Verneda i la Pau,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,la Vila Olímpica del Poblenou,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,la Vila de Gràcia,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,les Corts,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,les Roquetes,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-22,les Tres Torres,Traditional Festival,4,La Mercè 2024 - Day 3
+2024-09-23,Baró de Viver,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,Can Baró,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,Can Peguera,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,Canyelles,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,Ciutat Meridiana,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,Diagonal Mar i el Front Marítim del Poblenou,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,Horta,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,Hostafrancs,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,Montbau,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,Navas,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,Pedralbes,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,Porta,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,Provençals del Poblenou,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,Sant Andreu,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,Sant Antoni,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,Sant Genís dels Agudells,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,Sant Gervasi - Galvany,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,Sant Gervasi - la Bonanova,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,Sant Martí de Provençals,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,"Sant Pere, Santa Caterina i la Ribera",Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,Sants,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,Sants - Badal,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,Sarrià,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,Torre Baró,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,Vallbona,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,Vallcarca i els Penitents,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,"Vallvidrera, el Tibidabo i les Planes",Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,Verdun,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,Vilapicina i la Torre Llobeta,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,el Baix Guinardó,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,el Barri Gòtic,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,el Besòs i el Maresme,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,el Bon Pastor,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,el Camp d'en Grassot i Gràcia Nova,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,el Camp de l'Arpa del Clot,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,el Carmel,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,el Clot,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,el Coll,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,el Congrés i els Indians,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,el Fort Pienc,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,el Guinardó,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,el Parc i la Llacuna del Poblenou,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,el Poble-sec,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,el Poblenou,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,el Putxet i el Farró,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,el Raval,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,el Turó de la Peira,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,l'Antiga Esquerra de l'Eixample,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,la Barceloneta,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,la Bordeta,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,la Clota,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,la Dreta de l'Eixample,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,la Font d'en Fargues,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,la Font de la Guatlla,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,la Guineueta,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,la Marina de Port,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,la Marina del Prat Vermell,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,la Maternitat i Sant Ramon,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,la Nova Esquerra de l'Eixample,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,la Prosperitat,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,la Sagrada Família,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,la Sagrera,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,la Salut,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,la Teixonera,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,la Trinitat Nova,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,la Trinitat Vella,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,la Vall d'Hebron,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,la Verneda i la Pau,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,la Vila Olímpica del Poblenou,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,la Vila de Gràcia,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,les Corts,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,les Roquetes,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-23,les Tres Torres,Traditional Festival,4,La Mercè 2024 - Day 4
+2024-09-24,Baró de Viver,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,Can Baró,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,Can Peguera,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,Canyelles,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,Ciutat Meridiana,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,Diagonal Mar i el Front Marítim del Poblenou,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,Horta,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,Hostafrancs,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,Montbau,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,Navas,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,Pedralbes,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,Porta,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,Provençals del Poblenou,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,Sant Andreu,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,Sant Antoni,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,Sant Genís dels Agudells,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,Sant Gervasi - Galvany,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,Sant Gervasi - la Bonanova,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,Sant Martí de Provençals,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,"Sant Pere, Santa Caterina i la Ribera",Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,Sants,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,Sants - Badal,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,Sarrià,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,Torre Baró,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,Vallbona,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,Vallcarca i els Penitents,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,"Vallvidrera, el Tibidabo i les Planes",Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,Verdun,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,Vilapicina i la Torre Llobeta,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,el Baix Guinardó,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,el Barri Gòtic,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,el Besòs i el Maresme,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,el Bon Pastor,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,el Camp d'en Grassot i Gràcia Nova,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,el Camp de l'Arpa del Clot,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,el Carmel,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,el Clot,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,el Coll,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,el Congrés i els Indians,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,el Fort Pienc,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,el Guinardó,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,el Parc i la Llacuna del Poblenou,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,el Poble-sec,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,el Poblenou,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,el Putxet i el Farró,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,el Raval,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,el Turó de la Peira,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,l'Antiga Esquerra de l'Eixample,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,la Barceloneta,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,la Bordeta,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,la Clota,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,la Dreta de l'Eixample,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,la Font d'en Fargues,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,la Font de la Guatlla,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,la Guineueta,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,la Marina de Port,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,la Marina del Prat Vermell,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,la Maternitat i Sant Ramon,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,la Nova Esquerra de l'Eixample,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,la Prosperitat,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,la Sagrada Família,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,la Sagrera,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,la Salut,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,la Teixonera,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,la Trinitat Nova,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,la Trinitat Vella,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,la Vall d'Hebron,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,la Verneda i la Pau,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,la Vila Olímpica del Poblenou,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,la Vila de Gràcia,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,les Corts,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,les Roquetes,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-24,les Tres Torres,Traditional Festival,4,La Mercè 2024 - Day 5
+2024-09-25,el Poble-sec,Sporting Event,3,La Liga - FC Barcelona vs Getafe (Jornada 7)
+2024-10-01,el Poble-sec,Sporting Event,4,UEFA Champions League - FC Barcelona vs BSC Young Boys (Jornada 2)
+2024-10-20,el Poble-sec,Sporting Event,4,La Liga - FC Barcelona vs Sevilla (Jornada 10)
+2024-10-23,el Poble-sec,Sporting Event,4,UEFA Champions League - FC Barcelona vs FC Bayern München (Jornada 3)
+2024-11-03,el Poble-sec,Sporting Event,4,La Liga - FC Barcelona vs Espanyol (Jornada 12)
+2024-11-26,el Poble-sec,Sporting Event,4,UEFA Champions League - FC Barcelona vs Brest (Jornada 5)
+2024-11-30,el Poble-sec,Sporting Event,3,La Liga - FC Barcelona vs UD Las Palmas (Jornada 15)
+2024-12-15,el Poble-sec,Sporting Event,3,La Liga - FC Barcelona vs Leganés (Jornada 17)
+2024-12-21,el Poble-sec,Sporting Event,4,La Liga - FC Barcelona vs Atlético Madrid (Jornada 18)
+2025-01-15,el Poble-sec,Sporting Event,3,Copa Del Rey - FC Barcelona vs Real Betis (Octavos de final)
+2025-01-26,el Poble-sec,Sporting Event,4,La Liga - FC Barcelona vs Valencia CF (Jornada 21)
+2025-01-29,el Poble-sec,Sporting Event,4,UEFA Champions League - FC Barcelona vs Atalanta (Jornada 8)
+2025-02-02,el Poble-sec,Sporting Event,3,La Liga - FC Barcelona vs Alavés (Jornada 22)
+2025-02-04,la Marina del Prat Vermell,Trade Show/Exhibition,4,ISE (Integrated Systems Europe) 2025 - Day 1
+2025-02-05,la Marina del Prat Vermell,Trade Show/Exhibition,4,ISE (Integrated Systems Europe) 2025 - Day 2
+2025-02-06,la Marina del Prat Vermell,Trade Show/Exhibition,4,ISE (Integrated Systems Europe) 2025 - Day 3
+2025-02-07,la Marina del Prat Vermell,Trade Show/Exhibition,4,ISE (Integrated Systems Europe) 2025 - Day 4
+2025-02-16,Diagonal Mar i el Front Marítim del Poblenou,Sporting Event,3,Mitja Marató de Barcelona 2025
+2025-02-16,"Sant Pere, Santa Caterina i la Ribera",Sporting Event,3,Mitja Marató de Barcelona 2025
+2025-02-16,el Poblenou,Sporting Event,3,Mitja Marató de Barcelona 2025
+2025-02-16,la Barceloneta,Sporting Event,3,Mitja Marató de Barcelona 2025
+2025-02-16,la Vila Olímpica del Poblenou,Sporting Event,3,Mitja Marató de Barcelona 2025
+2025-02-17,el Poble-sec,Sporting Event,3,La Liga - FC Barcelona vs Rayo Vallecano (Jornada 24)
+2025-02-25,el Poble-sec,Sporting Event,4,"Copa Del Rey - FC Barcelona vs Atlético Madrid (Semifinal, Ida)"
+2025-03-02,el Poble-sec,Sporting Event,3,La Liga - FC Barcelona vs Real Sociedad (Jornada 26)
+2025-03-03,la Marina del Prat Vermell,Trade Show/Exhibition,5,MWC Mobile World Congress 2025 - Day 1
+2025-03-04,la Marina del Prat Vermell,Trade Show/Exhibition,5,MWC Mobile World Congress 2025 - Day 2
+2025-03-05,la Marina del Prat Vermell,Trade Show/Exhibition,5,MWC Mobile World Congress 2025 - Day 3
+2025-03-06,la Marina del Prat Vermell,Trade Show/Exhibition,5,MWC Mobile World Congress 2025 - Day 4
+2025-03-11,el Poble-sec,Sporting Event,4,UEFA Champions League - FC Barcelona vs Benfica (Octavos de final)
+2025-03-16,Baró de Viver,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,Can Baró,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,Can Peguera,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,Canyelles,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,Ciutat Meridiana,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,Diagonal Mar i el Front Marítim del Poblenou,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,Horta,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,Hostafrancs,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,Montbau,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,Navas,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,Pedralbes,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,Porta,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,Provençals del Poblenou,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,Sant Andreu,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,Sant Antoni,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,Sant Genís dels Agudells,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,Sant Gervasi - Galvany,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,Sant Gervasi - la Bonanova,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,Sant Martí de Provençals,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,"Sant Pere, Santa Caterina i la Ribera",Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,Sants,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,Sants - Badal,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,Sarrià,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,Torre Baró,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,Vallbona,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,Vallcarca i els Penitents,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,"Vallvidrera, el Tibidabo i les Planes",Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,Verdun,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,Vilapicina i la Torre Llobeta,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,el Baix Guinardó,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,el Barri Gòtic,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,el Besòs i el Maresme,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,el Bon Pastor,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,el Camp d'en Grassot i Gràcia Nova,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,el Camp de l'Arpa del Clot,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,el Carmel,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,el Clot,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,el Coll,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,el Congrés i els Indians,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,el Fort Pienc,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,el Guinardó,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,el Parc i la Llacuna del Poblenou,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,el Poble-sec,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,el Poblenou,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,el Putxet i el Farró,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,el Raval,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,el Turó de la Peira,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,l'Antiga Esquerra de l'Eixample,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,la Barceloneta,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,la Bordeta,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,la Clota,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,la Dreta de l'Eixample,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,la Font d'en Fargues,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,la Font de la Guatlla,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,la Guineueta,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,la Marina de Port,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,la Marina del Prat Vermell,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,la Maternitat i Sant Ramon,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,la Nova Esquerra de l'Eixample,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,la Prosperitat,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,la Sagrada Família,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,la Sagrera,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,la Salut,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,la Teixonera,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,la Trinitat Nova,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,la Trinitat Vella,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,la Vall d'Hebron,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,la Verneda i la Pau,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,la Vila Olímpica del Poblenou,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,la Vila de Gràcia,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,les Corts,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,les Roquetes,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-16,les Tres Torres,Sporting Event,3,Zurich Marató Barcelona 2025
+2025-03-27,el Poble-sec,Sporting Event,3,La Liga - FC Barcelona vs Osasuna (Jornada 27)
+2025-03-30,el Poble-sec,Sporting Event,3,La Liga - FC Barcelona vs Girona (Jornada 29)
+2025-04-05,el Poble-sec,Sporting Event,3,La Liga - FC Barcelona vs Real Betis (Jornada 30)
+2025-04-09,el Poble-sec,Sporting Event,5,UEFA Champions League - FC Barcelona vs Borussia Dortmund (Cuartos de final)
+2025-04-19,el Poble-sec,Sporting Event,3,La Liga - FC Barcelona vs Celta de Vigo (Jornada 32)
+2025-04-22,el Poble-sec,Sporting Event,3,La Liga - FC Barcelona vs Mallorca (Jornada 33)
+2025-04-23,Baró de Viver,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,Can Baró,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,Can Peguera,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,Canyelles,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,Ciutat Meridiana,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,Diagonal Mar i el Front Marítim del Poblenou,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,Horta,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,Hostafrancs,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,Montbau,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,Navas,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,Pedralbes,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,Porta,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,Provençals del Poblenou,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,Sant Andreu,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,Sant Antoni,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,Sant Genís dels Agudells,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,Sant Gervasi - Galvany,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,Sant Gervasi - la Bonanova,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,Sant Martí de Provençals,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,"Sant Pere, Santa Caterina i la Ribera",Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,Sants,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,Sants - Badal,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,Sarrià,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,Torre Baró,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,Vallbona,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,Vallcarca i els Penitents,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,"Vallvidrera, el Tibidabo i les Planes",Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,Verdun,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,Vilapicina i la Torre Llobeta,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,el Baix Guinardó,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,el Barri Gòtic,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,el Besòs i el Maresme,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,el Bon Pastor,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,el Camp d'en Grassot i Gràcia Nova,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,el Camp de l'Arpa del Clot,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,el Carmel,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,el Clot,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,el Coll,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,el Congrés i els Indians,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,el Fort Pienc,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,el Guinardó,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,el Parc i la Llacuna del Poblenou,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,el Poble-sec,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,el Poblenou,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,el Putxet i el Farró,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,el Raval,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,el Turó de la Peira,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,l'Antiga Esquerra de l'Eixample,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,la Barceloneta,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,la Bordeta,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,la Clota,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,la Dreta de l'Eixample,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,la Font d'en Fargues,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,la Font de la Guatlla,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,la Guineueta,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,la Marina de Port,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,la Marina del Prat Vermell,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,la Maternitat i Sant Ramon,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,la Nova Esquerra de l'Eixample,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,la Prosperitat,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,la Sagrada Família,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,la Sagrera,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,la Salut,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,la Teixonera,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,la Trinitat Nova,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,la Trinitat Vella,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,la Vall d'Hebron,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,la Verneda i la Pau,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,la Vila Olímpica del Poblenou,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,la Vila de Gràcia,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,les Corts,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,les Roquetes,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-23,les Tres Torres,Traditional Festival,4,Diada de Sant Jordi 2025
+2025-04-30,el Poble-sec,Sporting Event,5,UEFA Champions League - FC Barcelona vs Internazionale (Semifinal)
+2025-05-11,"Sant Pere, Santa Caterina i la Ribera",Sporting Event,3,Cursa El Corte Inglés 2025
+2025-05-11,el Barri Gòtic,Sporting Event,3,Cursa El Corte Inglés 2025
+2025-05-11,l'Antiga Esquerra de l'Eixample,Sporting Event,3,Cursa El Corte Inglés 2025
+2025-05-11,la Dreta de l'Eixample,Sporting Event,3,Cursa El Corte Inglés 2025
+2025-05-11,la Nova Esquerra de l'Eixample,Sporting Event,3,Cursa El Corte Inglés 2025
+2025-06-05,Diagonal Mar i el Front Marítim del Poblenou,Concert/Music Festival,5,Primavera Sound 2025 - Day 1
+2025-06-05,el Besòs i el Maresme,Concert/Music Festival,5,Primavera Sound 2025 - Day 1
+2025-06-06,Diagonal Mar i el Front Marítim del Poblenou,Concert/Music Festival,5,Primavera Sound 2025 - Day 2
+2025-06-06,el Besòs i el Maresme,Concert/Music Festival,5,Primavera Sound 2025 - Day 2
+2025-06-07,Diagonal Mar i el Front Marítim del Poblenou,Concert/Music Festival,5,Primavera Sound 2025 - Day 3
+2025-06-07,el Besòs i el Maresme,Concert/Music Festival,5,Primavera Sound 2025 - Day 3
+2025-06-09,el Poble-sec,Concert/Music Festival,5,Guns N' Roses Concert (Estadi Olímpic)
+2025-06-12,el Poble-sec,Concert/Music Festival,4,Sónar Festival 2025 - Day 1
+2025-06-12,la Marina del Prat Vermell,Concert/Music Festival,4,Sónar Festival 2025 - Day 1
+2025-06-13,el Poble-sec,Concert/Music Festival,4,Sónar Festival 2025 - Day 2
+2025-06-13,la Marina del Prat Vermell,Concert/Music Festival,4,Sónar Festival 2025 - Day 2
+2025-06-14,el Poble-sec,Concert/Music Festival,4,Sónar Festival 2025 - Day 3
+2025-06-14,la Marina del Prat Vermell,Concert/Music Festival,4,Sónar Festival 2025 - Day 3
+2025-07-09,Diagonal Mar i el Front Marítim del Poblenou,Concert/Music Festival,3,Festival Cruïlla 2025 - Day 1
+2025-07-09,el Besòs i el Maresme,Concert/Music Festival,3,Festival Cruïlla 2025 - Day 1
+2025-07-10,Diagonal Mar i el Front Marítim del Poblenou,Concert/Music Festival,3,Festival Cruïlla 2025 - Day 2
+2025-07-10,el Besòs i el Maresme,Concert/Music Festival,3,Festival Cruïlla 2025 - Day 2
+2025-07-11,Diagonal Mar i el Front Marítim del Poblenou,Concert/Music Festival,3,Festival Cruïlla 2025 - Day 3
+2025-07-11,el Besòs i el Maresme,Concert/Music Festival,3,Festival Cruïlla 2025 - Day 3
+2025-07-12,Diagonal Mar i el Front Marítim del Poblenou,Concert/Music Festival,3,Festival Cruïlla 2025 - Day 4
+2025-07-12,el Besòs i el Maresme,Concert/Music Festival,3,Festival Cruïlla 2025 - Day 4
+2025-07-12,el Poble-sec,Concert/Music Festival,5,Kendrick Lamar Concert (Estadi Olímpic)
+2025-07-19,el Poble-sec,Concert/Music Festival,4,Aitana Concert (Estadi Olímpic)
+2025-07-19,la Marina del Prat Vermell,Concert/Music Festival,3,Reggaeton Beach Festival 2025 - Day 1
+2025-07-20,la Marina del Prat Vermell,Concert/Music Festival,3,Reggaeton Beach Festival 2025 - Day 2
+2025-08-09,el Poble-sec,Concert/Music Festival,5,Blackpink Concert (Estadi Olímpic)
+2025-09-11,"Sant Pere, Santa Caterina i la Ribera",Traditional Festival,4,La Diada Nacional de Catalunya 2025
+2025-09-11,el Barri Gòtic,Traditional Festival,4,La Diada Nacional de Catalunya 2025
+2025-09-11,el Raval,Traditional Festival,4,La Diada Nacional de Catalunya 2025
+2025-09-23,Baró de Viver,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,Can Baró,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,Can Peguera,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,Canyelles,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,Ciutat Meridiana,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,Diagonal Mar i el Front Marítim del Poblenou,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,Horta,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,Hostafrancs,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,Montbau,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,Navas,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,Pedralbes,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,Porta,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,Provençals del Poblenou,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,Sant Andreu,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,Sant Antoni,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,Sant Genís dels Agudells,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,Sant Gervasi - Galvany,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,Sant Gervasi - la Bonanova,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,Sant Martí de Provençals,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,"Sant Pere, Santa Caterina i la Ribera",Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,Sants,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,Sants - Badal,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,Sarrià,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,Torre Baró,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,Vallbona,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,Vallcarca i els Penitents,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,"Vallvidrera, el Tibidabo i les Planes",Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,Verdun,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,Vilapicina i la Torre Llobeta,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,el Baix Guinardó,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,el Barri Gòtic,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,el Besòs i el Maresme,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,el Bon Pastor,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,el Camp d'en Grassot i Gràcia Nova,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,el Camp de l'Arpa del Clot,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,el Carmel,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,el Clot,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,el Coll,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,el Congrés i els Indians,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,el Fort Pienc,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,el Guinardó,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,el Parc i la Llacuna del Poblenou,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,el Poble-sec,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,el Poblenou,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,el Putxet i el Farró,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,el Raval,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,el Turó de la Peira,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,l'Antiga Esquerra de l'Eixample,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,la Barceloneta,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,la Bordeta,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,la Clota,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,la Dreta de l'Eixample,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,la Font d'en Fargues,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,la Font de la Guatlla,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,la Guineueta,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,la Marina de Port,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,la Marina del Prat Vermell,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,la Maternitat i Sant Ramon,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,la Nova Esquerra de l'Eixample,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,la Prosperitat,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,la Sagrada Família,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,la Sagrera,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,la Salut,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,la Teixonera,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,la Trinitat Nova,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,la Trinitat Vella,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,la Vall d'Hebron,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,la Verneda i la Pau,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,la Vila Olímpica del Poblenou,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,la Vila de Gràcia,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,les Corts,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,les Roquetes,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-23,les Tres Torres,Traditional Festival,4,La Mercè 2025 - Day 1
+2025-09-24,Baró de Viver,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,Can Baró,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,Can Peguera,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,Canyelles,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,Ciutat Meridiana,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,Diagonal Mar i el Front Marítim del Poblenou,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,Horta,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,Hostafrancs,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,Montbau,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,Navas,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,Pedralbes,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,Porta,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,Provençals del Poblenou,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,Sant Andreu,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,Sant Antoni,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,Sant Genís dels Agudells,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,Sant Gervasi - Galvany,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,Sant Gervasi - la Bonanova,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,Sant Martí de Provençals,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,"Sant Pere, Santa Caterina i la Ribera",Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,Sants,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,Sants - Badal,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,Sarrià,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,Torre Baró,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,Vallbona,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,Vallcarca i els Penitents,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,"Vallvidrera, el Tibidabo i les Planes",Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,Verdun,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,Vilapicina i la Torre Llobeta,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,el Baix Guinardó,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,el Barri Gòtic,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,el Besòs i el Maresme,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,el Bon Pastor,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,el Camp d'en Grassot i Gràcia Nova,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,el Camp de l'Arpa del Clot,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,el Carmel,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,el Clot,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,el Coll,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,el Congrés i els Indians,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,el Fort Pienc,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,el Guinardó,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,el Parc i la Llacuna del Poblenou,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,el Poble-sec,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,el Poblenou,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,el Putxet i el Farró,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,el Raval,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,el Turó de la Peira,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,l'Antiga Esquerra de l'Eixample,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,la Barceloneta,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,la Bordeta,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,la Clota,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,la Dreta de l'Eixample,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,la Font d'en Fargues,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,la Font de la Guatlla,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,la Guineueta,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,la Marina de Port,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,la Marina del Prat Vermell,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,la Maternitat i Sant Ramon,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,la Nova Esquerra de l'Eixample,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,la Prosperitat,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,la Sagrada Família,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,la Sagrera,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,la Salut,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,la Teixonera,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,la Trinitat Nova,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,la Trinitat Vella,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,la Vall d'Hebron,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,la Verneda i la Pau,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,la Vila Olímpica del Poblenou,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,la Vila de Gràcia,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,les Corts,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,les Roquetes,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-24,les Tres Torres,Traditional Festival,4,La Mercè 2025 - Day 2
+2025-09-25,Baró de Viver,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,Can Baró,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,Can Peguera,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,Canyelles,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,Ciutat Meridiana,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,Diagonal Mar i el Front Marítim del Poblenou,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,Horta,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,Hostafrancs,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,Montbau,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,Navas,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,Pedralbes,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,Porta,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,Provençals del Poblenou,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,Sant Andreu,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,Sant Antoni,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,Sant Genís dels Agudells,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,Sant Gervasi - Galvany,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,Sant Gervasi - la Bonanova,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,Sant Martí de Provençals,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,"Sant Pere, Santa Caterina i la Ribera",Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,Sants,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,Sants - Badal,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,Sarrià,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,Torre Baró,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,Vallbona,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,Vallcarca i els Penitents,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,"Vallvidrera, el Tibidabo i les Planes",Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,Verdun,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,Vilapicina i la Torre Llobeta,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,el Baix Guinardó,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,el Barri Gòtic,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,el Besòs i el Maresme,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,el Bon Pastor,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,el Camp d'en Grassot i Gràcia Nova,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,el Camp de l'Arpa del Clot,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,el Carmel,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,el Clot,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,el Coll,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,el Congrés i els Indians,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,el Fort Pienc,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,el Guinardó,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,el Parc i la Llacuna del Poblenou,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,el Poble-sec,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,el Poblenou,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,el Putxet i el Farró,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,el Raval,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,el Turó de la Peira,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,l'Antiga Esquerra de l'Eixample,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,la Barceloneta,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,la Bordeta,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,la Clota,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,la Dreta de l'Eixample,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,la Font d'en Fargues,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,la Font de la Guatlla,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,la Guineueta,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,la Marina de Port,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,la Marina del Prat Vermell,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,la Maternitat i Sant Ramon,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,la Nova Esquerra de l'Eixample,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,la Prosperitat,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,la Sagrada Família,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,la Sagrera,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,la Salut,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,la Teixonera,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,la Trinitat Nova,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,la Trinitat Vella,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,la Vall d'Hebron,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,la Verneda i la Pau,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,la Vila Olímpica del Poblenou,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,la Vila de Gràcia,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,les Corts,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,les Roquetes,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-25,les Tres Torres,Traditional Festival,4,La Mercè 2025 - Day 3
+2025-09-26,Baró de Viver,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,Can Baró,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,Can Peguera,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,Canyelles,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,Ciutat Meridiana,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,Diagonal Mar i el Front Marítim del Poblenou,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,Horta,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,Hostafrancs,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,Montbau,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,Navas,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,Pedralbes,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,Porta,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,Provençals del Poblenou,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,Sant Andreu,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,Sant Antoni,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,Sant Genís dels Agudells,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,Sant Gervasi - Galvany,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,Sant Gervasi - la Bonanova,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,Sant Martí de Provençals,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,"Sant Pere, Santa Caterina i la Ribera",Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,Sants,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,Sants - Badal,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,Sarrià,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,Torre Baró,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,Vallbona,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,Vallcarca i els Penitents,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,"Vallvidrera, el Tibidabo i les Planes",Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,Verdun,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,Vilapicina i la Torre Llobeta,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,el Baix Guinardó,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,el Barri Gòtic,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,el Besòs i el Maresme,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,el Bon Pastor,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,el Camp d'en Grassot i Gràcia Nova,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,el Camp de l'Arpa del Clot,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,el Carmel,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,el Clot,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,el Coll,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,el Congrés i els Indians,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,el Fort Pienc,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,el Guinardó,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,el Parc i la Llacuna del Poblenou,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,el Poble-sec,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,el Poblenou,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,el Putxet i el Farró,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,el Raval,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,el Turó de la Peira,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,l'Antiga Esquerra de l'Eixample,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,la Barceloneta,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,la Bordeta,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,la Clota,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,la Dreta de l'Eixample,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,la Font d'en Fargues,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,la Font de la Guatlla,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,la Guineueta,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,la Marina de Port,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,la Marina del Prat Vermell,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,la Maternitat i Sant Ramon,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,la Nova Esquerra de l'Eixample,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,la Prosperitat,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,la Sagrada Família,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,la Sagrera,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,la Salut,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,la Teixonera,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,la Trinitat Nova,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,la Trinitat Vella,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,la Vall d'Hebron,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,la Verneda i la Pau,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,la Vila Olímpica del Poblenou,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,la Vila de Gràcia,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,les Corts,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,les Roquetes,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-26,les Tres Torres,Traditional Festival,4,La Mercè 2025 - Day 4
+2025-09-27,Baró de Viver,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,Can Baró,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,Can Peguera,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,Canyelles,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,Ciutat Meridiana,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,Diagonal Mar i el Front Marítim del Poblenou,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,Horta,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,Hostafrancs,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,Montbau,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,Navas,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,Pedralbes,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,Porta,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,Provençals del Poblenou,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,Sant Andreu,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,Sant Antoni,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,Sant Genís dels Agudells,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,Sant Gervasi - Galvany,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,Sant Gervasi - la Bonanova,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,Sant Martí de Provençals,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,"Sant Pere, Santa Caterina i la Ribera",Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,Sants,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,Sants - Badal,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,Sarrià,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,Torre Baró,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,Vallbona,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,Vallcarca i els Penitents,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,"Vallvidrera, el Tibidabo i les Planes",Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,Verdun,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,Vilapicina i la Torre Llobeta,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,el Baix Guinardó,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,el Barri Gòtic,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,el Besòs i el Maresme,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,el Bon Pastor,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,el Camp d'en Grassot i Gràcia Nova,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,el Camp de l'Arpa del Clot,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,el Carmel,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,el Clot,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,el Coll,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,el Congrés i els Indians,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,el Fort Pienc,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,el Guinardó,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,el Parc i la Llacuna del Poblenou,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,el Poble-sec,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,el Poblenou,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,el Putxet i el Farró,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,el Raval,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,el Turó de la Peira,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,l'Antiga Esquerra de l'Eixample,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,la Barceloneta,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,la Bordeta,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,la Clota,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,la Dreta de l'Eixample,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,la Font d'en Fargues,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,la Font de la Guatlla,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,la Guineueta,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,la Marina de Port,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,la Marina del Prat Vermell,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,la Maternitat i Sant Ramon,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,la Nova Esquerra de l'Eixample,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,la Prosperitat,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,la Sagrada Família,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,la Sagrera,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,la Salut,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,la Teixonera,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,la Trinitat Nova,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,la Trinitat Vella,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,la Vall d'Hebron,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,la Verneda i la Pau,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,la Vila Olímpica del Poblenou,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,la Vila de Gràcia,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,les Corts,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,les Roquetes,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-27,les Tres Torres,Traditional Festival,4,La Mercè 2025 - Day 5
+2025-09-28,Baró de Viver,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,Can Baró,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,Can Peguera,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,Canyelles,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,Ciutat Meridiana,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,Diagonal Mar i el Front Marítim del Poblenou,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,Horta,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,Hostafrancs,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,Montbau,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,Navas,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,Pedralbes,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,Porta,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,Provençals del Poblenou,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,Sant Andreu,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,Sant Antoni,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,Sant Genís dels Agudells,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,Sant Gervasi - Galvany,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,Sant Gervasi - la Bonanova,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,Sant Martí de Provençals,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,"Sant Pere, Santa Caterina i la Ribera",Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,Sants,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,Sants - Badal,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,Sarrià,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,Torre Baró,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,Vallbona,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,Vallcarca i els Penitents,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,"Vallvidrera, el Tibidabo i les Planes",Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,Verdun,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,Vilapicina i la Torre Llobeta,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,el Baix Guinardó,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,el Barri Gòtic,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,el Besòs i el Maresme,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,el Bon Pastor,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,el Camp d'en Grassot i Gràcia Nova,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,el Camp de l'Arpa del Clot,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,el Carmel,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,el Clot,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,el Coll,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,el Congrés i els Indians,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,el Fort Pienc,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,el Guinardó,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,el Parc i la Llacuna del Poblenou,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,el Poble-sec,Sporting Event,3,La Liga - FC Barcelona vs Real Sociedad (Jornada 7)
+2025-09-28,el Poble-sec,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,el Poblenou,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,el Putxet i el Farró,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,el Raval,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,el Turó de la Peira,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,l'Antiga Esquerra de l'Eixample,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,la Barceloneta,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,la Bordeta,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,la Clota,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,la Dreta de l'Eixample,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,la Font d'en Fargues,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,la Font de la Guatlla,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,la Guineueta,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,la Marina de Port,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,la Marina del Prat Vermell,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,la Maternitat i Sant Ramon,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,la Nova Esquerra de l'Eixample,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,la Prosperitat,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,la Sagrada Família,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,la Sagrera,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,la Salut,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,la Teixonera,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,la Trinitat Nova,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,la Trinitat Vella,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,la Vall d'Hebron,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,la Verneda i la Pau,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,la Vila Olímpica del Poblenou,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,la Vila de Gràcia,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,les Corts,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,les Roquetes,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-09-28,les Tres Torres,Traditional Festival,4,La Mercè 2025 - Day 6
+2025-10-01,el Poble-sec,Sporting Event,4,UEFA Champions League - FC Barcelona vs Paris Saint Germain (Jornada 2)
+2025-10-18,el Poble-sec,Sporting Event,3,La Liga - FC Barcelona vs Girona (Jornada 9)
+2025-10-21,el Poble-sec,Sporting Event,4,UEFA Champions League - FC Barcelona vs Olympiakos (Jornada 3)
+2025-11-02,el Poble-sec,Sporting Event,3,La Liga - FC Barcelona vs Elche (Jornada 11)
+2025-11-22,Les Corts,Sporting Event,3,La Liga - FC Barcelona vs Athletic Club (Jornada 13)
+2025-11-29,Les Corts,Sporting Event,3,La Liga - FC Barcelona vs Alavés (Jornada 14)
+2025-12-07,el Poble-sec,Trade Show/Exhibition,3,Salón del vehículo seminuevo
+2025-12-07,la Marina del Prat Vermell,Trade Show/Exhibition,4,Salón del Manga y del Anime
+2025-12-08,el Poble-sec,Trade Show/Exhibition,3,Salón del vehículo seminuevo
+2025-12-08,la Marina del Prat Vermell,Trade Show/Exhibition,4,Salón del Manga y del Anime
+2025-12-09,les Corts,Sporting Event,4,FC Barcelona vs. Eintracht Frankfurt - Liga de Campeones Jornada 6
+2025-12-11,el Poble-sec,Sporting Event,4,Premier Padel Finals
+2025-12-12,el Poble-sec,Sporting Event,4,Premier Padel Finals
+2025-12-13,el Poble-sec,Sporting Event,4,Premier Padel Finals
+2025-12-13,les Corts,Sporting Event,3,FC Barcelona vs. Osasuna - La Liga Jornada 16
+2025-12-14,el Poble-sec,Sporting Event,4,Premier Padel Finals

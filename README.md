@@ -6,6 +6,8 @@
 
 El proyecto de GoMotion consiste en la creación de un sistema de predicción de picos de movilidad utilizando datos históricos de Telefónica combinados con datos públicos como son archivos meteorológicos y calendarios de eventos. Se implementan modelos predictivos que anticipan flujos de movilidad con la finalidad de mejorar la red de movilidad local.
 
+For the English version of this readme, go <a href="README.en.md">here</a>.
+
 ## Importante
 
 - GoMotion ha sido creado con la intención de hacer una predicción de la movilidad en Barcelona para poder detectar fuertes picos y comprender de dónde vienen. La falta de datos precisos e útiles sobre el transporte público en Barcelona hace que sea complicado intentar proponer cambios en el transporte para lidiar con éstos. Sin embargo, hemos creado un modelo capaz de predecir picos de movilidad con gran precisión que hace que, teniendo datos de calidad sobre el transporte público de Barcelona (como proporciones de trayectos en transporte privado / público, capacidades exactas de autobuses y metro, número diario de buses/metro de cada línea, etc...), sea fácil proponer cambios en éste para hacer frente a dichos picos.
@@ -100,7 +102,7 @@ Para mejorar la precisión de nuestro modelo utilizaremos datos históricos de e
 Los archivos de eventos y festivos han sido recopilados a mano y se encuentran en `data/events.csv` y `data/holidays.csv` respectivamente.  
 Cada evento tiene asociados una fecha, una categoría, una lista de barrios en los que tiene lugar, y un impacto (del 1 al 5) relativo a su categoría. Los festivos únicamente tienen asociada una fecha.
 
-Para recopilar archivos meteorológicos utilizaremos la API de `OpenMeteo`, en el archivo `meteo.py`. Por simplicidad y porque creemos que es lo mejor para el modelo, recopilaremos para cada día, únicamente el nivel de lluvia y las temperaturas máxima y mínima.
+Para recopilar datos meteorológicos utilizaremos la API de `OpenMeteo`, en el archivo `meteo.py`. Por simplicidad y porque creemos que es lo mejor para el modelo, recopilaremos para cada día, únicamente el nivel de lluvia y las temperaturas máxima y mínima.
 
 #### 1.2.1. Eventos Seleccionados
 También por simplicidad, y porque es prácticamente imposible tener controlados todos los eventos de una ciudad tan activa como Barcelona, hemos seleccionado para nuestro análisis los eventos que creemos más relevantes. Es decir:  
@@ -122,7 +124,7 @@ Este proyecto hace uso de la API de Google Gemini. Su utilización está sujeta 
 GoMotion es capaz de predecir las intensidades de cada barrio con 7 días de antelación.
 
 ### 2.1. Datos Futuros de Meteorología
-De la misma manera que para el archivo meteorológico, utilizaremos la API de `OpenMeteo` (en `meteo.py`) para obtener las predicciones de temperatura y lluvia de la semana siguiente.
+De la misma manera que para los datos meteorológicos históricos, utilizaremos la API de `OpenMeteo` (en `meteo.py`) para obtener las predicciones de temperatura y lluvia de la semana siguiente.
 
 ### 2.2. Datos Futuros de Festivos y Eventos
 Para conocer los eventos y los de la semana siguiente hemos creado un sistema de **web-scrapping**. En `llm_scrapper.py`, utilizamos `playwright` y `bs4` para obtener el texto de las páginas web de nuestro interés (mencionadas en el apartado [1.2.1](#121-eventos-seleccionados)), y un LLM (`gemini`) que formatea los eventos y festivos encontrados para dejarlos listos para entrenar al modelo.

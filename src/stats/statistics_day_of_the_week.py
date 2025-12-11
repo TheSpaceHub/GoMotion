@@ -31,7 +31,7 @@ def by_barri(df: pd.DataFrame) -> pd.DataFrame:
     return df2
 
 
-def by_day_cat_analysis(df: pd.DataFrame) -> go.Figure:
+def by_day_cat_analysis(df: pd.DataFrame, t) -> go.Figure:
     '''It represents average excess of intensity by day of the week as percentage. It returns variances of these averages.'''
     df2 = df.copy()
     weekdays = {'Lunes': 0, 'Martes': 1, 'Miércoles': 2, 'Jueves': 3, 'Viernes': 4, 'Sábado': 5, 'Domingo': 6}
@@ -45,7 +45,7 @@ def by_day_cat_analysis(df: pd.DataFrame) -> go.Figure:
                                   if row['day_cat']==day])) for day in range(7)]
     variances = [np.var(np.array([row['intensity'] for _, row in df3.iterrows()
                                   if row['day_cat']==day])) for day in range(7)]
-    weekdays = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']
+    weekdays = t("weekdays")
 
     trace = go.Scatter(
         x=weekdays,
@@ -65,9 +65,9 @@ def by_day_cat_analysis(df: pd.DataFrame) -> go.Figure:
     fig = go.Figure(data=[trace])
 
     fig.update_layout(
-        title="EXCESO DE INTENSIDAD POR DÍA DE LA SEMANA",
-        xaxis_title="Día",
-        yaxis_title="Exceso de intensidad(%)",
+        title=t("dotw_i_excess"),
+        xaxis_title=t("day"),
+        yaxis_title=f"{t("i_excess")}(%)",
         template="plotly_white" # Optional: provides a clean white background
     )
     return fig

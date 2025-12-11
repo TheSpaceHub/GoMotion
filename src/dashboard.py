@@ -4,17 +4,121 @@ import streamlit as st
 import pandas as pd
 import datetime
 import numpy as np
-import locale
 from datetime import date
 from metadata_manager import MetadataManager
 
-try:
-    locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
-except locale.Error:
-    try:
-        locale.setlocale(locale.LC_TIME, 'Spanish_Spain') 
-    except locale.Error:
-        locale.setlocale(locale.LC_TIME, '')
+TRANSLATIONS = {
+    "es": {
+        "title": "Movilidad en Barcelona",
+        "daily_summary": "Resumen Diario",
+        "total_traffic": "Tráfico Total",
+        "anomalies": "Nº ANOMALÍAS",
+        "events": "Eventos",
+        "no_events": "No hay eventos",
+        "holiday": "FESTIVO",
+        "workday": "LABORABLE",
+        "holiday_status_normal": "Día Normal",
+        "holiday_status_fest": "Festivo",
+        "temp_label": "Temp. Máx. / Mín.",
+        "precip_label": "Precipitación",
+        "i_label": "Intensidad",
+        "heatmap": "Mapa de calor",
+        "select_date": "Seleccione fecha",
+        "ranking": "Ranking por barrio",
+        "traffic": "Tráfico",
+        "festive_day_label": "DÍA FESTIVO",
+        "neighborhood": "Barrio",
+        "peak": "Pico",
+        "density": "Densidad",
+        "deviation": "Desviación",
+        "event_details": "Ver detalles de eventos",
+        "no_events_for_today": "No se registraron eventos para la fecha seleccionada.",
+        "neighborhood_ranking": "Ranking por barrio",
+        "chart_weekly": "PERFIL SEMANAL DE TRÁFICO",
+        "chart_monthly": "EVOLUCIÓN MENSUAL DE TRÁFICO",
+        "chart_events": "IMPACTO MEDIO DE EVENTOS",
+        "chart_rain": "CORRELACIÓN PRECIPITACIÓN / INTENSIDAD",
+        "chart_holiday": "DISTRIBUCIÓN: LABORABLE VS FESTIVO",
+        "chart_i_s": "INTENSIDAD / SUPERFICIE (TODOS LOS BARRIOS)",
+        "weekdays": ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+        "months": ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio',
+               'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        "intensity_axis": "INTENSIDAD MEDIA",
+        "detailed_analysis": "ANÁLISIS DETALLADO",
+        "model_analysis": "ANÁLISIS DEL MODELO",
+        "shap_importance": "IMPORTANCIAS DE LAS CARACTERISTICAS SHAP",
+        "model_precision": 'PRECISIÓN DEL MODELO',
+        "peak_ok": 'Pico Acertado',
+        "peak_under": 'Subestimación',
+        "peak_over": "Sobrestimación",
+        "all_stats": "ESTADÍSTICAS DE TODOS LOS BARRIOS",
+        "dotw_i_excess": "EXCESO DE INTENSIDAD POR DÍA DE LA SEMANA",
+        "month_i_excess": "EXCESO DE INTENSIDAD MENSUAL",
+        "i_excess": "Exceso de Intensidad",
+        "traffic_i": "Intensidad de Tráfico",
+        "surface": "Superficie",
+        "day": "Día",
+        "month": "Mes",
+    },
+    "en": {
+        "title": "Mobility in Barcelona",
+        "daily_summary": "Daily Summary",
+        "total_traffic": "Total Traffic",
+        "anomalies": "NO. OF ANOMALIES",
+        "events": "Events",
+        "no_events": "No events",
+        "holiday": "HOLIDAY",
+        "workday": "WORKDAY",
+        "neighborhood": "Neighborhood",
+        "holiday_status_normal": "Regular Day",
+        "holiday_status_fest": "Holiday",
+        "temp_label": "Max / Min Temp.",
+        "precip_label": "Precipitation",
+        "i_label": "Intensity",
+        "heatmap": "Heatmap",
+        "select_date": "Select Date",
+        "ranking": "Neighborhood Ranking",
+        "traffic": "Traffic",
+        "festive_day_label": "HOLIDAY",
+        "peak": "Peak",
+        "density": "Density",
+        "deviation": "Deviation",
+        "event_details": "See event details",
+        "no_events_for_today": "No recorded events for the selected day.",
+        "neighborhood_ranking": "Neighborhood ranking",
+        "chart_weekly": "WEEKLY TRAFFIC PROFILE",
+        "chart_monthly": "MONTHLY TRAFFIC EVOLUTION",
+        "chart_events": "AVG EVENT IMPACT",
+        "chart_rain": "CORRELATION RAIN / INTENSITY",
+        "chart_holiday": "DISTRIBUTION: WORKDAY VS HOLIDAY",
+        "chart_i_s": "INTENSITY / SURFACE AREA",
+        "weekdays": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        "months": ['January', 'February', 'March', 'Aprli', 'May', 'June', 'July',
+               'August', 'September', 'October', 'November', 'December'],
+        "intensity_axis": "AVG INTENSITY",
+        "detailed_analysis": "DETAILED ANALYSIS",
+        "model_analysis": "MODEL ANALYSIS",
+        "shap_importance": "SHAP FEATURE IMPORTANCE",
+        "model_precision": 'MODEL PRECISION',
+        "peak_ok": 'Predicted peak',
+        "peak_under": 'Underestimation',
+        "peak_over": "Overestimation",
+        "all_stats": "STATISTICS FOR ALL NEIGHBORHOODS",
+        "dotw_i_excess": "INTENSITY EXCESS BY DAY OF THE WEEK",
+        "month_i_excess": "INTENSITY EXCESS BY MONTH",
+        "i_excess": "Intensity Excess",
+        "traffic_i": "Traffic Intensity",
+        "surface": "Surface",
+        "day": "Day",
+        "month": "Month",
+    }
+}
+
+lang_code = "es"
+
+def t(key: str):
+    '''Returns the translated key for the selected language'''
+    return TRANSLATIONS[lang_code][key]
 
 # Declare useful color palette and fonts
 PRIMARY_TEXT_COLOR = "#0f172a"  
@@ -30,7 +134,7 @@ AXIS_FONT = dict(size=10, color=SUBTITLE_COLOR, family='Segoe UI, sans-serif')
 
 #Streamlit config
 st.set_page_config(
-    page_title="GoMotion: Movilidad en Barcelona",
+    page_title="GoMotion",
     page_icon="media/GoMotionShortLogo.ico",
     layout="wide", 
     initial_sidebar_state="collapsed"
@@ -47,6 +151,10 @@ st.markdown(
         --text-color: #0f172a; /* text color */
         --font: 'Segoe UI', sans-serif;
     }
+    div[data-testid="stSelectbox"] input {
+    caret-color: transparent;
+    cursor: pointer;
+}
     </style>
     """, unsafe_allow_html=True
 )
@@ -78,10 +186,16 @@ st.markdown(f"""
 
 f"""/* General Layout & Background */
 .stApp {{
-    background-color: {BACKGROUND_COLOR};    st.markdown(f'<p class="subtitle">Movilidad en Barcelona</p>', unsafe_allow_html=True)
+    background-color: {BACKGROUND_COLOR};    st.markdown(f'<p class="subtitle">{t("title")}</p>', unsafe_allow_html=True)
 
     color: {PRIMARY_TEXT_COLOR};
     padding-top: 2rem;
+}}
+
+/* Sidebar */
+[data-testid="stSidebar"] {{
+    min-width: 80px !important;
+    max-width: 100px !important;
 }}
 
 /* Subtitle */
@@ -286,15 +400,26 @@ def barri_heatmap(df_current_day: pd.DataFrame, stats: pd.DataFrame, gdf: gpd.Ge
 
 def render_header() -> None:
     """Renders main title and subtitle using the defined CSS classes"""
-    st.image("media/GoMotionLogo.png", width=250)
-    st.markdown(f'<p class="subtitle">Movilidad en Barcelona</p>', unsafe_allow_html=True)
+    col_header, col_lang = st.columns([7, 1])
+    with col_lang:
+        lang_selection = st.selectbox(
+                "Language", 
+                ["Español", "English"], 
+                index=0, 
+                label_visibility="collapsed"
+            )
+        lang_code = "es" if lang_selection == "Español" else "en"
+    with col_header:
+        st.image("media/GoMotionLogo.png", width=250)
+        st.markdown(f'<p class="subtitle">{TRANSLATIONS[lang_code]["title"]}</p>', unsafe_allow_html=True)
+    return lang_code
 
 def render_kpis(df_filtered: pd.DataFrame, df_prev_month: pd.DataFrame, df_events: pd.DataFrame) -> None:
     """Computes and renders KPI cards with updated Daily Summary content in 5 columns"""
     
     target_date = st.session_state.selected_date
     target_date_pddatetime = pd.to_datetime(target_date)
-    st.markdown('<div class="section-header">Resumen Diario</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="section-header">{t("daily_summary")}</div>', unsafe_allow_html=True)
 
     traffic_today = int(df_filtered["intensity"].sum()) // 2
     daily_sums = df_prev_month.groupby('day')['intensity'].sum()
@@ -304,10 +429,10 @@ def render_kpis(df_filtered: pd.DataFrame, df_prev_month: pd.DataFrame, df_event
     delta_traffic_str = f"{(delta_traffic / traffic_mean) * 100:.1f}%"
 
     num_events = len(df_events[df_events["day"] == target_date_pddatetime]["description"].unique())
-    category = "No hay eventos" if num_events == 0 else df_events[df_events['day'].dt.date == target_date]['category'].iloc[0]
+    category = t("no_events") if num_events == 0 else df_events[df_events['day'].dt.date == target_date]['category'].iloc[0]
     
     is_holiday = (df_filtered.iloc[0] == 1).any()
-    holiday_status = "Día Normal" if not is_holiday else "Festivo"
+    holiday_status = t("holiday_status_normal") if not is_holiday else t("holiday_status_fest")
 
     temp_max_today = df_filtered["temperature_2m_max"].iloc[0]
     temp_min_today = df_filtered["temperature_2m_min"].iloc[0]
@@ -323,14 +448,14 @@ def render_kpis(df_filtered: pd.DataFrame, df_prev_month: pd.DataFrame, df_event
     col1, col2, col3, col4, col5 = st.columns(5)
     
     with col1:
-        st.metric("Tráfico Total", traffic_today, delta=delta_traffic_str)
+        st.metric(t("total_traffic"), traffic_today, delta=delta_traffic_str)
 
     with col2: 
         st.markdown(f"""
         <div data-testid="stMetric" style="background-color: {SECONDARY_BACKGROUND}; border: 1px solid #E5E7EB; border-radius: 8px; padding: 13px 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.03);">
-            <div data-testid="stMetricLabel" style="color: {SUBTITLE_COLOR}; text-transform: uppercase; font-size: 0.9rem;">Nº ANOMALÍAS</div>
+            <div data-testid="stMetricLabel" style="color: {SUBTITLE_COLOR}; text-transform: uppercase; font-size: 0.9rem;">{t("anomalies")}</div>
             <div data-testid="stMetricValue" style="color: {PRIMARY_TEXT_COLOR}; font-size: 1.8rem; font-weight: 700;">
-                {num_events} Eventos
+                {num_events} {t("events")}
             </div>
             <div style="font-size: 0.9rem; color: {SUBTITLE_COLOR}; padding-top: 5px; font-weight: 500;">
                 {category}
@@ -340,7 +465,7 @@ def render_kpis(df_filtered: pd.DataFrame, df_prev_month: pd.DataFrame, df_event
     with col3: 
         st.markdown(f"""
         <div data-testid="stMetric" style="background-color: {SECONDARY_BACKGROUND}; border: 1px solid #E5E7EB; border-radius: 8px; padding: 13px 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.03);">
-            <div data-testid="stMetricLabel" style="color: {SUBTITLE_COLOR}; text-transform: uppercase; font-size: 0.9rem;">DÍA FESTIVO</div>
+            <div data-testid="stMetricLabel" style="color: {SUBTITLE_COLOR}; text-transform: uppercase; font-size: 0.9rem;">{t("festive_day_label")}</div>
             <div data-testid="stMetricValue" style="color: {PRIMARY_TEXT_COLOR}; font-size: 1.8rem; font-weight: 700;">
                 {is_holiday}
             </div>
@@ -351,13 +476,13 @@ def render_kpis(df_filtered: pd.DataFrame, df_prev_month: pd.DataFrame, df_event
         """, unsafe_allow_html=True)
         
     with col4: 
-        st.metric("Temp. Máx. / Mín.", f"{temp_max_today}°C / {temp_min_today}°C", delta=delta_temp_str) 
+        st.metric(t("temp_label"), f"{temp_max_today}°C / {temp_min_today}°C", delta=delta_temp_str) 
 
     with col5: 
-        st.metric("Precipitación", f"{precip_today} mm", delta=delta_precip_str) 
+        st.metric(t("precip_label"), f"{precip_today} mm", delta=delta_precip_str) 
         
     st.markdown('<div style="margin-top: 10px;"></div>', unsafe_allow_html=True) 
-    with st.expander(f"Ver Detalles de Eventos", expanded=False):
+    with st.expander(t("event_details"), expanded=False):
         if num_events > 0:
             df_events_today = df_events[(df_events["day"] == target_date_pddatetime)]
             df_events_today = df_events_today[["category","description","barri","impact"]]
@@ -367,7 +492,7 @@ def render_kpis(df_filtered: pd.DataFrame, df_prev_month: pd.DataFrame, df_event
                 hide_index=True
             )
         else:
-            st.info("No se registraron eventos para la fecha seleccionada.")
+            st.info(t("no_events_for_today"))
 
 def render_map_ranking_section(df_day: pd.DataFrame, stats: pd.DataFrame, gdf: gpd.GeoDataFrame, min_date: date, max_date: date) -> None:
     """Renders heat map, date selector and ranking"""
@@ -380,7 +505,7 @@ def render_map_ranking_section(df_day: pd.DataFrame, stats: pd.DataFrame, gdf: g
     df_day = df_day.merge(gdf_superf, on='barri', how='left')
     
     with c_map: #Heatmap 
-        st.markdown('<div class="section-header">Mapa de calor</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-header">{t("heatmap")}</div>', unsafe_allow_html=True)
         fig = barri_heatmap(df_day, stats, gdf)
         st.plotly_chart(
                     fig,
@@ -391,7 +516,7 @@ def render_map_ranking_section(df_day: pd.DataFrame, stats: pd.DataFrame, gdf: g
                 )
     with c_tab: # Date selector and ranking
         
-        st.markdown('<div class="section-header">Seleccione fecha</div>', unsafe_allow_html=True)   #Date selector
+        st.markdown(f'<div class="section-header">{t("select_date")}</div>', unsafe_allow_html=True)   #Date selector
         st.date_input(
             "Fecha",
             min_value=min_date,
@@ -399,7 +524,7 @@ def render_map_ranking_section(df_day: pd.DataFrame, stats: pd.DataFrame, gdf: g
             label_visibility="collapsed",
             key="selected_date"  
         )
-        st.markdown('<div class="section-header">Ranking por barrio</div>', unsafe_allow_html=True) #Ranking
+        st.markdown(f'<div class="section-header">{t("neighborhood_ranking")}</div>', unsafe_allow_html=True) #Ranking
         if not df_day.empty:
             df_view = df_day.merge(stats, on="barri", how="left")
             df_view['Actual'] = np.ceil(df_view['intensity']).astype(int)
@@ -419,12 +544,12 @@ def render_map_ranking_section(df_day: pd.DataFrame, stats: pd.DataFrame, gdf: g
                     'Nivel Z': '{:.2f}'
                 }),
                 column_config={
-                    "barri": "Barrio",
-                    "Actual": st.column_config.NumberColumn("Tráfico", format="%d"),
+                    "barri": t("neighborhood"),
+                    "Actual": st.column_config.NumberColumn(t("traffic"), format="%d"),
                     "Media": "Media Hist.",
-                    "Pico": st.column_config.TextColumn("Pico", width=150),
-                    "Densidad": "Densidad",
-                    "Nivel Z": "Desviación"
+                    "Pico": st.column_config.TextColumn(t("peak"), width=150),
+                    "Densidad": t("density"),
+                    "Nivel Z": t("deviation")
                     
                 },
                 hide_index=True,
@@ -475,7 +600,7 @@ def plot_barri_details(df_full: pd.DataFrame, df_events: pd.DataFrame, df_filter
     df_barri['weekday_num'] = df_barri['day'].dt.weekday
     df_barri['day_of_the_week'] = df_barri['day'].dt.strftime('%A')
     weekly_stats = df_barri.groupby('weekday_num').agg({'intensity': 'mean', 'day_of_the_week': 'first'}).sort_index()
-    dias_espanol = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']
+    dias_espanol = t("weekdays")
     if len(weekly_stats) == 7: weekly_stats['day_of_the_week'] = dias_espanol
 
     fig_week = go.Figure(go.Bar(
@@ -483,7 +608,7 @@ def plot_barri_details(df_full: pd.DataFrame, df_events: pd.DataFrame, df_filter
         text=weekly_stats['intensity'].round(0), textposition='outside', hovertemplate='Día: %{x}<br>Intensidad Media: %{y:.0f}<extra></extra>'
     ))
     fig_week.update_layout(bargap=0.3, xaxis=dict(showgrid=False, title_text='', tickfont=AXIS_FONT),
-                           yaxis=dict(title_text='INTENSIDAD MEDIA', showgrid=True, gridcolor=GRID_COLOR, zeroline=False, tickfont=AXIS_FONT))
+                           yaxis=dict(title_text=t("intensity_axis"), showgrid=True, gridcolor=GRID_COLOR, zeroline=False, tickfont=AXIS_FONT))
 
     # ----------------------------------------------------------------------
     # 2. Evolución Mensual (Line Chart) -> CAMBIO DE COLOR A ROJO
@@ -500,7 +625,7 @@ def plot_barri_details(df_full: pd.DataFrame, df_events: pd.DataFrame, df_filter
         fillcolor='rgba(239, 68, 68, 0.1)', # Relleno rojo claro
         hovertemplate='Mes: %{x}<br>Intensidad Media: %{y:.0f}<extra></extra>'))
     fig_mon.update_layout(xaxis=dict(showgrid=False, title_text='', tickfont=AXIS_FONT), 
-                          yaxis=dict(title_text='INTENSIDAD MEDIA', showgrid=True, gridcolor=GRID_COLOR, zeroline=False, tickfont=AXIS_FONT))
+                          yaxis=dict(title_text=t("intensity_axis"), showgrid=True, gridcolor=GRID_COLOR, zeroline=False, tickfont=AXIS_FONT))
 
     # ----------------------------------------------------------------------
     # 3. Impacto Medio por Evento (Horizontal Bar Chart)
@@ -510,7 +635,7 @@ def plot_barri_details(df_full: pd.DataFrame, df_events: pd.DataFrame, df_filter
     fig_cat = go.Figure(go.Bar(x=cat_stats['intensity'], y=cat_stats['category'], orientation='h',
         marker=dict(color=cat_stats['intensity'], colorscale=[(0, SUBTITLE_COLOR), (1, ACCENT_COLOR)], line=dict(color=GRID_COLOR, width=1.5)), 
         opacity=0.9, hovertemplate='Categoría: %{y}<br>Intensidad Media: %{x:.0f}<extra></extra>'))
-    fig_cat.update_layout(xaxis=dict(title_text='INTENSIDAD MEDIA', showgrid=True, gridcolor=GRID_COLOR, zeroline=False, tickfont=AXIS_FONT),
+    fig_cat.update_layout(xaxis=dict(title_text=t("intensity_axis"), showgrid=True, gridcolor=GRID_COLOR, zeroline=False, tickfont=AXIS_FONT),
                           yaxis=dict(title_text='', tickfont=AXIS_FONT))
 
     # ----------------------------------------------------------------------
@@ -518,21 +643,21 @@ def plot_barri_details(df_full: pd.DataFrame, df_events: pd.DataFrame, df_filter
     # ----------------------------------------------------------------------
     fig_hol = px.box(df_barri, x='is_holiday', y='intensity', color='is_holiday',
         color_discrete_map={0.0: ACCENT_COLOR, 1.0: DELTA_NEGATIVE_COLOR}, 
-        labels={'is_holiday': 'Tipo de Día', 'intensity': 'Intensidad de Tráfico'}, hover_data={'is_holiday': False})
+        labels={'is_holiday': 'Tipo de Día', 'intensity': t("traffic_i")}, hover_data={'is_holiday': False})
     fig_hol.update_traces(marker_size=5, line_width=1.5, selector=dict(type='box'))
-    fig_hol.update_layout(showlegend=False, xaxis=dict(title_text='', tickvals=[0, 1], ticktext=['LABORABLE', 'FESTIVO'], 
+    fig_hol.update_layout(showlegend=False, xaxis=dict(title_text='', tickvals=[0, 1], ticktext=[t("workday"), t("holiday")], 
         showgrid=False, tickfont=AXIS_FONT),
-        yaxis=dict(title_text='INTENSIDAD DE TRÁFICO', showgrid=True, gridcolor=GRID_COLOR, zeroline=False, tickfont=AXIS_FONT))
+        yaxis=dict(title_text=t("traffic_i").upper(), showgrid=True, gridcolor=GRID_COLOR, zeroline=False, tickfont=AXIS_FONT))
 
     # ----------------------------------------------------------------------
     # 5. Correlación Lluvia / Tráfico (Scatter Plot)
     # ----------------------------------------------------------------------
     fig_rain = px.scatter(df_barri, x="precipitation_sum", y="intensity", trendline="ols",
         trendline_color_override=DELTA_NEGATIVE_COLOR, opacity=0.6, color_discrete_sequence=[ACCENT_COLOR], 
-        labels={"precipitation_sum": "Precipitación (mm)", "intensity": "Intensidad de Tráfico"},
+        labels={"precipitation_sum": f"{t("precip_label")} (mm)", "intensity": t("traffic_i")},
         hover_data={"day": "|%Y-%m-%d", "precipitation_sum": ':.1f', "intensity": ':.0f'})
     fig_rain.update_traces(marker=dict(size=8, line=dict(width=1, color=SECONDARY_BACKGROUND)))
-    fig_rain.update_layout(xaxis_title="PRECIPITACIÓN (MM)", yaxis_title="INTENSIDAD",
+    fig_rain.update_layout(xaxis_title=f"{t("precip_label").upper()} (MM)", yaxis_title=t("i_label").upper(),
         xaxis=dict(showgrid=True, gridcolor=GRID_COLOR, zeroline=False, tickfont=AXIS_FONT), 
         yaxis=dict(showgrid=True, gridcolor=GRID_COLOR, zeroline=False, tickfont=AXIS_FONT))
 
@@ -550,39 +675,39 @@ def plot_barri_details(df_full: pd.DataFrame, df_events: pd.DataFrame, df_filter
         False: ACCENT_COLOR
         },)
     fig_superf.update_traces(marker=dict(size=8, line=dict(width=1, color=SECONDARY_BACKGROUND)))
-    fig_superf.update_layout(xaxis_title="SUPERFICIE (KM^2)", yaxis_title="INTENSIDAD",
+    fig_superf.update_layout(xaxis_title=f"{t("surface").upper()} (KM^2)", yaxis_title=t("i_label").upper(),
         xaxis=dict(showgrid=True, gridcolor=GRID_COLOR, zeroline=False, tickfont=AXIS_FONT), 
         yaxis=dict(showgrid=True, gridcolor=GRID_COLOR, zeroline=False, tickfont=AXIS_FONT), showlegend=False)
     
-    st.markdown(f'<div class="section-header">ANÁLISIS DETALLADO: <span style="color:{PRIMARY_TEXT_COLOR};">{barri_name.upper()}</span></div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="section-header">{t("detailed_analysis")}: <span style="color:{PRIMARY_TEXT_COLOR};">{barri_name.upper()}</span></div>', unsafe_allow_html=True)
     c1, c2, c3 = st.columns(3, gap="small") 
 
     with c1: 
-        wrap_chart_in_card(fig_week, "PERFIL SEMANAL DE TRÁFICO")
+        wrap_chart_in_card(fig_week, t("chart_weekly"))
     
     with c2: 
-        wrap_chart_in_card(fig_mon, "EVOLUCIÓN MENSUAL DE TRÁFICO") 
+        wrap_chart_in_card(fig_mon, t("chart_monthly")) 
     
     with c3: 
-        wrap_chart_in_card(fig_cat, "IMPACTO MEDIO DE EVENTOS")
+        wrap_chart_in_card(fig_cat, t("chart_events"))
 
     c4, c5, c6 = st.columns(3, gap="small")
     
     with c4: 
-        wrap_chart_in_card(fig_rain, "CORRELACIÓN PRECIPITACIÓN / INTENSIDAD")
+        wrap_chart_in_card(fig_rain, t("chart_rain"))
 
     with c5: 
-        wrap_chart_in_card(fig_hol, "DISTRIBUCIÓN: LABORABLE VS FESTIVO")
+        wrap_chart_in_card(fig_hol, t("chart_holiday"))
 
     with c6:
-        wrap_chart_in_card(fig_superf, "INTENSIDAD / SUPERFICIE (TODOS LOS BARRIOS)")
+        wrap_chart_in_card(fig_superf, t("chart_i_s"))
         
 def plot_model_analysis(model: Multiregressor) -> None:
     """Plots feature importances and model details"""
     import plotly.graph_objects as go
     import plotly.express as px
     
-    st.markdown(f'<div class="section-header">ANÁLISIS DEL MODELO<span style="color:{PRIMARY_TEXT_COLOR};"></span></div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="section-header">{t("model_analysis")}<span style="color:{PRIMARY_TEXT_COLOR};"></span></div>', unsafe_allow_html=True)
     c1, c2 = st.columns([2, 1], gap="small")
     importances = list(model.get_feature_importances())
     event_importance = sum(importances[-5:])
@@ -614,12 +739,12 @@ def plot_model_analysis(model: Multiregressor) -> None:
     
     # Model precisions
     fig_precision =  px.pie(values = [float(accuracy), float(under_estimated), float(over_estimated)],
-            names = ['Pico Acertado', 'Subestimación', 'Sobrestimación' ], color = ['Pico Acertado', 'Subestimación', 'Sobrestimación' ] ,color_discrete_map= {"Pico Acertado" : "#ffd127", "Subestimación":"#69298f", "Sobrestimación":"#ffa900"})
+            names = [t("peak_ok"), t("peak_under"), t("peak_over") ], color = [t("peak_ok"), t("peak_under"), t("peak_over") ] ,color_discrete_map= {t("peak_ok") : "#ffd127", t("peak_under"):"#69298f", t("peak_over"):"#ffa900"})
     
     fig_precision.update_layout(
         paper_bgcolor=SECONDARY_BACKGROUND, 
         plot_bgcolor=SECONDARY_BACKGROUND,
-        title=dict(text='PRECISIÓN DEL MODELO', font=TITLE_FONT, x=0.01),
+        title=dict(text=t("model_precision"), font=TITLE_FONT, x=0.01),
         height=400,
         autosize=True,
         template='plotly_white', 
@@ -633,7 +758,7 @@ def plot_model_analysis(model: Multiregressor) -> None:
         )
     
     with c1:    # Feature importances plot
-        wrap_chart_in_card(fig_importances, "IMPORTANCIAS DE LAS CARACTERISTICAS SHAP", height=400)
+        wrap_chart_in_card(fig_importances, t("shap_importance"), height=400)
     with c2:    # Model presicion plot
         st.plotly_chart(fig_precision, width="stretch", config={'displayModeBar': False})
 
@@ -643,15 +768,15 @@ def plot_stats(df: pd.DataFrame) -> None:
     from stats import statistics_day_of_the_week, statistics_month
     import plotly.tools as tls
     
-    fig_week = statistics_day_of_the_week.by_day_cat_analysis(df)
-    fig_month, _ = statistics_month.by_month_analysis(df)
+    fig_week = statistics_day_of_the_week.by_day_cat_analysis(df, t)
+    fig_month, _ = statistics_month.by_month_analysis(df, t)
     
     c1, c2 = st.columns([1, 1], gap="small") 
     
     with c1: 
-        wrap_chart_in_card(fig_week, "EXCESO DE INTENSIDAD POR DÍA DE LA SEMANA")
+        wrap_chart_in_card(fig_week, t("dotw_i_excess"))
     with c2: 
-        wrap_chart_in_card(fig_month, "EXCESO DE INTESNIDAD MENSUAL") 
+        wrap_chart_in_card(fig_month, t("month_i_excess")) 
 
 
 def main() -> None:
@@ -685,9 +810,9 @@ def main() -> None:
 
 
     loader_placeholder.empty()
-    render_header()
+    global lang_code
+    lang_code = render_header()
 
-     
     min_date = df['day'].min().date()
     max_date = df['day'].max().date()
         
@@ -706,7 +831,7 @@ def main() -> None:
     plot_model_analysis(model)
     
     with st.spinner("Cargando..."):
-        st.markdown(f'<div class="section-header">ESTADÍSTICAS DE TODOS LOS BARRIOS<span style="color:{PRIMARY_TEXT_COLOR};"></span></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-header">{t("all_stats")}<span style="color:{PRIMARY_TEXT_COLOR};"></span></div>', unsafe_allow_html=True)
         plot_stats(df)
     
 if __name__ == "__main__":

@@ -57,7 +57,7 @@ barri_coefs = {
     "la Trinitat Nova": 0.2,
     "Torre Baró": 0.1,
     "Ciutat Meridiana": 0.1,
-    "Vallbona": 0.0,
+    "Vallbona": 0.1,
     "la Trinitat Vella": 0.1,
     "Baró de Viver": 0.1,
     "el Bon Pastor": 0.3,

@@ -31,7 +31,7 @@ def by_barri(df: pd.DataFrame) -> pd.DataFrame:
     return df2
 
 
-def by_month_analysis(df: pd.DataFrame) -> go.Figure:
+def by_month_analysis(df: pd.DataFrame, t) -> go.Figure:
     '''It represents average excess of intensity by month as percentage. It returns variances of these averages.'''
     df["month"] = [int(x) for x in df["month_cat"]]
     df2 = df.copy()
@@ -46,8 +46,7 @@ def by_month_analysis(df: pd.DataFrame) -> go.Figure:
                                   if row['month']==month])) for month in range(1, 13)]
     variances = [np.var(np.array([row['intensity'] for _, row in df3.iterrows()
                                   if row['month']==month])) for month in range(1, 13)]
-    months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio',
-               'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+    months = t("months")
 
     trace = go.Scatter(
         x=months,
@@ -68,9 +67,9 @@ def by_month_analysis(df: pd.DataFrame) -> go.Figure:
     fig = go.Figure(data=[trace])
 
     fig.update_layout(
-        title="EXCESO DE INTESNIDAD MENSUAL",
-        xaxis_title="Mes",
-        yaxis_title="Exceso de intensidad(%)",
+        title=t("month_i_excess"),
+        xaxis_title=t("month"),
+        yaxis_title=f"{t("i_excess")}(%)",
         template="plotly_white"
     )
 

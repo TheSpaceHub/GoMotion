@@ -235,9 +235,9 @@ def main():
             manager, hyperparameter_optimizer.features, train, test
         )
 
-    os.system("streamlit run src/dashboard.py")
 
 
 if __name__ == "__main__":
     pd.set_option("display.max_columns", None)
     main()
+    os.system("streamlit run src/dashboard.py")

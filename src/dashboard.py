@@ -803,8 +803,8 @@ def main() -> None:
             stats = compute_zscore_stats(df)
             df_events = load_event_df(engine)
         except Exception as e:
-            print(e)
-            st.error("Error: Problema cargando datos.")
+            st.error(e)
+            #st.error("Error: Problema cargando datos.")
             st.stop()
             
 

@@ -6,6 +6,8 @@ import datetime
 import numpy as np
 from datetime import date
 from metadata_manager import MetadataManager
+import database_connection as db
+import sqlalchemy as sql
 
 TRANSLATIONS = {
     "es": {
@@ -259,62 +261,68 @@ def capitalize_first_letter(s) -> str:
     return s[0].upper() + s[1:]
 
 @st.cache_resource
-def update_predictions() -> Multiregressor:
-    """Returns model and updates predictions for following 7 days by calling fill_data"""
-    #lazy imports to improve speed
-    from data_filler import fill_data
-    from meteo import ONE_WEEK
+def get_db_engine() -> sql.Engine:
+    engine = db.connect_to_db()
+    return engine
 
-    manager = MetadataManager()
-    last_date_str = str(manager.get("last_predicted_day"))
-    if last_date_str == "nan":
-        _, model = fill_data(pd.read_csv('data/data_processed.csv'), pd.to_datetime(ONE_WEEK.strftime("%Y-%m-%d")))
-    else:
-        _, model = fill_data(pd.read_csv('data/data_extended.csv'), pd.to_datetime(ONE_WEEK.strftime("%Y-%m-%d")))
-    manager.set("last_predicted_day", ONE_WEEK.strftime("%Y-%m-%d"))
-    return model
 
 @st.cache_data  
-def load_df() -> pd.DataFrame:
-    """Loads and returs data_extended DataFrame"""
-    df = pd.read_csv('data/data_extended.csv')
+def load_df(_engine: sql.Engine) -> pd.DataFrame:
+    """Loads the DataFrame with the relevant data from the database.
+
+    Args:
+        engine (sql.Engine): Engine object referencing the database.
+
+    Returns:
+        pd.DataFrame: DataFrame with useful data.
+    """
+    df = pd.read_sql("display_data", con=_engine)
     df['day'] = pd.to_datetime(df['day'])
     df['barri'] = df['barri'].apply(capitalize_first_letter)
     return df
 
 @st.cache_data  
-def load_event_df() -> pd.DataFrame:
-    """Loads and returns events DataFrame"""
-    df = pd.read_csv('data/all_events.csv')
+def load_event_df(_engine: sql.Engine) -> pd.DataFrame:
+    """Loads all events from the database.
+
+    Args:
+        engine (sql.Engine): Engine object referencing the database.
+
+    Returns:
+        pd.DataFrame: DataFrame containing event information.
+    """
+    df = pd.read_sql('events', con=_engine)
     df['day'] = pd.to_datetime(df['day'])
     df['barri'] = df['barri'].apply(capitalize_first_letter)
     return df
 
 @st.cache_resource  
-def load_geodata() -> tuple[nx.Graph, gpd.GeoDataFrame]:
-    """Returns Graph of barris and GeoDataFrame storing barris geodata"""
-    #lazy imports to improve speed
-    import barri_manager as bm
-    
-    G = bm.create_graph()
-    gdf = bm.load_gdf().rename(columns={"nom_barri": "barri"})
+def load_geodata(_engine: sql.Engine) -> gpd.GeoDataFrame:
+    """Returns Graph of barris and GeoDataFrame storing barris geodata"""    
+    import shapely
+    import geopandas as gpd
+    gdf = pd.read_sql("geospatial_data", con=_engine).rename(columns={"nom_barri": "barri"})
     gdf["barri"] = gdf["barri"].apply(capitalize_first_letter)
-    if gdf.crs is None:
-        try:
-            gdf.set_crs("EPSG:25831", allow_override=True, inplace=True)
-        except: pass 
-    try:
-        gdf = gdf.to_crs("EPSG:4326")
-    except Exception: 
-        pass
-    return G, gdf
+    gdf['geometria_wgs84'] = gdf['geometria_wgs84'].apply(shapely.wkt.loads)
+    gdf = gpd.GeoDataFrame(
+        gdf, 
+        geometry='geometria_wgs84', 
+        crs="EPSG:4326"
+    )
+    return gdf
+
+@st.cache_data
+def load_importances(_engine: sql.Engine) -> tuple:
+    i_and_f_df = pd.read_sql("importances_and_features", con=_engine)
+    importances = list(i_and_f_df["importances"])
+    features = list(i_and_f_df["features"])
+    return (importances, features)
 
 @st.cache_data
 def compute_zscore_stats(df: pd.DataFrame) -> pd.DataFrame:
     """Returns dataframe with columns: barri, mean and std of intensities"""
     stats = df.groupby("barri")["intensity"].agg(['mean','std'])
     return stats
-
 
 @st.cache_data
 def avg_month_temp(df: pd.DataFrame) -> float:
@@ -559,8 +567,6 @@ def render_map_ranking_section(df_day: pd.DataFrame, stats: pd.DataFrame, gdf: g
         else:
             st.info("No hay datos disponibles para la fecha seleccionada.")
 
-
-
 def wrap_chart_in_card(fig: plotly.graph_objects.Figure, title_text: str, height: int = 300) -> None:
     """Plots plotly figure in a container"""
     
@@ -576,7 +582,6 @@ def wrap_chart_in_card(fig: plotly.graph_objects.Figure, title_text: str, height
     )
     
     st.plotly_chart(fig, width="stretch", config={'displayModeBar': False})
-
 
 def plot_barri_details(df_full: pd.DataFrame, df_events: pd.DataFrame, df_filtered: pd.DataFrame, gdf: gpd.GeoDataFrame) -> None:
     """Plots details about a given selected barri"""
@@ -702,20 +707,22 @@ def plot_barri_details(df_full: pd.DataFrame, df_events: pd.DataFrame, df_filter
     with c6:
         wrap_chart_in_card(fig_superf, t("chart_i_s"))
         
-def plot_model_analysis(model: Multiregressor) -> None:
+def plot_model_analysis(importances_and_features: tuple, engine: sql.Engine) -> None:
     """Plots feature importances and model details"""
     import plotly.graph_objects as go
     import plotly.express as px
     
     st.markdown(f'<div class="section-header">{t("model_analysis")}<span style="color:{PRIMARY_TEXT_COLOR};"></span></div>', unsafe_allow_html=True)
-    c1, c2 = st.columns([2, 1], gap="small")
-    importances = list(model.get_feature_importances())
-    event_importance = sum(importances[-5:])
-    importances = importances[:-5] + [event_importance]
+    c1, c2 = st.columns([2, 1], gap="small")   
     
-    features = list(model.features)
-    features = features[:-5]
-    features.append("events")
+    importances, features = importances_and_features
+    
+    event_encoding_features = {"enc1", "enc2", "enc3", "enc4", "enc5"}
+    encoding_indices = [i for (i, x) in enumerate(features) if x in event_encoding_features]
+    
+    event_importance = sum([importances[i] for i in encoding_indices])
+    importances = [importances[i] for i in range(len(importances)) if i not in encoding_indices] + [event_importance]
+    features = [features[i] for i in range(len(features)) if i not in encoding_indices] + ["events"]
     
     # Feature importances
     fig_importances = go.Figure(go.Bar(
@@ -731,7 +738,7 @@ def plot_model_analysis(model: Multiregressor) -> None:
     ))
  
     
-    manager = MetadataManager()
+    manager = MetadataManager(engine)
     
     accuracy = manager.get("model_accuracy") 
     under_estimated = manager.get("model_error_under")
@@ -786,25 +793,18 @@ def main() -> None:
         centered_image("media/GoMotionShortLogo.png", width_ratio=30)
     
     with st.spinner("Cargando..."):
-        model = update_predictions()
-        try:
-            model = update_predictions()
-        except:
-            model = None
-            st.error("Error: No se han podido crear las predicciones.")
+        
+        engine = get_db_engine()
         
         try:
-            df = load_df()
-            G, gdf = load_geodata()
+            df = load_df(engine)
+            gdf = load_geodata(engine)
+            importances_and_features = load_importances(engine)
             stats = compute_zscore_stats(df)
-        except FileNotFoundError:
-            st.error("Error: Archivo de datos no encontrado.")
-            st.stop()
-
-        try:
-            df_events = load_event_df()
-        except FileNotFoundError:
-            st.error("Error: Archivo de datos no encontrado.")
+            df_events = load_event_df(engine)
+        except Exception as e:
+            print(e)
+            st.error("Error: Problema cargando datos.")
             st.stop()
             
 
@@ -828,7 +828,7 @@ def main() -> None:
     render_kpis(df_filtered, df_prev_month, df_events)
     render_map_ranking_section(df_filtered, stats, gdf, min_date, max_date)
     plot_barri_details(df, df_events, df_filtered, gdf)
-    plot_model_analysis(model)
+    plot_model_analysis(importances_and_features, engine)
     
     with st.spinner("Cargando..."):
         st.markdown(f'<div class="section-header">{t("all_stats")}<span style="color:{PRIMARY_TEXT_COLOR};"></span></div>', unsafe_allow_html=True)

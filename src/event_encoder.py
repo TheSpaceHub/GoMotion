@@ -120,7 +120,7 @@ def main(manager: metadata_manager.MetadataManager) -> None:
     try:
         event_data = pd.read_csv("data/all_events.csv")
     except:
-        raise Exception("data/events_final.csv not found")
+        raise Exception("data/all_events.csv not found")
     spacetime_to_events: dict[tuple[str, str], list[tuple[str, float]]] = {}
 
     for i, row in event_data.iterrows():

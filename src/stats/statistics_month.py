@@ -35,7 +35,6 @@ def by_month_analysis(df: pd.DataFrame, t) -> go.Figure:
     '''It represents average excess of intensity by month as percentage. It returns variances of these averages.'''
     df["month"] = [int(x) for x in df["month_cat"]]
     df2 = df.copy()
-    df2 = pd.read_csv('data/data_processed.csv')
     df2["month"] = [int(x) for x in df2["month_cat"]]
     df2['intensity'] = np.log(df['intensity'])
     dictio = to_dict(by_barri(df2))

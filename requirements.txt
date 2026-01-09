@@ -27,3 +27,4 @@ statsmodels
 tabulate
 sqlalchemy
 psycopg2-binary
+supabase

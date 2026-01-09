@@ -8,6 +8,7 @@ from datetime import date
 from metadata_manager import MetadataManager
 import database_connection as db
 import sqlalchemy as sql
+import os
 
 TRANSLATIONS = {
     "es": {
@@ -134,10 +135,18 @@ GRID_COLOR = '#E5E7EB'
 TITLE_FONT = dict(size=11, color=PRIMARY_TEXT_COLOR, family='Segoe UI, sans-serif')
 AXIS_FONT = dict(size=10, color=SUBTITLE_COLOR, family='Segoe UI, sans-serif')
 
+#Supabase bucket client set up
+@st.cache_resource
+def get_supabase_client():
+    import supabase
+    url = os.getenv('SUPABASE_URL')
+    key = os.getenv("SUPABASE_KEY")
+    return supabase.create_client(url, key)
+
 #Streamlit config
 st.set_page_config(
     page_title="GoMotion",
-    page_icon="media/GoMotionShortLogo.ico",
+    page_icon=get_supabase_client().storage.from_("images").get_public_url("GoMotionShortLogo.ico"),
     layout="wide", 
     initial_sidebar_state="collapsed"
 )
@@ -179,16 +188,15 @@ st.markdown(CARD_STYLE_CSS, unsafe_allow_html=True)
 st.markdown(f"""
 <style>
 /* Hide Streamlit default elements */
-# MainMenu, footer {{visibility: hidden;}}"""+
+/*# MainMenu, footer {{visibility: hidden;}}*/"""+
 """.block-container {
-            padding-top: 0rem !important;
-            padding-bottom: 0rem !important;
-            margin-top: 0rem !important;
+            /*padding-bottom: 0rem !important;*/
+            /*margin-top: 0rem !important;*/
         }"""+
 
 f"""/* General Layout & Background */
 .stApp {{
-    background-color: {BACKGROUND_COLOR};    st.markdown(f'<p class="subtitle">{t("title")}</p>', unsafe_allow_html=True)
+    background-color: {BACKGROUND_COLOR};   
 
     color: {PRIMARY_TEXT_COLOR};
     padding-top: 2rem;
@@ -247,12 +255,14 @@ hr {{
 </style>
 """, unsafe_allow_html=True)
 
-def centered_image(path: str, width_ratio=50):
+def centered_image(name: str, width_ratio=50):
     """Centers the image using columns"""
+    supabase = get_supabase_client()
+    
     _, col, _ = st.columns([ (100-width_ratio)/2, width_ratio, (100-width_ratio)/2 ]) 
     
     with col:
-        return st.image(path,  width="stretch")
+        return st.image(supabase.storage.from_("images").get_public_url(name),  width="stretch")
 
 def capitalize_first_letter(s) -> str:
     """Given a string makes first letter capital letter"""
@@ -408,6 +418,8 @@ def barri_heatmap(df_current_day: pd.DataFrame, stats: pd.DataFrame, gdf: gpd.Ge
 
 def render_header() -> None:
     """Renders main title and subtitle using the defined CSS classes"""
+    supabase = get_supabase_client()
+    
     col_header, col_lang = st.columns([7, 1])
     with col_lang:
         lang_selection = st.selectbox(
@@ -418,7 +430,7 @@ def render_header() -> None:
             )
         lang_code = "es" if lang_selection == "Español" else "en"
     with col_header:
-        st.image("media/GoMotionLogo.png", width=250)
+        st.image(supabase.storage.from_("images").get_public_url("GoMotionLogo.png"), width=250)
         st.markdown(f'<p class="subtitle">{TRANSLATIONS[lang_code]["title"]}</p>', unsafe_allow_html=True)
     return lang_code
 
@@ -790,7 +802,7 @@ def main() -> None:
     """Main function"""
     loader_placeholder = st.empty()
     with loader_placeholder.container():
-        centered_image("media/GoMotionShortLogo.png", width_ratio=30)
+        centered_image("GoMotionShortLogo.png", width_ratio=30)
     
     with st.spinner("Cargando..."):
         

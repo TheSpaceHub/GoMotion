@@ -5,7 +5,7 @@ from peak_classifier import peak_loss, peak_loss_over_under
 from sklearn.metrics import mean_absolute_error
 import metadata_manager
 import joblib
-from datetime import datetime
+import sqlalchemy as sql
 import keras
 
 
@@ -98,10 +98,10 @@ def train_best(
     features: list[str],
     train: pd.DataFrame,
     test: pd.DataFrame,
-) -> None:
+) -> xgb_model.Multiregressor:
     """Trains model with best chosen hyperparameters"""
     # unpack
-    base = manager.get("best_base")
+    base = int(manager.get("best_base"))
     learning_rate = manager.get("best_learning_rate")
     depth = manager.get("best_depth")
 
@@ -129,6 +129,7 @@ def train_best(
 
     # save model
     joblib.dump(model, "models/regressor.joblib")
+    return model
 
 
 def calculate_sample_weights(df: pd.DataFrame, base: float) -> pd.Series:
@@ -149,10 +150,9 @@ def calculate_sample_weights(df: pd.DataFrame, base: float) -> pd.Series:
     return df["sample_weight"]
 
 
-def load_events(df: pd.DataFrame) -> pd.DataFrame:
+def load_events(df: pd.DataFrame, manager: metadata_manager.MetadataManager) -> pd.DataFrame:
     """Returns DataFrame with all events and holidays added"""
     encoder = keras.models.load_model("models/encoder.keras")
-    manager = metadata_manager.MetadataManager()
     encoder_max_len = int(manager.get("encoder_max_len"))
 
     # predict no events (need bias)
@@ -186,7 +186,11 @@ def load_events(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def create_features(data: pd.DataFrame, drop_empty: bool = True) -> pd.DataFrame:
+def create_features(
+    data: pd.DataFrame,
+    manager: metadata_manager.MetadataManager,
+    drop_empty: bool = True,
+) -> pd.DataFrame:
     """Returns a DataFrame with the additional features"""
     df = data.copy()
 
@@ -223,7 +227,7 @@ def create_features(data: pd.DataFrame, drop_empty: bool = True) -> pd.DataFrame
         df.dropna(inplace=True)
 
     # add holidays and encoded events
-    df = load_events(df)
+    df = load_events(df, manager)
     df["barri"] = df["barri"].astype("category")
 
     return df

@@ -25,3 +25,4 @@ plotly
 dill
 statsmodels
 tabulate
+sqlalchemy

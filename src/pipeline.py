@@ -10,7 +10,10 @@ import datetime
 import data_filler
 import hyperparameter_optimizer
 import keras
+import xgb_model
+from database_connection import connect_to_db, upload_to_database
 from metadata_manager import MetadataManager
+from data_filler import fill_data
 
 
 def check_and_load_data(save_file: bool = True) -> pd.DataFrame:
@@ -95,10 +98,23 @@ def process_scraped_events(
     return (processed_events, processed_holidays)
 
 
+def save_model_importances(model: xgb_model.Multiregressor):
+    """Saves model importances as a csv to upload later.
+
+    Args:
+        model (xgb_model.Multiregressor): Multiregressor.
+    """
+    importances = list(model.get_feature_importances())
+    features = list(model.features)
+    df = pd.DataFrame({"importances": importances, "features": features})
+    df.to_csv("data/importances_and_features.csv", index=None)
+
+
 def main():
     # run the whole pipeline
-    # metadata manager (do not create multiple at the same time, concurrency problems are a thing)
-    manager = MetadataManager()
+    # db connection and metadata manager
+    engine = connect_to_db()
+    manager = MetadataManager(engine)
 
     # useful vars
     TODAY = datetime.datetime.today()
@@ -199,10 +215,10 @@ def main():
         )
 
         # add rest of features
-        data_processed = hyperparameter_optimizer.create_features(data)
+        data_processed = hyperparameter_optimizer.create_features(data, manager)
 
         # store features for all
-        df_to_save = hyperparameter_optimizer.create_features(data, False)
+        df_to_save = hyperparameter_optimizer.create_features(data, manager, False)
         df_to_save.drop(inplace=True, columns=["enc1", "enc2", "enc3", "enc4", "enc5"])
         df_to_save.to_csv("data/data_processed.csv", index=None)
 
@@ -229,15 +245,20 @@ def main():
         hyperparameter_optimizer.grid_search(
             manager, hyperspace, 0, [], hyperparameter_optimizer.features, train, test
         )
-        
-        
-        hyperparameter_optimizer.train_best(
+
+        model = hyperparameter_optimizer.train_best(
             manager, hyperparameter_optimizer.features, train, test
         )
 
+        save_model_importances(model)
 
 
 if __name__ == "__main__":
     pd.set_option("display.max_columns", None)
+    print("Executing pipeline...")
     main()
-    os.system("streamlit run src/dashboard.py")
+    print("Pipeline execution successful.")
+    print("Filling data...")
+    ONE_WEEK = datetime.datetime.today() + datetime.timedelta(days=7)
+    fill_data(pd.read_csv('data/data_processed.csv'), pd.to_datetime(ONE_WEEK.strftime("%Y-%m-%d")))
+    upload_to_database()

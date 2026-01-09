@@ -1,42 +1,86 @@
 import os
 import pandas as pd
+import sqlalchemy as sql
 
 
 class MetadataManager:
-    def __init__(self):
-        """Loads metadata file or creates it if it doesnt exist"""
-        if os.path.exists("data/metadata.csv"):
-            self.df = pd.read_csv("data/metadata.csv")
-        else:
-            self.df = pd.DataFrame(
-                {
-                    # default values
-                    "key": ["encoder_max_len", "last_day_event_checked", "model_accuracy", "model_error_over", "model_error_under", "last_predicted_day", "best_learning_rate", "best_base", "best_depth"],
-                    "value": [0, "2022-12-31", 0, 0, 0, None, 0, 0, 0],
-                }
-            )
-            self.save()
+    engine: sql.Engine
+
+    def __init__(self, engine: sql.Engine):
+        """Stores engine and creates table if it doesn't exist
+
+        Args:
+            engine (sql.Engine): sqlalchemy engine.
+        """
+        inspector = sql.inspect(engine)
+        self.engine = engine
+        if not inspector.has_table("metadata"):
+            with self.engine.connect() as conn:
+                pd.DataFrame(
+                    {
+                        # default values
+                        "key": [
+                            "encoder_max_len",
+                            "last_day_event_checked",
+                            "model_accuracy",
+                            "model_error_over",
+                            "model_error_under",
+                            "last_predicted_day",
+                            "best_learning_rate",
+                            "best_base",
+                            "best_depth",
+                        ],
+                        "value": [
+                            0,
+                            "2022-12-31",
+                            0,
+                            0,
+                            0,
+                            None,
+                            0,
+                            0,
+                            0,
+                        ],
+                    }
+                ).to_sql(name="metadata", con=engine, if_exists="fail", index=False)
 
     def get(self, key: str) -> str | None:
-        """Returns the value associated to the key (or None)"""
-        row = self.df[self.df["key"] == key]
-        if len(row) == 0:
-            return None
-        else:
-            return row.iloc[0]["value"]
+        """Returns the value of the key if found.
 
-    def set(self, key: str, value: str) -> None:
-        """Sets the value of the key"""
-        try:
-            self.df.loc[self.df["key"] == key, "value"] = value
-        except:
-            raise Exception(f"Metadata error: could not assign {key} to {value}")
+        Args:
+            key (str)
 
-        self.save()
+        Returns:
+            str | None: Value.
+        """
+        with self.engine.connect() as conn:
+            result = conn.execute(
+                sql.text("SELECT * FROM metadata WHERE key=:key"), {"key": key}
+            ).all()
+            if len(result) == 0:
+                return None
+            else:
+                # result is a list of tuples (key, value)
+                return result[0][1]
 
-    def save(self) -> None:
-        """Saves metadata file"""
-        try:
-            self.df.to_csv("data/metadata.csv", index=None)
-        except:
-            raise Exception(f"Metadata error: could not save file")
+    def set(self, key: str, value: str):
+        """Updates the value of a key.
+
+        Args:
+            key (str)
+            value (str)
+
+        Raises:
+            Exception: If the key was not found
+        """
+        # Execute SQL
+        with self.engine.connect() as conn:
+            result = conn.execute(
+                sql.text("UPDATE metadata SET value = :value WHERE key = :key"),
+                {"key": key, "value": value},
+            )
+            conn.commit()
+
+            # Check if any row was modified
+            if result.rowcount == 0:
+                raise Exception(f"The key {key} was not found in the metadata.")

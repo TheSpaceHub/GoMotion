@@ -26,3 +26,4 @@ dill
 statsmodels
 tabulate
 sqlalchemy
+psycopg2

@@ -1,9 +1,12 @@
 "use client";
 import { useState, useEffect, SetStateAction, Dispatch } from "react";
 import dynamic from "next/dynamic";
-import { getData, getWeeklyTraffic } from "./server_data";
 import PlotComponent from "./plot";
-import { loadWeeklyTraffic } from "./load_data";
+import {
+  loadWeeklyTraffic,
+  loadMonthlyTraffic,
+  loadAverageEventImpact,
+} from "./load_data";
 import { translations } from "./translations";
 
 const Plot = dynamic(() => import("react-plotly.js"), {
@@ -74,7 +77,7 @@ export default function App() {
   //keep all actual data
   const [mapData, setMapData] = useState();
   const [weeklyTraffic, setWeeklyTraffic] = useState(new Map<string, any>());
-  const [monthlyTraffic, setMonthlyTraffic] = useState();
+  const [monthlyTraffic, setMonthlyTraffic] = useState(new Map<string, any>());
   const [avgImpact, setAvgImpact] = useState();
   const [rainIntensityCorrelation, setRainIntensityCorrelation] = useState();
   const [workdayVsHoliday, setWorkdayVsHoliday] = useState();
@@ -83,13 +86,20 @@ export default function App() {
   const [weeklyIntensityDiff, setWeeklyIntensityDiff] = useState();
   const [monthlyIntensityDiff, setMonthlyIntensityDiff] = useState();
 
+  //keep current language's translation
+  const t = translations[language];
+
   //this will be run every time day is modified
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
       try {
         //we call all SQL queries
-        await Promise.all([loadWeeklyTraffic(setWeeklyTraffic, barri)]);
+        await Promise.all([
+          loadWeeklyTraffic(setWeeklyTraffic, barri),
+          loadMonthlyTraffic(setMonthlyTraffic, barri),
+          loadAverageEventImpact(setAvgImpact, barri),
+        ]);
       } catch (error) {
         console.error("Failed to fetch data:", error);
       }
@@ -107,8 +117,6 @@ export default function App() {
       </nav>
 
       <main>
-        <button onClick={() => setDay(day + 1)}>add day</button>
-        <p>{day}</p>
         <div className="title">
           <img src="GoMotionLogo.png" alt="GoMotion Logo" />
         </div>
@@ -116,47 +124,46 @@ export default function App() {
         <h3>We are setting things up...</h3>
 
         <div className="plots">
-          <PlotComponent
-            t={translations[language]}
-            isLoading={loading}
-            type="map"
-            data={mapData}
-          />
+          <PlotComponent t={t} isLoading={loading} type="map" data={mapData} />
         </div>
+
+        <h2>
+          {t["det_anal"]}: {barri.toUpperCase()}
+        </h2>
 
         <div className="plots">
           <PlotComponent
-            t={translations[language]}
+            t={t}
             isLoading={loading}
             type="weekly traffic"
             data={weeklyTraffic}
           />
           <PlotComponent
-            t={translations[language]}
+            t={t}
             isLoading={loading}
             type="monthly traffic"
             data={monthlyTraffic}
           />
           <PlotComponent
-            t={translations[language]}
+            t={t}
             isLoading={loading}
             type="average event impact"
             data={avgImpact}
           />
           <PlotComponent
-            t={translations[language]}
+            t={t}
             isLoading={loading}
             type="rain/intensity correlation"
             data={rainIntensityCorrelation}
           />
           <PlotComponent
-            t={translations[language]}
+            t={t}
             isLoading={loading}
             type="workday vs holiday"
             data={workdayVsHoliday}
           />
           <PlotComponent
-            t={translations[language]}
+            t={t}
             isLoading={loading}
             type="intensity/area"
             data={intensityPerArea}
@@ -165,7 +172,7 @@ export default function App() {
 
         <div className="plots">
           <PlotComponent
-            t={translations[language]}
+            t={t}
             isLoading={loading}
             type="model statistics"
             data={modelStats}
@@ -174,13 +181,13 @@ export default function App() {
 
         <div className="plots">
           <PlotComponent
-            t={translations[language]}
+            t={t}
             isLoading={loading}
             type="weekly intensity diff"
             data={weeklyIntensityDiff}
           />
           <PlotComponent
-            t={translations[language]}
+            t={t}
             isLoading={loading}
             type="monthly intensity diff"
             data={monthlyIntensityDiff}

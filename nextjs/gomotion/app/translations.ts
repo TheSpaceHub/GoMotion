@@ -7,6 +7,8 @@ export interface Translation {
     eventImpact: string;
   };
   dotw: string[];
+  months: string[];
+  det_anal: string;
 }
 
 export const translations: Record<string, Translation> = {
@@ -19,5 +21,20 @@ export const translations: Record<string, Translation> = {
       eventImpact: "Average Event Impact",
     },
     dotw: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    months: [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ],
+    det_anal: "DETAILED ANALYSIS",
   },
 };

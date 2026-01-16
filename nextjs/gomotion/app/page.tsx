@@ -1,65 +1,192 @@
-import Image from "next/image";
+"use client";
+import { useState, useEffect, SetStateAction, Dispatch } from "react";
+import dynamic from "next/dynamic";
+import { getData, getWeeklyTraffic } from "./server_data";
+import PlotComponent from "./plot";
+import { loadWeeklyTraffic } from "./load_data";
+import { translations } from "./translations";
 
-export default function Home() {
+const Plot = dynamic(() => import("react-plotly.js"), {
+  ssr: false,
+  loading: () => <p>Loading Map...</p>,
+});
+
+/*function Heatmap(geojson: string, plotData: { locations: any; zscores: any; hoverText: any })
+{
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <Plot
+      style={{ width: "100%", height: "600px" }}
+      useResizeHandler={true}
+      data={[
+        {
+          type: "choroplethmapbox", // Equivalent to px.choropleth_map
+          geojson: geojson,         // Your 'gdf.geometry'
+          locations: plotData.locations,
+          z: plotData.zscores,
+          
+          // Match GeoJSON ID field (check your geojson property name!)
+          featureidkey: "properties.barri", 
+          
+          colorscale: "Plasma",
+          zmin: -2.5,
+          zmax: 2.5,
+          marker: { opacity: 0.75 },
+          hoverinfo: "text",
+          text: plotData.hoverText,
+          colorbar: {
+            title: "Intensidad",
+            tickvals: [-2.5, 0, 2.5],
+            ticktext: ["Baja", "Media", "Alta"],
+            len: 0.5,
+            thickness: 15,
+            x: 0.01,
+            xanchor: "left",
+            bgcolor: "rgba(255,255,255,0.9)"
+          }
+        }
+      ]}
+      layout={{
+        mapbox: {
+          style: "carto-positron", // Equivalent to map_style="carto-positron"
+          center: { lat: 41.395, lon: 2.17 },
+          zoom: 11.1
+        },
+        margin: { r: 0, t: 0, l: 0, b: 0 },
+        height: 600,
+        // Plotly usually needs a Mapbox token for some styles, 
+        // but carto-positron often works without one.
+        // mapbox: { accesstoken: "pk.your_token_here" } 
+      }}
+      config={{ displayModeBar: false }}
+    />
+  )
+}*/
+
+export default function App() {
+  //keep day, barri and language in state
+  const [day, setDay] = useState(3);
+  const [barri, setBarri] = useState("el Raval");
+  const [language, setLanguage] = useState("en");
+
+  //keep loading for placeholders
+  const [loading, setLoading] = useState(true);
+
+  //keep all actual data
+  const [mapData, setMapData] = useState();
+  const [weeklyTraffic, setWeeklyTraffic] = useState(new Map<string, any>());
+  const [monthlyTraffic, setMonthlyTraffic] = useState();
+  const [avgImpact, setAvgImpact] = useState();
+  const [rainIntensityCorrelation, setRainIntensityCorrelation] = useState();
+  const [workdayVsHoliday, setWorkdayVsHoliday] = useState();
+  const [intensityPerArea, setIntensityPerArea] = useState();
+  const [modelStats, setModelStats] = useState();
+  const [weeklyIntensityDiff, setWeeklyIntensityDiff] = useState();
+  const [monthlyIntensityDiff, setMonthlyIntensityDiff] = useState();
+
+  //this will be run every time day is modified
+  useEffect(() => {
+    async function fetchData() {
+      setLoading(true);
+      try {
+        //we call all SQL queries
+        await Promise.all([loadWeeklyTraffic(setWeeklyTraffic, barri)]);
+      } catch (error) {
+        console.error("Failed to fetch data:", error);
+      }
+      setLoading(false);
+    }
+
+    fetchData();
+  }, [day]);
+
+  return (
+    <>
+      <nav>
+        <img src="GoMotionShortLogo.png" alt="GoMotion Icon" />
+        <p>Future dropdown</p>
+      </nav>
+
+      <main>
+        <button onClick={() => setDay(day + 1)}>add day</button>
+        <p>{day}</p>
+        <div className="title">
+          <img src="GoMotionLogo.png" alt="GoMotion Logo" />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <p className="subtitle">Mobility in Barcelona</p>
+        <h3>We are setting things up...</h3>
+
+        <div className="plots">
+          <PlotComponent
+            t={translations[language]}
+            isLoading={loading}
+            type="map"
+            data={mapData}
+          />
+        </div>
+
+        <div className="plots">
+          <PlotComponent
+            t={translations[language]}
+            isLoading={loading}
+            type="weekly traffic"
+            data={weeklyTraffic}
+          />
+          <PlotComponent
+            t={translations[language]}
+            isLoading={loading}
+            type="monthly traffic"
+            data={monthlyTraffic}
+          />
+          <PlotComponent
+            t={translations[language]}
+            isLoading={loading}
+            type="average event impact"
+            data={avgImpact}
+          />
+          <PlotComponent
+            t={translations[language]}
+            isLoading={loading}
+            type="rain/intensity correlation"
+            data={rainIntensityCorrelation}
+          />
+          <PlotComponent
+            t={translations[language]}
+            isLoading={loading}
+            type="workday vs holiday"
+            data={workdayVsHoliday}
+          />
+          <PlotComponent
+            t={translations[language]}
+            isLoading={loading}
+            type="intensity/area"
+            data={intensityPerArea}
+          />
+        </div>
+
+        <div className="plots">
+          <PlotComponent
+            t={translations[language]}
+            isLoading={loading}
+            type="model statistics"
+            data={modelStats}
+          />
+        </div>
+
+        <div className="plots">
+          <PlotComponent
+            t={translations[language]}
+            isLoading={loading}
+            type="weekly intensity diff"
+            data={weeklyIntensityDiff}
+          />
+          <PlotComponent
+            t={translations[language]}
+            isLoading={loading}
+            type="monthly intensity diff"
+            data={monthlyIntensityDiff}
+          />
         </div>
       </main>
-    </div>
+    </>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 import { SetStateAction, Dispatch } from "react";
 import {
+  getMapData,
   getWeeklyTraffic,
   getMonthlyTraffic,
   getAverageEventImpact,
@@ -104,5 +105,23 @@ export async function loadIntensityPerArea(
     hover.push(result[rowIndex]["nom_barri"]);
   }
 
-  setter({ x: x, y: y, text: hover, selectedBarri: barri});
+  setter({ x: x, y: y, text: hover, selectedBarri: barri });
+}
+
+export async function loadMapData(
+  setter: Dispatch<SetStateAction<any>>,
+  barri: string,
+  day: string
+) {
+  const result = await getMapData(day);
+
+  var zScores: Record<string, number> = {};
+  for (const rowIndex in result) {
+    zScores[result[rowIndex]["barri"]] = result[rowIndex]["zscore"];
+  }
+
+  setter({
+    zScores: zScores,
+    selectedBarri: barri,
+  });
 }

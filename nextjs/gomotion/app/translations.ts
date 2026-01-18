@@ -31,4 +31,5 @@ export type Translation = typeof en;
 
 export const translations: Record<string, Translation> = {
   en: en,
+  es: en
 };

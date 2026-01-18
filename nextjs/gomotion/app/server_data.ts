@@ -2,10 +2,19 @@
 import pool from "./db";
 import { QueryResult } from "pg";
 
-export async function getData(day: any) {
-  const result: QueryResult<any> = await pool.query(`
-    SELECT * FROM importances_and_features
-    `);
+export async function getMapData(day: any) {
+  const result: QueryResult<any> = await pool.query(
+    `
+    with z as
+    (select barri, stddev_samp(intensity) as std, avg(intensity) as mean
+    from display_data
+    group by barri)
+    select d.barri, d.intensity, (d.intensity - z.mean) / z.std as zscore
+    from display_data d, z
+    where d.day = $1 and z.barri = d.barri
+    `,
+    [day]
+  );
   return result.rows;
 }
 

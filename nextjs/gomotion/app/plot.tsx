@@ -136,7 +136,7 @@ export default function PlotComponent({
     default:
       break;
   }
-  console.log([plotData, ...additionalTraces]);
+
   return (
     <div className="plot">
       <Plot

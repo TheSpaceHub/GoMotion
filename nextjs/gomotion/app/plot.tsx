@@ -29,6 +29,8 @@ export default function PlotComponent({
 
   //make a copy (plotData) in order to keep the original data untouched
   var plotData: Record<string, any> = { ...data };
+  //keep this for certain plots which need more traces to look gorgeous
+  var additionalTraces: Array<any> = [];
 
   //display logic for all plots
   switch (type) {
@@ -70,6 +72,20 @@ export default function PlotComponent({
       };
       break;
 
+    case "rain/intensity correlation":
+      xtitle = "";
+      ytitle = "INTENSITY";
+      plotTitle = "INTENSITY PER PRECIPITATION";
+
+      plotData["type"] = "scatter";
+      plotData["mode"] = "markers";
+      //plotData["hoverinfo"] = "text";
+      plotData["marker"] = {
+        color: "#8dbbc6",
+        opacity: 0.5,
+      };
+      break;
+
     case "workday vs holiday":
       xtitle = "";
       ytitle = "";
@@ -96,17 +112,38 @@ export default function PlotComponent({
         color: "#58585e",
         opacity: 0.5,
       };
+
+      const selectedBarri: string = plotData["selectedBarri"];
+      delete plotData["selectedBarri"];
+      const selectedBarriIndex = plotData["text"].indexOf(selectedBarri);
+
+      //highlight current barri
+      if (selectedBarriIndex != -1)
+        additionalTraces.push({
+          x: [plotData["x"][selectedBarriIndex]],
+          y: [plotData["y"][selectedBarriIndex]],
+          type: "scatter",
+          mode: "markers",
+          hoverinfo: "skip",
+          marker: {
+            color: "#ff0000",
+            opacity: 1,
+          },
+        });
+
       break;
 
     default:
       break;
   }
+  console.log([plotData, ...additionalTraces]);
   return (
     <div className="plot">
       <Plot
-        data={[plotData]}
+        data={[plotData, ...additionalTraces]}
         layout={{
           autosize: true,
+          showlegend: false,
           margin: { l: 20, r: 20, t: 20, b: 20 },
           xaxis: {
             automargin: true,

@@ -44,7 +44,6 @@ export async function loadAverageEventImpact(
   barri: string
 ) {
   const result = await getAverageEventImpact(barri);
-  console.log(result);
 
   var x = [];
   var y = [];
@@ -61,20 +60,17 @@ export async function loadRainIntensityCorrelation(
   barri: string
 ) {
   const result = await getRainIntensityCorrelation(barri);
-  console.log(result);
-  return;
 
   var x = [];
   var y = [];
+  var hover = [];
   for (const rowIndex in result) {
-    y.push(result[rowIndex]["category"]);
-    x.push(result[rowIndex]["avg"]);
+    y.push(result[rowIndex]["intensity"]);
+    x.push(result[rowIndex]["rain"]);
+    hover.push(result[rowIndex]["day"]);
   }
-  console.log(x);
 
-  console.log(y);
-
-  setter({ x: x, y: y });
+  setter({ x: x, y: y, text: hover });
 }
 
 export async function loadWorkdayVsHoliday(
@@ -98,7 +94,6 @@ export async function loadIntensityPerArea(
   barri: string
 ) {
   const result = await getIntensityPerArea();
-  console.log(result);
 
   var x = [];
   var y = [];
@@ -109,5 +104,5 @@ export async function loadIntensityPerArea(
     hover.push(result[rowIndex]["nom_barri"]);
   }
 
-  setter({ x: x, y: y, text: hover });
+  setter({ x: x, y: y, text: hover, selectedBarri: barri});
 }

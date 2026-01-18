@@ -51,10 +51,9 @@ export async function getAverageEventImpact(barri: string) {
 export async function getRainIntensityCorrelation(barri: string) {
   const result: QueryResult<any> = await pool.query(
     `
-    SELECT e.category, AVG(d.intensity)
-    FROM display_data d, events e
-    WHERE d.barri=$1 and d.day = e.day
-    GROUP BY e.category
+    SELECT m."precipitation_sum (mm)" AS rain, d.intensity, d.day
+    FROM display_data d, meteo m
+    WHERE d.barri=$1 and DATE(d.day) = m.day
     `,
     [barri]
   );

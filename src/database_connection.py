@@ -2,6 +2,7 @@ import os
 import dotenv
 import sqlalchemy as sql
 import pandas as pd
+from meteo import daily_weather_summary, TODAY
 
 dotenv.load_dotenv()
 
@@ -31,7 +32,7 @@ def upload_to_database():
     try:
         data_extended = pd.read_csv("data/data_extended.csv")
         data_extended.to_sql(
-            name="display_data", con=engine, if_exists="append", index=False
+            name="display_data", con=engine, if_exists="replace", index=False
         )
     except:
         print("data_extended.csv could not be loaded")
@@ -63,7 +64,18 @@ def upload_to_database():
     # upload events
     try:
         events = pd.read_csv("data/all_events.csv")
-        events.to_sql(name="events", con=engine, if_exists="append", index=False)
+        events.to_sql(name="events", con=engine, if_exists="replace", index=False)
     except:
         print("all_events.csv could not be loaded")
         exit()
+
+    # upload meteo data
+    try:
+        meteo = daily_weather_summary(end=TODAY.strftime("%Y-%m-%d"))
+        meteo.to_sql(name="meteo", con=engine, if_exists="replace", index=False)
+    except:
+        print("Meteorological data could not be loaded")
+        exit()
+
+if __name__== "__main__":
+    upload_to_database()

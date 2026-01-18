@@ -80,8 +80,8 @@ img {
 
 .plot {
   flex: 1 1 30%;
-  min-width: 5rem;
-  min-height: 20rem;
+  min-width: 10rem;
+  min-height: 15rem;
   padding: 1.5rem 0.75rem 0rem 0.75rem;
   background-color: var(--plot-background);
   border: 1px solid #a7a7a7;

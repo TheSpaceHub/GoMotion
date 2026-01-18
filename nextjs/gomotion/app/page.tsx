@@ -1,69 +1,15 @@
 "use client";
 import { useState, useEffect, SetStateAction, Dispatch } from "react";
-import dynamic from "next/dynamic";
 import PlotComponent from "./plot";
 import {
   loadWeeklyTraffic,
   loadMonthlyTraffic,
   loadAverageEventImpact,
+  loadRainIntensityCorrelation,
+  loadWorkdayVsHoliday,
+  loadIntensityPerArea,
 } from "./load_data";
 import { translations } from "./translations";
-
-const Plot = dynamic(() => import("react-plotly.js"), {
-  ssr: false,
-  loading: () => <p>Loading Map...</p>,
-});
-
-/*function Heatmap(geojson: string, plotData: { locations: any; zscores: any; hoverText: any })
-{
-  return (
-    <Plot
-      style={{ width: "100%", height: "600px" }}
-      useResizeHandler={true}
-      data={[
-        {
-          type: "choroplethmapbox", // Equivalent to px.choropleth_map
-          geojson: geojson,         // Your 'gdf.geometry'
-          locations: plotData.locations,
-          z: plotData.zscores,
-          
-          // Match GeoJSON ID field (check your geojson property name!)
-          featureidkey: "properties.barri", 
-          
-          colorscale: "Plasma",
-          zmin: -2.5,
-          zmax: 2.5,
-          marker: { opacity: 0.75 },
-          hoverinfo: "text",
-          text: plotData.hoverText,
-          colorbar: {
-            title: "Intensidad",
-            tickvals: [-2.5, 0, 2.5],
-            ticktext: ["Baja", "Media", "Alta"],
-            len: 0.5,
-            thickness: 15,
-            x: 0.01,
-            xanchor: "left",
-            bgcolor: "rgba(255,255,255,0.9)"
-          }
-        }
-      ]}
-      layout={{
-        mapbox: {
-          style: "carto-positron", // Equivalent to map_style="carto-positron"
-          center: { lat: 41.395, lon: 2.17 },
-          zoom: 11.1
-        },
-        margin: { r: 0, t: 0, l: 0, b: 0 },
-        height: 600,
-        // Plotly usually needs a Mapbox token for some styles, 
-        // but carto-positron often works without one.
-        // mapbox: { accesstoken: "pk.your_token_here" } 
-      }}
-      config={{ displayModeBar: false }}
-    />
-  )
-}*/
 
 export default function App() {
   //keep day, barri and language in state
@@ -99,6 +45,8 @@ export default function App() {
           loadWeeklyTraffic(setWeeklyTraffic, barri),
           loadMonthlyTraffic(setMonthlyTraffic, barri),
           loadAverageEventImpact(setAvgImpact, barri),
+          loadRainIntensityCorrelation(setRainIntensityCorrelation, barri),
+          loadWorkdayVsHoliday(setWorkdayVsHoliday, barri),
         ]);
       } catch (error) {
         console.error("Failed to fetch data:", error);
@@ -108,6 +56,22 @@ export default function App() {
 
     fetchData();
   }, [day]);
+
+  //this will be run every time barri is modified
+  useEffect(() => {
+    async function fetchData() {
+      setLoading(true);
+      try {
+        //we call all SQL queries
+        await Promise.all([loadIntensityPerArea(setIntensityPerArea, barri)]);
+      } catch (error) {
+        console.error("Failed to fetch data:", error);
+      }
+      setLoading(false);
+    }
+
+    fetchData();
+  }, [barri]);
 
   return (
     <>
@@ -128,7 +92,7 @@ export default function App() {
         </div>
 
         <h2>
-          {t["det_anal"]}: {barri.toUpperCase()}
+          {t["detAnal"]}: {barri.toUpperCase()}
         </h2>
 
         <div className="plots">
@@ -169,6 +133,8 @@ export default function App() {
             data={intensityPerArea}
           />
         </div>
+
+        <h2>{t["modelStatistics"]}</h2>
 
         <div className="plots">
           <PlotComponent

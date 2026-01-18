@@ -23,9 +23,12 @@ export default function PlotComponent({
   var xtitle: string = "";
   var ytitle: string = "";
   var plotTitle: string = "";
-  
+
   if (data == undefined)
     return <div className="plot">Plot for {type} could not be loaded.</div>;
+
+  //make a copy (plotData) in order to keep the original data untouched
+  var plotData: Record<string, any> = { ...data };
 
   //display logic for all plots
   switch (type) {
@@ -34,9 +37,9 @@ export default function PlotComponent({
       ytitle = "AVG. INTENSITY";
       plotTitle = "WEEKLY TRAFFIC";
 
-      data["type"] = "bar";
-      data["x"] = t["dotw"];
-      data["marker"] = {
+      plotData["type"] = "bar";
+      plotData["x"] = t["dotw"];
+      plotData["marker"] = {
         color: "#6275bc",
       };
       break;
@@ -46,13 +49,13 @@ export default function PlotComponent({
       ytitle = "AVG. INTENSITY";
       plotTitle = "MONTHLY TRAFFIC";
 
-      data["type"] = "scatter";
-      data["x"] = t["months"];
-      data["marker"] = {
+      plotData["type"] = "scatter";
+      plotData["x"] = t["months"];
+      plotData["marker"] = {
         color: "#bc6262",
       };
-      data["fill"] = "tozeroy";
-      data["fillcolor"] = "#bc626288";
+      plotData["fill"] = "tozeroy";
+      plotData["fillcolor"] = "#bc626288";
       break;
 
     case "average event impact":
@@ -60,10 +63,38 @@ export default function PlotComponent({
       ytitle = "";
       plotTitle = "AVG. EVENT IMPACT";
 
-      data["type"] = "bar";
-      data["orientation"] = "h";
-      data["marker"] = {
+      plotData["type"] = "bar";
+      plotData["orientation"] = "h";
+      plotData["marker"] = {
         color: "#8462bc",
+      };
+      break;
+
+    case "workday vs holiday":
+      xtitle = "";
+      ytitle = "";
+      plotTitle = "WORKDAY VS HOLIDAY";
+
+      plotData["type"] = "box";
+      plotData["x"] = plotData["x"].map((val: any) =>
+        val == "1" ? t["holiday"].toUpperCase() : t["workday"].toUpperCase()
+      );
+      plotData["marker"] = {
+        color: "#a562bc",
+      };
+      break;
+
+    case "intensity/area":
+      xtitle = "";
+      ytitle = "AVG. INTENSITY";
+      plotTitle = "INTENSITY PER AREA";
+
+      plotData["type"] = "scatter";
+      plotData["mode"] = "markers";
+      plotData["hoverinfo"] = "text";
+      plotData["marker"] = {
+        color: "#58585e",
+        opacity: 0.5,
       };
       break;
 
@@ -73,7 +104,7 @@ export default function PlotComponent({
   return (
     <div className="plot">
       <Plot
-        data={[data]}
+        data={[plotData]}
         layout={{
           autosize: true,
           margin: { l: 20, r: 20, t: 20, b: 20 },

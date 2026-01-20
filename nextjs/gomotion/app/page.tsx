@@ -14,6 +14,7 @@ import {
 import { translations } from "./translations";
 import geoData from "./data/barris.json";
 import dynamic from "next/dynamic";
+import BarriInfo from "./barriInfo";
 
 const formatDate = (date: Date) => {
   const year = date.getFullYear();
@@ -128,12 +129,13 @@ export default function App() {
         <p className="subtitle">Mobility in Barcelona</p>
 
         <div className="plots">
-          <div className="heatmap">
+          <div className="mapContainer">
             <Heatmap
               geoData={geoData}
               zScores={mapData ? mapData["zScores"] : {}}
               barriSetter={setBarri}
             />
+            <BarriInfo />
           </div>
         </div>
 

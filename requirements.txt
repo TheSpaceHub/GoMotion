@@ -20,8 +20,6 @@ bs4
 playwright
 xgboost
 requests
-streamlit
-plotly
 dill
 statsmodels
 tabulate

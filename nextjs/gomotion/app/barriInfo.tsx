@@ -1,8 +1,12 @@
 "use client";
 
+function Row()
+{
+
+}
+
 export default function BarriInfo() {
   const columns: Array<string> = [];
-
 
   return (
     <div
@@ -11,10 +15,11 @@ export default function BarriInfo() {
         backgroundColor: "yellow",
         display: "flex",
         flexDirection: "column",
-        overflowX: "scroll"
+        overflowX: "scroll",
       }}
     >
-      <div style={{width: "1000px"}}></div>
+      <div style={{ width: "1000px" }}></div>
+      <div style={{ overflowY: "scroll" }}></div>
     </div>
   );
 }

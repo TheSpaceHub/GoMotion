@@ -14,12 +14,12 @@ class Multiregressor:
         0 - 0.1
         100 - 0.001
         150 - 0.0001'''
-        if round_index < 100:
+        if round_index < 250:
             return 0.1
-        elif round_index < 150:
-            return 0.001
+        elif round_index < 1000:
+            return 0.01
         else:
-            return 0.0001
+            return 0.001
 
     def fit_multiregressor(
         self,
@@ -79,7 +79,7 @@ def create_and_fit_regressor(
             tree_method="hist",
             n_estimators=20000,
             learning_rate=0.1,
-            early_stopping_rounds=150,
+            early_stopping_rounds=50,
             max_depth=depth,
             enable_categorical=True,
             callbacks=[xgb.callback.LearningRateScheduler(Multiregressor.lr_schedule)],
@@ -90,7 +90,7 @@ def create_and_fit_regressor(
             tree_method="hist",
             n_estimators=20000,
             learning_rate=learning_rate,
-            early_stopping_rounds=150,
+            early_stopping_rounds=50,
             max_depth=depth,
             enable_categorical=True,
             random_state=np.random.randint(0, 100000)

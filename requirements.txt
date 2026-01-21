@@ -20,7 +20,7 @@ bs4
 playwright
 xgboost
 requests
-streamlit==1.29.0
+streamlit
 plotly
 dill
 statsmodels
@@ -28,4 +28,4 @@ tabulate
 sqlalchemy
 psycopg2-binary
 supabase
-protobuf<5
+protobuf

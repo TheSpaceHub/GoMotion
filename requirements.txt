@@ -28,4 +28,3 @@ tabulate
 sqlalchemy
 psycopg2-binary
 supabase
-protobuf==3.20

@@ -119,7 +119,7 @@ TRANSLATIONS = {
 
 lang_code = "es"
 
-def t(key: str):
+def t(key: str) -> str:
     '''Returns the translated key for the selected language'''
     return TRANSLATIONS[lang_code][key]
 
@@ -451,7 +451,7 @@ def render_kpis(df_filtered: pd.DataFrame, df_prev_month: pd.DataFrame, df_event
     num_events = len(df_events[df_events["day"] == target_date_pddatetime]["description"].unique())
     category = t("no_events") if num_events == 0 else df_events[df_events['day'].dt.date == target_date]['category'].iloc[0]
     
-    is_holiday = (df_filtered.iloc[0] == 1).any()
+    is_holiday = (df_filtered["is_holiday"].iloc[0] == 1)
     holiday_status = t("holiday_status_normal") if not is_holiday else t("holiday_status_fest")
 
     temp_max_today = df_filtered["temperature_2m_max"].iloc[0]

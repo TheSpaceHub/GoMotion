@@ -1,28 +1,34 @@
-geopandas
+# --- Core App ---
+streamlit>=1.41.0     # Force NEW Streamlit to fix Altair 5 & Protobuf support
+altair>=5             # Explicitly allow new Altair
+
+# --- Data & Geo ---
 pandas
-shapely
-networkx
-matplotlib
-geopy
-streamlit
 numpy
-plotly
-keras
+geopandas
+shapely
+geopy
+
+# --- AI & ML (The Danger Zone) ---
+# TensorFlow on Py3.12 requires specific handling. 
+# We pin generic 'tensorflow' but ensure protobuf is compatible.
 tensorflow
-joblib
-datetime
+keras
 scikit-learn
-asyncio
-pydantic
+xgboost
+joblib
 google-genai
-dotenv
+
+# --- Web & Util ---
+requests
 bs4
 playwright
-xgboost
-requests
-dill
-statsmodels
-tabulate
+asyncio
+pydantic
+python-dotenv
+supabase
 sqlalchemy
 psycopg2-binary
-supabase
+statsmodels
+tabulate
+dill

@@ -12,7 +12,7 @@ export default function BarriInfo() {
     <div
       className="barriInfo"
       style={{
-        backgroundColor: "yellow",
+        backgroundColor: "red",
         display: "flex",
         flexDirection: "column",
         overflowX: "scroll",

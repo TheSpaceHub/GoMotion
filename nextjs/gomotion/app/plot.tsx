@@ -133,6 +133,31 @@ export default function PlotComponent({
 
       break;
 
+    case "weekly intensity diff":
+      xtitle = "";
+      ytitle = "INTENSITY DIFF (%)";
+      plotTitle = "WEEKLY INTENSITY DIFF";
+      plotData["type"] = "scatter";
+      plotData["x"] = t["dotw"];
+      plotData["mode"]="markers";
+      plotData["marker"] = {
+        color: "#830101ff",
+        size:12
+      };
+      break;
+
+      case "monthly intensity diff":
+      xtitle = "";
+      ytitle = "INTENSITY DIFF (%)";
+      plotTitle = "MONTHLY INTENSITY DIFF";
+      plotData["type"] = "scatter";
+      plotData["x"] = t["months"];
+      plotData["mode"]="markers";
+      plotData["marker"] = {
+        color: "#a9b500ff",
+        size:12
+      };
+      break;
     default:
       break;
   }

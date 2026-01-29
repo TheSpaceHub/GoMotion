@@ -8,6 +8,8 @@ import {
   getRainIntensityCorrelation,
   getWorkdayVsHoliday,
   getIntensityPerArea,
+  getWeeklyIntensityDiff,
+  getMonthlyIntensityDiff
 } from "./server_data";
 
 export async function loadWeeklyTraffic(
@@ -124,4 +126,34 @@ export async function loadMapData(
     zScores: zScores,
     selectedBarri: barri,
   });
+}
+
+
+export async function loadWeeklyIntensityDiff(
+  setter: Dispatch<SetStateAction<any>>,
+) {
+  const result = await getWeeklyIntensityDiff();
+
+  var x = [];
+  var y = [];
+  for (const rowIndex in result) {
+    x.push(result[rowIndex]["dotw"]);
+    y.push(result[rowIndex]["avg"]);
+  }
+  setter({ x: x, y: y });
+}
+
+
+export async function loadMonthlyIntensityDiff(
+  setter: Dispatch<SetStateAction<any>>,
+) {
+  const result = await getMonthlyIntensityDiff();
+
+  var x = [];
+  var y = [];
+  for (const rowIndex in result) {
+    x.push(result[rowIndex]["month"]);
+    y.push(result[rowIndex]["avg"]);
+  }
+  setter({ x: x, y: y });
 }

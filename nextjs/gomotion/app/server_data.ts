@@ -90,3 +90,33 @@ export async function getIntensityPerArea() {
     `);
   return result.rows;
 }
+
+export async function getWeeklyIntensityDiff() {
+  const result: QueryResult<any> = await pool.query(`
+    with averages as ( 
+    select d.barri, avg(d.intensity) as intensity
+    from display_data d
+    group by d.barri
+    )
+    select EXTRACT(ISODOW FROM DATE(day)) AS dotw, 100 * avg(d.intensity / a.intensity - 1) as avg
+    from display_data d, averages a
+    where d.barri = a.barri
+    group by dotw order by dotw
+    `);
+  return result.rows;
+}
+
+export async function getMonthlyIntensityDiff() {
+  const result: QueryResult<any> = await pool.query(`
+    with averages as ( 
+    select d.barri, avg(d.intensity) as intensity
+    from display_data d
+    group by d.barri
+    )
+    select EXTRACT(MONTH FROM DATE(day)) AS month, 100 * avg(d.intensity / a.intensity - 1) as avg
+    from display_data d, averages a
+    where d.barri = a.barri
+    group by month order by month
+    `);
+  return result.rows;
+}

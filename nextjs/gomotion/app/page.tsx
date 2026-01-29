@@ -10,6 +10,8 @@ import {
   loadRainIntensityCorrelation,
   loadWorkdayVsHoliday,
   loadIntensityPerArea,
+  loadWeeklyIntensityDiff,
+  loadMonthlyIntensityDiff
 } from "./load_data";
 import { translations } from "./translations";
 import geoData from "./data/barris.json";
@@ -55,6 +57,13 @@ export default function App() {
   //keep current language's translation
   const t = translations[language];
 
+  //we load static data
+  useEffect(()=>{
+    loadWeeklyIntensityDiff(setWeeklyIntensityDiff);
+    loadMonthlyIntensityDiff(setMonthlyIntensityDiff);
+  }, [])
+  
+
   //this will be run every time day is modified
   useEffect(() => {
     async function fetchData() {
@@ -97,6 +106,7 @@ export default function App() {
   //this will be run every time either barri or day is modified
   useEffect(() => {
     async function fetchData() {
+      
       setLoading(true);
       try {
         //we call all SQL queries

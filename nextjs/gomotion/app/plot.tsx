@@ -93,7 +93,7 @@ export default function PlotComponent({
 
       plotData["type"] = "box";
       plotData["x"] = plotData["x"].map((val: any) =>
-        val == "1" ? t["holiday"].toUpperCase() : t["workday"].toUpperCase()
+        val == "1" ? t["holiday"].toUpperCase() : t["workday"].toUpperCase(),
       );
       plotData["marker"] = {
         color: "#a562bc",
@@ -157,7 +157,13 @@ export default function PlotComponent({
           },
           paper_bgcolor: "#ffffff00",
           plot_bgcolor: "#ffffff00",
-          font: { family: "system-ui", weight: "normal" },
+          font: {
+            family: "system-ui",
+            weight: "normal",
+            color: window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "#ffffff"
+              : "#171717",
+          },
           title: {
             text: plotTitle,
             font: { size: 16, family: "system-ui", weight: "bold" },

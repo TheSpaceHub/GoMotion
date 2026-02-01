@@ -128,3 +128,12 @@ export async function getModelImportances() {
     `);
   return result.rows;
 }
+
+export async function getModelStats() {
+  const result: QueryResult<any> = await pool.query(`
+    select * 
+    from metadata 
+    where key = 'model_accuracy' or key = 'model_error_over' or key = 'model_error_under';
+    `);
+  return result.rows;
+}

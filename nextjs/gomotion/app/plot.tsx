@@ -133,29 +133,42 @@ export default function PlotComponent({
 
       break;
 
+
+    case "model importances":
+      xtitle = "";
+      ytitle = "";
+      plotTitle = "SHAP FEATURE IMPORTANCES";
+
+      plotData["type"] = "bar";
+      plotData["orientation"] = "h";
+      plotData["marker"] = {
+        color: "#ffea31",
+      };
+      break;
+
     case "weekly intensity diff":
       xtitle = "";
       ytitle = "INTENSITY DIFF (%)";
       plotTitle = "WEEKLY INTENSITY DIFF";
       plotData["type"] = "scatter";
       plotData["x"] = t["dotw"];
-      plotData["mode"]="markers";
+      plotData["mode"] = "markers";
       plotData["marker"] = {
         color: "#830101ff",
-        size:12
+        size: 12,
       };
       break;
 
-      case "monthly intensity diff":
+    case "monthly intensity diff":
       xtitle = "";
       ytitle = "INTENSITY DIFF (%)";
       plotTitle = "MONTHLY INTENSITY DIFF";
       plotData["type"] = "scatter";
       plotData["x"] = t["months"];
-      plotData["mode"]="markers";
+      plotData["mode"] = "markers";
       plotData["marker"] = {
         color: "#a9b500ff",
-        size:12
+        size: 12,
       };
       break;
     default:
@@ -163,7 +176,6 @@ export default function PlotComponent({
   }
 
   return (
-    <div className="plot">
       <Plot
         data={[plotData, ...additionalTraces]}
         layout={{
@@ -202,6 +214,5 @@ export default function PlotComponent({
         style={{ width: "100%", height: "100%", margin: "0", padding: "0" }}
         config={{ displayModeBar: false }}
       />
-    </div>
   );
 }

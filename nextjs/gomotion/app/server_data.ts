@@ -120,3 +120,11 @@ export async function getMonthlyIntensityDiff() {
     `);
   return result.rows;
 }
+
+export async function getModelImportances() {
+  const result: QueryResult<any> = await pool.query(`
+    select *
+    from importances_and_features
+    `);
+  return result.rows;
+}

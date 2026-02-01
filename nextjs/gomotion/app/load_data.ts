@@ -9,12 +9,13 @@ import {
   getWorkdayVsHoliday,
   getIntensityPerArea,
   getWeeklyIntensityDiff,
-  getMonthlyIntensityDiff
+  getMonthlyIntensityDiff,
+  getModelImportances,
 } from "./server_data";
 
 export async function loadWeeklyTraffic(
   setter: Dispatch<SetStateAction<any>>,
-  barri: string
+  barri: string,
 ) {
   const result = await getWeeklyTraffic(barri);
 
@@ -29,7 +30,7 @@ export async function loadWeeklyTraffic(
 
 export async function loadMonthlyTraffic(
   setter: Dispatch<SetStateAction<any>>,
-  barri: string
+  barri: string,
 ) {
   const result = await getMonthlyTraffic(barri);
 
@@ -44,7 +45,7 @@ export async function loadMonthlyTraffic(
 
 export async function loadAverageEventImpact(
   setter: Dispatch<SetStateAction<any>>,
-  barri: string
+  barri: string,
 ) {
   const result = await getAverageEventImpact(barri);
 
@@ -60,7 +61,7 @@ export async function loadAverageEventImpact(
 
 export async function loadRainIntensityCorrelation(
   setter: Dispatch<SetStateAction<any>>,
-  barri: string
+  barri: string,
 ) {
   const result = await getRainIntensityCorrelation(barri);
 
@@ -78,7 +79,7 @@ export async function loadRainIntensityCorrelation(
 
 export async function loadWorkdayVsHoliday(
   setter: Dispatch<SetStateAction<any>>,
-  barri: string
+  barri: string,
 ) {
   const result = await getWorkdayVsHoliday(barri);
 
@@ -94,7 +95,7 @@ export async function loadWorkdayVsHoliday(
 
 export async function loadIntensityPerArea(
   setter: Dispatch<SetStateAction<any>>,
-  barri: string
+  barri: string,
 ) {
   const result = await getIntensityPerArea();
 
@@ -113,7 +114,7 @@ export async function loadIntensityPerArea(
 export async function loadMapData(
   setter: Dispatch<SetStateAction<any>>,
   barri: string,
-  day: string
+  day: string,
 ) {
   const result = await getMapData(day);
 
@@ -127,7 +128,6 @@ export async function loadMapData(
     selectedBarri: barri,
   });
 }
-
 
 export async function loadWeeklyIntensityDiff(
   setter: Dispatch<SetStateAction<any>>,
@@ -143,7 +143,6 @@ export async function loadWeeklyIntensityDiff(
   setter({ x: x, y: y });
 }
 
-
 export async function loadMonthlyIntensityDiff(
   setter: Dispatch<SetStateAction<any>>,
 ) {
@@ -155,5 +154,31 @@ export async function loadMonthlyIntensityDiff(
     x.push(result[rowIndex]["month"]);
     y.push(result[rowIndex]["avg"]);
   }
+  setter({ x: x, y: y });
+}
+
+export async function loadModelImportances(
+  setter: Dispatch<SetStateAction<any>>,
+) {
+  const result = await getModelImportances();
+
+  var x = [];
+  var y = [];
+  var eventImportance: number = 0;
+  for (const rowIndex in result) {
+    if ("enc" === result[rowIndex]["features"].substring(0, 3)) {
+      eventImportance += result[rowIndex]["importances"];
+    } else {
+      x.push(result[rowIndex]["importances"]);
+      y.push(result[rowIndex]["features"]);
+    }
+  }
+
+  x.push(eventImportance);
+  y.push("events");
+
+  x = x.reverse();
+  y = y.reverse();
+
   setter({ x: x, y: y });
 }

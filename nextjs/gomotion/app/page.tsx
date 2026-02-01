@@ -11,7 +11,8 @@ import {
   loadWorkdayVsHoliday,
   loadIntensityPerArea,
   loadWeeklyIntensityDiff,
-  loadMonthlyIntensityDiff
+  loadMonthlyIntensityDiff,
+  loadModelImportances,
 } from "./load_data";
 import { translations } from "./translations";
 import geoData from "./data/barris.json";
@@ -50,6 +51,7 @@ export default function App() {
   const [rainIntensityCorrelation, setRainIntensityCorrelation] = useState();
   const [workdayVsHoliday, setWorkdayVsHoliday] = useState();
   const [intensityPerArea, setIntensityPerArea] = useState();
+  const [modelImportances, setModelImportances] = useState();
   const [modelStats, setModelStats] = useState();
   const [weeklyIntensityDiff, setWeeklyIntensityDiff] = useState();
   const [monthlyIntensityDiff, setMonthlyIntensityDiff] = useState();
@@ -58,11 +60,11 @@ export default function App() {
   const t = translations[language];
 
   //we load static data
-  useEffect(()=>{
+  useEffect(() => {
     loadWeeklyIntensityDiff(setWeeklyIntensityDiff);
     loadMonthlyIntensityDiff(setMonthlyIntensityDiff);
-  }, [])
-  
+    loadModelImportances(setModelImportances);
+  }, []);
 
   //this will be run every time day is modified
   useEffect(() => {
@@ -106,7 +108,6 @@ export default function App() {
   //this will be run every time either barri or day is modified
   useEffect(() => {
     async function fetchData() {
-      
       setLoading(true);
       try {
         //we call all SQL queries
@@ -154,68 +155,100 @@ export default function App() {
         </h2>
 
         <div className="plots">
-          <PlotComponent
-            t={t}
-            isLoading={loading}
-            type="weekly traffic"
-            data={weeklyTraffic}
-          />
-          <PlotComponent
-            t={t}
-            isLoading={loading}
-            type="monthly traffic"
-            data={monthlyTraffic}
-          />
-          <PlotComponent
-            t={t}
-            isLoading={loading}
-            type="average event impact"
-            data={avgImpact}
-          />
-          <PlotComponent
-            t={t}
-            isLoading={loading}
-            type="rain/intensity correlation"
-            data={rainIntensityCorrelation}
-          />
-          <PlotComponent
-            t={t}
-            isLoading={loading}
-            type="workday vs holiday"
-            data={workdayVsHoliday}
-          />
-          <PlotComponent
-            t={t}
-            isLoading={loading}
-            type="intensity/area"
-            data={intensityPerArea}
-          />
+          <div className="plot">
+            <PlotComponent
+              t={t}
+              isLoading={loading}
+              type="weekly traffic"
+              data={weeklyTraffic}
+            />
+          </div>
+
+          <div className="plot">
+            <PlotComponent
+              t={t}
+              isLoading={loading}
+              type="monthly traffic"
+              data={monthlyTraffic}
+            />
+          </div>
+
+          <div className="plot">
+            <PlotComponent
+              t={t}
+              isLoading={loading}
+              type="average event impact"
+              data={avgImpact}
+            />
+          </div>
+
+          <div className="plot">
+            <PlotComponent
+              t={t}
+              isLoading={loading}
+              type="rain/intensity correlation"
+              data={rainIntensityCorrelation}
+            />
+          </div>
+
+          <div className="plot">
+            <PlotComponent
+              t={t}
+              isLoading={loading}
+              type="workday vs holiday"
+              data={workdayVsHoliday}
+            />
+          </div>
+
+          <div className="plot">
+            <PlotComponent
+              t={t}
+              isLoading={loading}
+              type="intensity/area"
+              data={intensityPerArea}
+            />
+          </div>
         </div>
 
         <h2>{t["modelStatistics"]}</h2>
 
-        <div className="plots">
-          <PlotComponent
-            t={t}
-            isLoading={loading}
-            type="model statistics"
-            data={modelStats}
-          />
+        <div className="modelPlots">
+          <div className="modelImportances">
+            <PlotComponent
+              t={t}
+              isLoading={loading}
+              type="model importances"
+              data={modelImportances}
+            />
+          </div>
+
+          <div className="modelStats">
+            <PlotComponent
+              t={t}
+              isLoading={loading}
+              type="model stats"
+              data={modelStats}
+            />
+          </div>
         </div>
 
         <div className="plots">
-          <PlotComponent
-            t={t}
-            isLoading={loading}
-            type="weekly intensity diff"
-            data={weeklyIntensityDiff}
-          />
-          <PlotComponent
-            t={t}
-            isLoading={loading}
-            type="monthly intensity diff"
-            data={monthlyIntensityDiff}
-          />
+          <div className="plot">
+            <PlotComponent
+              t={t}
+              isLoading={loading}
+              type="weekly intensity diff"
+              data={weeklyIntensityDiff}
+            />
+          </div>
+          <div className="plot">
+            <PlotComponent
+              t={t}
+              isLoading={loading}
+              type="monthly intensity diff"
+              data={monthlyIntensityDiff}
+            />
+          </div>
         </div>
       </main>
     </>

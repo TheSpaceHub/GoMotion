@@ -4,6 +4,7 @@ import PlotComponent from "./plot";
 import Dropdown from "./dropdown";
 import {
   loadMapData,
+  loadTableData,
   loadWeeklyTraffic,
   loadMonthlyTraffic,
   loadAverageEventImpact,
@@ -33,10 +34,8 @@ const Heatmap = dynamic(() => import("./heatmap"), {
 });
 
 export default function App() {
-  const now = new Date();
-
   //keep day, barri and language in state
-  const [day, setDay] = useState(formatDate(now));
+  const [day, setDay] = useState(formatDate(new Date()));
   const [barri, setBarri] = useState("el Raval");
   const [language, setLanguage] = useState("en");
 
@@ -45,6 +44,7 @@ export default function App() {
 
   //keep all actual data
   const [mapData, setMapData] = useState();
+  const [tableData, setTableData] = useState({ rows: [] });
   const [weeklyTraffic, setWeeklyTraffic] = useState();
   const [monthlyTraffic, setMonthlyTraffic] = useState();
   const [avgImpact, setAvgImpact] = useState();
@@ -111,7 +111,10 @@ export default function App() {
       setLoading(true);
       try {
         //we call all SQL queries
-        await Promise.all([loadMapData(setMapData, barri, day)]);
+        await Promise.all([
+          loadMapData(setMapData, barri, day),
+          loadTableData(setTableData, day),
+        ]);
       } catch (error) {
         console.error("Failed to fetch data:", error);
       }
@@ -146,7 +149,7 @@ export default function App() {
               zScores={mapData ? mapData["zScores"] : {}}
               barriSetter={setBarri}
             />
-            <BarriInfo />
+            <BarriInfo data={tableData} />
           </div>
         </div>
 

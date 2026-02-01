@@ -13,7 +13,23 @@ export async function getMapData(day: any) {
     from display_data d, z
     where d.day = $1 and z.barri = d.barri
     `,
-    [day]
+    [day],
+  );
+  return result.rows;
+}
+
+export async function getTableData(day: any) {
+  const result: QueryResult<any> = await pool.query(
+    `
+    with z as
+    (select barri, stddev_samp(intensity) as std, avg(intensity) as mean
+    from display_data
+    group by barri)
+    select d.barri, d.intensity, z.mean, d.intensity / g.superficie as density, (d.intensity - z.mean) / z.std as zscore
+    from display_data d, geospatial_data g, z
+    where d.barri = z.barri and g.nom_barri = d.barri and d.day = $1
+    `,
+    [day],
   );
   return result.rows;
 }
@@ -26,7 +42,7 @@ export async function getWeeklyTraffic(barri: string) {
     WHERE barri=$1
     GROUP BY dotw ORDER BY dotw
     `,
-    [barri]
+    [barri],
   );
   return result.rows;
 }
@@ -39,7 +55,7 @@ export async function getMonthlyTraffic(barri: string) {
     WHERE barri=$1
     GROUP BY month ORDER BY month
     `,
-    [barri]
+    [barri],
   );
   return result.rows;
 }
@@ -52,7 +68,7 @@ export async function getAverageEventImpact(barri: string) {
     WHERE d.barri=$1 and d.day = e.day
     GROUP BY e.category
     `,
-    [barri]
+    [barri],
   );
   return result.rows;
 }
@@ -64,7 +80,7 @@ export async function getRainIntensityCorrelation(barri: string) {
     FROM display_data d, meteo m
     WHERE d.barri=$1 and DATE(d.day) = m.day
     `,
-    [barri]
+    [barri],
   );
   return result.rows;
 }
@@ -76,7 +92,7 @@ export async function getWorkdayVsHoliday(barri: string) {
     FROM display_data 
     WHERE barri=$1
     `,
-    [barri]
+    [barri],
   );
   return result.rows;
 }

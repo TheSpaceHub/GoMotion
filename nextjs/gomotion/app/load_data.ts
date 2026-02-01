@@ -2,6 +2,7 @@
 import { SetStateAction, Dispatch } from "react";
 import {
   getMapData,
+  getTableData,
   getWeeklyTraffic,
   getMonthlyTraffic,
   getAverageEventImpact,
@@ -13,6 +14,15 @@ import {
   getModelImportances,
 } from "./server_data";
 
+export async function loadTableData(
+  setter: Dispatch<SetStateAction<any>>,
+  day: string,
+) {
+  const result = await getTableData(day);
+  console.log("result");
+  console.log(result);
+  setter({ rows: result });
+}
 export async function loadWeeklyTraffic(
   setter: Dispatch<SetStateAction<any>>,
   barri: string,

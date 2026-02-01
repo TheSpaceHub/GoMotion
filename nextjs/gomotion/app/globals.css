@@ -66,6 +66,32 @@ select {
   background-color: white;
 }
 
+table {
+  border-radius: 1rem;
+  overflow: hidden;
+  min-width: 100%;
+}
+
+tr {
+  display: flex;
+}
+th {
+  flex: 1;
+  height: 3rem;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+td {
+  flex: 1;
+  height: 3rem;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
 .title {
   width: 20rem;
 }
@@ -155,6 +181,9 @@ select {
   border-radius: 0 0.5rem 0.5rem 0;
   overflow: hidden;
   flex: 2;
+  background-color: red;
+  overflow-x: scroll;
+  overflow-y: scroll;
 }
 
 .plot {

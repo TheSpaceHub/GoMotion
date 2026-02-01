@@ -14,6 +14,7 @@ import {
   loadWeeklyIntensityDiff,
   loadMonthlyIntensityDiff,
   loadModelImportances,
+  loadModelStats
 } from "./load_data";
 import { translations } from "./translations";
 import geoData from "./data/barris.json";
@@ -64,6 +65,7 @@ export default function App() {
     loadWeeklyIntensityDiff(setWeeklyIntensityDiff);
     loadMonthlyIntensityDiff(setMonthlyIntensityDiff);
     loadModelImportances(setModelImportances);
+    loadModelStats(setModelStats);
   }, []);
 
   //this will be run every time day is modified

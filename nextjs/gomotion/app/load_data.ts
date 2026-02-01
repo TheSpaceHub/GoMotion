@@ -12,6 +12,7 @@ import {
   getWeeklyIntensityDiff,
   getMonthlyIntensityDiff,
   getModelImportances,
+  getModelStats
 } from "./server_data";
 
 export async function loadTableData(
@@ -29,8 +30,8 @@ export async function loadWeeklyTraffic(
 ) {
   const result = await getWeeklyTraffic(barri);
 
-  var x = [];
-  var y = [];
+  let x = [];
+  let y = [];
   for (const rowIndex in result) {
     x.push(result[rowIndex]["dotw"]);
     y.push(result[rowIndex]["avg"]);
@@ -44,8 +45,8 @@ export async function loadMonthlyTraffic(
 ) {
   const result = await getMonthlyTraffic(barri);
 
-  var x = [];
-  var y = [];
+  let x = [];
+  let y = [];
   for (const rowIndex in result) {
     x.push(result[rowIndex]["month"]);
     y.push(result[rowIndex]["avg"]);
@@ -59,8 +60,8 @@ export async function loadAverageEventImpact(
 ) {
   const result = await getAverageEventImpact(barri);
 
-  var x = [];
-  var y = [];
+  let y = [];
+  let x = [];
   for (const rowIndex in result) {
     y.push(result[rowIndex]["category"]);
     x.push(result[rowIndex]["avg"]);
@@ -75,9 +76,9 @@ export async function loadRainIntensityCorrelation(
 ) {
   const result = await getRainIntensityCorrelation(barri);
 
-  var x = [];
-  var y = [];
-  var hover = [];
+  let x = [];
+  let y = [];
+  let hover = [];
   for (const rowIndex in result) {
     y.push(result[rowIndex]["intensity"]);
     x.push(result[rowIndex]["rain"]);
@@ -93,8 +94,8 @@ export async function loadWorkdayVsHoliday(
 ) {
   const result = await getWorkdayVsHoliday(barri);
 
-  var x = [];
-  var y = [];
+  let x = [];
+  let y = [];
   for (const rowIndex in result) {
     y.push(result[rowIndex]["intensity"]);
     x.push(result[rowIndex]["is_holiday"]);
@@ -109,9 +110,9 @@ export async function loadIntensityPerArea(
 ) {
   const result = await getIntensityPerArea();
 
-  var x = [];
-  var y = [];
-  var hover = [];
+  let x = [];
+  let y = [];
+  let hover = [];
   for (const rowIndex in result) {
     y.push(result[rowIndex]["avg"]);
     x.push(result[rowIndex]["superficie"]);
@@ -128,7 +129,7 @@ export async function loadMapData(
 ) {
   const result = await getMapData(day);
 
-  var zScores: Record<string, number> = {};
+  let zScores: Record<string, number> = {};
   for (const rowIndex in result) {
     zScores[result[rowIndex]["barri"]] = result[rowIndex]["zscore"];
   }
@@ -144,8 +145,8 @@ export async function loadWeeklyIntensityDiff(
 ) {
   const result = await getWeeklyIntensityDiff();
 
-  var x = [];
-  var y = [];
+  let x = [];
+  let y = [];
   for (const rowIndex in result) {
     x.push(result[rowIndex]["dotw"]);
     y.push(result[rowIndex]["avg"]);
@@ -158,8 +159,8 @@ export async function loadMonthlyIntensityDiff(
 ) {
   const result = await getMonthlyIntensityDiff();
 
-  var x = [];
-  var y = [];
+  let x = [];
+  let y = [];
   for (const rowIndex in result) {
     x.push(result[rowIndex]["month"]);
     y.push(result[rowIndex]["avg"]);
@@ -172,9 +173,9 @@ export async function loadModelImportances(
 ) {
   const result = await getModelImportances();
 
-  var x = [];
-  var y = [];
-  var eventImportance: number = 0;
+  let x = [];
+  let y = [];
+  let eventImportance: number = 0;
   for (const rowIndex in result) {
     if ("enc" === result[rowIndex]["features"].substring(0, 3)) {
       eventImportance += result[rowIndex]["importances"];
@@ -191,4 +192,19 @@ export async function loadModelImportances(
   y = y.reverse();
 
   setter({ x: x, y: y });
+}
+
+export async function loadModelStats(
+  setter: Dispatch<SetStateAction<any>>,
+) {
+  const result = await getModelStats();
+
+  let x = [];
+  let y = [];
+  for (const rowIndex in result) {
+    x.push(result[rowIndex]["key"]);
+    y.push(result[rowIndex]["value"]);
+  }
+  console.log(x);
+  setter({ "labels": x, "values": y });
 }

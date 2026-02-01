@@ -20,17 +20,18 @@ export default function PlotComponent({
 }: PlotComponentParameters) {
   if (isLoading) return <div className="plot">Loading...</div>;
 
-  var xtitle: string = "";
-  var ytitle: string = "";
-  var plotTitle: string = "";
+  let xtitle: string = "";
+  let ytitle: string = "";
+  let plotTitle: string = "";
 
   if (data == undefined)
     return <div className="plot">Plot for {type} could not be loaded.</div>;
 
   //make a copy (plotData) in order to keep the original data untouched
-  var plotData: Record<string, any> = { ...data };
+  let plotData: Record<string, any> = { ...data };
   //keep this for certain plots which need more traces to look gorgeous
-  var additionalTraces: Array<any> = [];
+  let additionalTraces: Array<any> = [];
+  let show_legend: boolean = false;
 
   //display logic for all plots
   switch (type) {
@@ -145,6 +146,39 @@ export default function PlotComponent({
         color: "#ffea31",
       };
       break;
+    
+    case "model stats":
+
+      const map_stats_text: Record<string, string> = {
+        "model_accuracy": "Model Accuracy",
+        "model_error_over": "Model Overestimation",
+        "model_error_under": "Model Subestimation"
+      };
+
+      const pie_palette: string[] = [
+        '#ffff00',
+        '#7928ca', 
+        '#fe8d3c'  
+      ];
+
+      xtitle = "";
+      ytitle = "";
+      plotTitle = "MODEL PRECISION";
+
+      let pieLabels = [...plotData["labels"]];
+
+      for (let i = 0; i < pieLabels.length; i++){
+        pieLabels[i] = map_stats_text[pieLabels[i]];
+      }
+
+      plotData["labels"] = pieLabels
+      plotData["type"] = "pie";
+      plotData["marker"] = {
+        colors: pie_palette
+      };
+      show_legend = true;
+
+      break;
 
     case "weekly intensity diff":
       xtitle = "";
@@ -180,7 +214,7 @@ export default function PlotComponent({
         data={[plotData, ...additionalTraces]}
         layout={{
           autosize: true,
-          showlegend: false,
+          showlegend: show_legend,
           margin: { l: 20, r: 20, t: 20, b: 20 },
           xaxis: {
             automargin: true,

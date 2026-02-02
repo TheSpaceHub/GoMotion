@@ -16,7 +16,8 @@ import {
   loadModelImportances,
   loadModelStats,
   loadDailyData,
-  loadEventData
+  loadEventData,
+  loadFinalPredictedDate
 } from "./load_data";
 import { translations } from "./translations";
 import geoData from "./data/barris.json";
@@ -231,7 +232,7 @@ export default function App() {
               barriSetter={setBarri}
             />
 
-            <BarriInfo data={tableData} day={day} setter={setDay} />
+            <BarriInfo data={tableData} day={day} setter={setDay} fetcher={fetcher}/>
           </div>
         </div>
 

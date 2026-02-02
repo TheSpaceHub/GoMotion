@@ -7,6 +7,9 @@ const getColor = scaleLinear<string>()
   .domain([-3, 0, 3])
   .range(["#69298F", "#ca4679", "#FFD127"]);
 
+import { useState, useEffect } from "react";
+import { loadFinalPredictedDate } from "./load_data";
+
 function classifyPeak(zscore: number) {
   if (zscore >= 1.5) return "Massive peak";
   if (zscore >= 1) return "Peak";
@@ -31,7 +34,17 @@ function Row(data: any) {
   );
 }
 
-export default function BarriInfo({ data, day, setter }: any) {
+export default function BarriInfo({ data, day, setter, fetcher }: any) {
+
+
+  const [week_ahead, setWeekAhead] = useState("");
+
+  useEffect(() => {
+    if (fetcher) {
+      loadFinalPredictedDate(fetcher, setWeekAhead);
+    }
+  }, [fetcher]);
+
   let rows: Array<any> = [];
 
   for (let i = 0; i < data["rows"].length; i++) {
@@ -48,6 +61,7 @@ export default function BarriInfo({ data, day, setter }: any) {
           onChange={(e) => setter(e.target.value)}
           id="dateInput"
           name="dateInput"
+          max={week_ahead}
         />
       </div>
 

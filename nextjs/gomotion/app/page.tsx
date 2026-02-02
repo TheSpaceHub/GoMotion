@@ -15,6 +15,7 @@ import {
   loadMonthlyIntensityDiff,
   loadModelImportances,
   loadModelStats,
+  loadDailyData,
 } from "./load_data";
 import { translations } from "./translations";
 import geoData from "./data/barris.json";
@@ -65,6 +66,7 @@ export default function App() {
   //keep all actual data
   const [mapData, setMapData] = useState();
   const [tableData, setTableData] = useState({ rows: [] });
+  const [dailyData, setDailyData] = useState({ precipitation: "", is_holiday: "", temperature_max: "", total_traffic: 0})
   const [weeklyTraffic, setWeeklyTraffic] = useState();
   const [monthlyTraffic, setMonthlyTraffic] = useState();
   const [avgImpact, setAvgImpact] = useState();
@@ -139,6 +141,7 @@ export default function App() {
         await Promise.all([
           loadMapData(fetcher, setMapData, barri, day),
           loadTableData(fetcher, setTableData, day),
+          loadDailyData(fetcher, setDailyData, day)
         ]);
       } catch (error) {
         console.error("Failed to fetch data:", error);
@@ -166,6 +169,52 @@ export default function App() {
           <img src="GoMotionLogo.png" alt="GoMotion Logo" />
         </div>
         <p className="subtitle">Mobility in Barcelona</p>
+
+        <h2>
+          {t["dailyAnal"]}
+        </h2>
+
+        <div className="dailyMetrics">
+
+          <div className="Metric">
+            <h3>
+              {t.dailySummary["totalTraffic"]}
+            </h3>
+            <h2>
+              {Math.round(dailyData["total_traffic"])}
+            </h2>
+          </div>
+
+          <div className="Metric">
+            <h3>
+              {t.dailySummary["anomalies"]}
+            </h3>
+          </div>
+
+          <div className="Metric">
+            <h3>
+              {t.dailySummary["holiday"]}
+            </h3>
+
+            <h2>
+              {dailyData["is_holiday"]}
+            </h2>
+          </div>
+
+          <div className="Metric">
+            <h3>
+              {t.dailySummary["temp"]}
+
+            </h3>
+          </div>
+
+          <div className="Metric">
+            <h3>
+              {t.dailySummary["precipitation"]}
+            </h3>
+          </div>
+          
+        </div>
 
         <div className="plots">
           <div className="mapContainer">
@@ -259,6 +308,10 @@ export default function App() {
             />
           </div>
         </div>
+
+        <h2>
+          {t["globalStats"]}
+        </h2>
 
         <div className="plots">
           <div className="plot">

@@ -7,7 +7,6 @@ function classifyPeak(zscore: number) {
 }
 
 function Row(data: any) {
-  console.log(data);
   return (
     <tr>
       <td>{data["barri"]}</td>

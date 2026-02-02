@@ -14,7 +14,8 @@ import {
   getWeeklyIntensityDiff,
   getWorkdayVsHoliday,
   getDailyData,
-  getEventData
+  getEventData,
+  getFinalPredictedDate
 } from "./server_data";
 import { Fetcher } from "./page";
 import { resumeToPipeableStream } from "react-dom/server";
@@ -252,4 +253,13 @@ export async function loadEventData(
     barris.push(result[rowIndex]["barris"])
   }
   setter({ descriptions: descriptions, categories: categories, impacts: impacts, barris: barris});
+}
+
+export async function loadFinalPredictedDate(
+  fetcher: RefObject<Fetcher>,
+  setter: Dispatch<SetStateAction<any>>,
+) {
+  const result = await getFinalPredictedDate(fetcher);
+  const finalDate = result[0].value;
+  setter(finalDate)
 }

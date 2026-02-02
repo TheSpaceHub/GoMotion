@@ -189,3 +189,12 @@ export async function getEventData(fetcher: RefObject<Fetcher>, day:any) {
     `, [day]);
   return result.rows;
 }
+
+export async function getFinalPredictedDate(fetcher: RefObject<Fetcher>) {
+  const result: QueryResult<any> = await pool.query(`
+    select value
+    from metadata
+    where key = 'last_predicted_day'
+    `);
+  return result.rows;
+}

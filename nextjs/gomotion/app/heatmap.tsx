@@ -6,8 +6,8 @@ import { useEffect, useState } from "react";
 import { scaleLinear } from "d3-scale";
 
 const getColor = scaleLinear<string>()
-  .domain([-3, 3])
-  .range(["#69298F", "#FFD127"]);
+  .domain([-3, 0, 3])
+  .range(["#69298F", "#ca4679", "#FFD127"]);
 
 export default function Heatmap({ geoData, zScores, barriSetter }: any) {
   useEffect(() => {
@@ -55,7 +55,11 @@ export default function Heatmap({ geoData, zScores, barriSetter }: any) {
       >
         <TileLayer
           attribution="Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL."
-          url="https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png"
+          url={
+            window.matchMedia("(prefers-color-scheme: dark)").matches //dark mode
+              ? "https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png"
+              : "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png"
+          }
         />
         <GeoJSON data={geoData} style={style} onEachFeature={onEachFeature} />
       </MapContainer>

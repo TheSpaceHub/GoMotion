@@ -19,7 +19,7 @@ function Row(data: any) {
   );
 }
 
-export default function BarriInfo({ data }: any) {
+export default function BarriInfo({ data, day, setter }: any) {
   let rows: Array<any> = [];
 
   for (let i = 0; i < data["rows"].length; i++) {
@@ -28,20 +28,31 @@ export default function BarriInfo({ data }: any) {
 
   return (
     <div className="barri-info">
+      <div className="date-selector">
+        <p>SELECT DATE</p>
+        <input
+          type="date"
+          value={day}
+          onChange={(e) => setter(e.target.value)}
+          id="dateInput"
+          name="dateInput"
+        />
+      </div>
+
       <div className="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th className="text-left">Neighborhood</th>
-            <th>Traffic</th>
-            <th>Average</th>
-            <th>Density</th>
-            <th>Deviation</th>
-            <th>Peak</th>
-          </tr>
-        </thead>
-        <tbody>{...rows}</tbody>
-      </table>
+        <table>
+          <thead>
+            <tr>
+              <th className="text-left">Neighborhood</th>
+              <th>Traffic</th>
+              <th>Average</th>
+              <th>Density</th>
+              <th>Deviation</th>
+              <th>Peak</th>
+            </tr>
+          </thead>
+          <tbody>{...rows}</tbody>
+        </table>
       </div>
     </div>
   );

@@ -22,7 +22,6 @@ import geoData from "./data/barris.json";
 import dynamic from "next/dynamic";
 import BarriInfo from "./barriInfo";
 
-
 export class Fetcher {
   Fetcher() {
     /*data in the fetcher will be classified by
@@ -66,7 +65,12 @@ export default function App() {
   //keep all actual data
   const [mapData, setMapData] = useState();
   const [tableData, setTableData] = useState({ rows: [] });
-  const [dailyData, setDailyData] = useState({ precipitation: "", is_holiday: "", temperature_max: "", total_traffic: 0})
+  const [dailyData, setDailyData] = useState({
+    precipitation: "",
+    is_holiday: "",
+    temperature_max: "",
+    total_traffic: 0,
+  });
   const [weeklyTraffic, setWeeklyTraffic] = useState();
   const [monthlyTraffic, setMonthlyTraffic] = useState();
   const [avgImpact, setAvgImpact] = useState();
@@ -141,7 +145,7 @@ export default function App() {
         await Promise.all([
           loadMapData(fetcher, setMapData, barri, day),
           loadTableData(fetcher, setTableData, day),
-          loadDailyData(fetcher, setDailyData, day)
+          loadDailyData(fetcher, setDailyData, day),
         ]);
       } catch (error) {
         console.error("Failed to fetch data:", error);
@@ -170,50 +174,31 @@ export default function App() {
         </div>
         <p className="subtitle">Mobility in Barcelona</p>
 
-        <h2>
-          {t["dailyAnal"]}
-        </h2>
+        <h2>{t["dailyAnal"]}</h2>
 
         <div className="dailyMetrics">
-
           <div className="Metric">
-            <h3>
-              {t.dailySummary["totalTraffic"]}
-            </h3>
-            <h2>
-              {Math.round(dailyData["total_traffic"])}
-            </h2>
+            <h3>{t.dailySummary["totalTraffic"]}</h3>
+            <h2>{Math.round(dailyData["total_traffic"])}</h2>
           </div>
 
           <div className="Metric">
-            <h3>
-              {t.dailySummary["anomalies"]}
-            </h3>
+            <h3>{t.dailySummary["anomalies"]}</h3>
           </div>
 
           <div className="Metric">
-            <h3>
-              {t.dailySummary["holiday"]}
-            </h3>
+            <h3>{t.dailySummary["holiday"]}</h3>
 
-            <h2>
-              {dailyData["is_holiday"]}
-            </h2>
+            <h2>{dailyData["is_holiday"]}</h2>
           </div>
 
           <div className="Metric">
-            <h3>
-              {t.dailySummary["temp"]}
-
-            </h3>
+            <h3>{t.dailySummary["temp"]}</h3>
           </div>
 
           <div className="Metric">
-            <h3>
-              {t.dailySummary["precipitation"]}
-            </h3>
+            <h3>{t.dailySummary["precipitation"]}</h3>
           </div>
-          
         </div>
 
         <div className="plots">
@@ -223,7 +208,8 @@ export default function App() {
               zScores={mapData ? mapData["zScores"] : {}}
               barriSetter={setBarri}
             />
-            <BarriInfo data={tableData} />
+
+            <BarriInfo data={tableData} day={day} setter={setDay} />
           </div>
         </div>
 
@@ -309,9 +295,7 @@ export default function App() {
           </div>
         </div>
 
-        <h2>
-          {t["globalStats"]}
-        </h2>
+        <h2>{t["globalStats"]}</h2>
 
         <div className="plots">
           <div className="plot">

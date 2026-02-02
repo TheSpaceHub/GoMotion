@@ -249,7 +249,7 @@ export default function PlotComponent({
         font: {
           family: "system-ui",
           weight: "normal",
-          color: window.matchMedia("(prefers-color-scheme: dark)").matches
+          color: window.matchMedia("(prefers-color-scheme: dark)").matches //dark mode
             ? "#ffffff"
             : "#171717",
         },

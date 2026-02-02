@@ -18,7 +18,7 @@ const Plot = dynamic(() => import("react-plotly.js"), {
 interface PlotComponentParameters {
   t: any;
   type: string;
-  isLoading: boolean;
+  isLoading: number;
   data: any;
 }
 
@@ -28,7 +28,7 @@ export default function PlotComponent({
   isLoading,
   data,
 }: PlotComponentParameters) {
-  if (isLoading) return <div className="plot">Loading...</div>;
+  if (isLoading > 0) return <div className="plot">Loading...</div>;
 
   let xtitle: string = "";
   let ytitle: string = "";

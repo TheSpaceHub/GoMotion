@@ -17,12 +17,13 @@ import {
   loadModelStats,
   loadDailyData,
   loadEventData,
-  loadFinalPredictedDate
+  loadFinalPredictedDate,
 } from "./load_data";
 import { translations } from "./translations";
 import geoData from "./data/barris.json";
 import dynamic from "next/dynamic";
 import BarriInfo from "./barriInfo";
+import { stringify } from "querystring";
 
 export class Fetcher {
   Fetcher() {
@@ -62,13 +63,24 @@ export default function App() {
   const [language, setLanguage] = useState("en");
 
   //keep loading for placeholders
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(0);
 
   //keep all actual data
   const [mapData, setMapData] = useState();
   const [tableData, setTableData] = useState({ rows: [] });
-  const [dailyData, setDailyData] = useState({ precipitation: "", is_holiday: "", temperature_max: "", total_traffic: 0, temperature_min:""})
-  const [eventData, setEventData] = useState({ barris: [], impacts: [], categories: [], description: []})
+  const [dailyData, setDailyData] = useState({
+    precipitation: null,
+    is_holiday: null,
+    temperature_max: null,
+    total_traffic: null,
+    temperature_min: null,
+  });
+  const [eventData, setEventData] = useState({
+    barris: null,
+    impacts: null,
+    categories: null,
+    description: null,
+  });
   const [weeklyTraffic, setWeeklyTraffic] = useState();
   const [monthlyTraffic, setMonthlyTraffic] = useState();
   const [avgImpact, setAvgImpact] = useState();
@@ -94,14 +106,14 @@ export default function App() {
   //this will be run every time day is modified
   useEffect(() => {
     async function fetchData() {
-      setLoading(true);
+      setLoading((prev) => prev + 1);
       try {
         //we call all SQL queries
         await Promise.all([]);
       } catch (error) {
         console.error("Failed to fetch data:", error);
       }
-      setLoading(false);
+      setLoading((prev) => prev - 1);
     }
 
     fetchData();
@@ -110,7 +122,7 @@ export default function App() {
   //this will be run every time barri is modified
   useEffect(() => {
     async function fetchData() {
-      setLoading(true);
+      setLoading((prev) => prev + 1);
       try {
         //we call all SQL queries
         await Promise.all([
@@ -128,7 +140,7 @@ export default function App() {
       } catch (error) {
         console.error("Failed to fetch data:", error);
       }
-      setLoading(false);
+      setLoading((prev) => prev - 1);
     }
 
     fetchData();
@@ -137,23 +149,25 @@ export default function App() {
   //this will be run every time either barri or day is modified
   useEffect(() => {
     async function fetchData() {
-      setLoading(true);
+      setLoading((prev) => prev + 1);
       try {
         //we call all SQL queries
         await Promise.all([
           loadMapData(fetcher, setMapData, barri, day),
           loadTableData(fetcher, setTableData, day),
           loadDailyData(fetcher, setDailyData, day),
-          loadEventData(fetcher, setEventData, day)
+          loadEventData(fetcher, setEventData, day),
         ]);
       } catch (error) {
         console.error("Failed to fetch data:", error);
       }
-      setLoading(false);
+      setLoading((prev) => prev - 1);
     }
 
     fetchData();
   }, [barri, day]);
+
+  console.log("hey new render, loading is " + String(loading));
 
   return (
     <>
@@ -173,53 +187,56 @@ export default function App() {
         </div>
         <p className="subtitle">Mobility in Barcelona</p>
 
-        <h2>{t["dailyAnal"]}</h2>
+        <h2>{t.dailyAnal}</h2>
 
         <div className="dailyMetrics">
           <div className="Metric">
-            <h3 className="dailyTitle">
-              {t.dailySummary["totalTraffic"]}
-            </h3>
+            <h3 className="dailyTitle">{t.dailySummary["totalTraffic"]}</h3>
             <h1 className="dailyMetric">
-              {Math.round(dailyData["total_traffic"])}
+              {(dailyData as any)["total_traffic"] != null
+                ? Math.round((dailyData as any)["total_traffic"])
+                : "..."}
             </h1>
           </div>
 
           <div className="Metric">
-            <h3 className="dailyTitle">
-              {t.dailySummary["anomalies"]}
-            </h3>
+            <h3 className="dailyTitle">{t.dailySummary["eventCount"]}</h3>
             <h1 className="dailyMetric">
-              {eventData["impacts"].length}
+              {(eventData as any).impacts?.length ?? "..."}
             </h1>
           </div>
 
           <div className="Metric">
-            <h3 className="dailyTitle">
-              {t.dailySummary["holiday"]}
-            </h3>
+            <h3 className="dailyTitle">{t.dailySummary["holiday"]}</h3>
 
             <h1 className="dailyMetric">
-              {dailyData["is_holiday"] == "1" ? t["true"] : t["false"]}
+              {dailyData.is_holiday != null
+                ? dailyData["is_holiday"] == "1"
+                  ? t["true"]
+                  : t["false"]
+                : "..."}
             </h1>
           </div>
 
           <div className="Metric">
-            <h3 className="dailyTitle">
-              {t.dailySummary["temp"]}
-            </h3>
+            <h3 className="dailyTitle">{t.dailySummary["temp"]}</h3>
             <h1 className="dailyMetric">
-              {dailyData["temperature_min"]+"ºC/"+dailyData["temperature_max"]+"ºC"}
+              {dailyData.temperature_min != null
+                ? dailyData["temperature_min"] +
+                  "ºC/" +
+                  dailyData["temperature_max"] +
+                  "ºC"
+                : "..."}
             </h1>
           </div>
 
           <div className="Metric">
-            <h3 className="dailyTitle">
-              {t.dailySummary["precipitation"]}
-            </h3>
+            <h3 className="dailyTitle">{t.dailySummary["precipitation"]}</h3>
 
             <h1 className="dailyMetric">
-              {dailyData["precipitation"]+"mm"}
+              {dailyData["precipitation"] != null
+                ? dailyData["precipitation"] + "mm"
+                : "..."}
             </h1>
           </div>
         </div>
@@ -232,7 +249,12 @@ export default function App() {
               barriSetter={setBarri}
             />
 
-            <BarriInfo data={tableData} day={day} setter={setDay} fetcher={fetcher}/>
+            <BarriInfo
+              data={tableData}
+              day={day}
+              setter={setDay}
+              fetcher={fetcher}
+            />
           </div>
         </div>
 

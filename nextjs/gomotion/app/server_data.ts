@@ -90,9 +90,9 @@ export async function getRainIntensityCorrelation(
 ) {
   const result: QueryResult<any> = await pool.query(
     `
-    SELECT m."precipitation_sum (mm)" AS rain, d.intensity, d.day
-    FROM display_data d, meteo m
-    WHERE d.barri=$1 and DATE(d.day) = m.day
+    SELECT d.precipitation_sum AS rain, d.intensity, d.day
+    FROM display_data d
+    WHERE d.barri=$1
     `,
     [barri],
   );
@@ -171,22 +171,28 @@ export async function getModelStats(fetcher: RefObject<Fetcher>) {
   return result.rows;
 }
 
-export async function getDailyData(fetcher: RefObject<Fetcher>, day:any) {
-  const result: QueryResult<any> = await pool.query(`
-    select d.precipitation_sum, d.is_holiday, m."temperature_2m_max (°C)", m."temperature_2m_min (°C)", SUM(d.intensity) as tt
-    from display_data d inner join meteo m on m.day = DATE(d.day)
+export async function getDailyData(fetcher: RefObject<Fetcher>, day: any) {
+  const result: QueryResult<any> = await pool.query(
+    `
+    select d.precipitation_sum, d.is_holiday, d.temperature_2m_max, d.temperature_2m_min, SUM(d.intensity) as tt
+    from display_data d
     where d.day = $1
-    group by d.precipitation_sum, d.is_holiday, m."temperature_2m_max (°C)", m."temperature_2m_min (°C)"
-    `, [day]);
+    group by d.precipitation_sum, d.is_holiday, d.temperature_2m_max, d.temperature_2m_min
+    `,
+    [day],
+  );
   return result.rows;
 }
 
-export async function getEventData(fetcher: RefObject<Fetcher>, day:any) {
-  const result: QueryResult<any> = await pool.query(`
+export async function getEventData(fetcher: RefObject<Fetcher>, day: any) {
+  const result: QueryResult<any> = await pool.query(
+    `
     select *
     from events e
     where e.day = $1
-    `, [day]);
+    `,
+    [day],
+  );
   return result.rows;
 }
 

@@ -67,6 +67,10 @@ nav {
   z-index: 1;
 }
 
+select, option{
+  font-family: "Lexend";
+}
+
 img {
   min-width: 0;
   max-width: 100%;

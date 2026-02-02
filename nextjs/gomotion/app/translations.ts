@@ -26,7 +26,7 @@ const en = {
   globalStats:"GLOBAL STATISTICS",
   dailySummary:{
     totalTraffic: "TOTAL TRAFFIC",
-    anomalies: "ANOMALIES",
+    eventCount: "EVENTS",
     holiday: "HOLIDAY",
     temp: "MIN/MAX TEMP",
     precipitation:"PRECIPITATION"

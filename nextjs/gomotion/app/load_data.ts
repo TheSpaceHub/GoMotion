@@ -230,7 +230,7 @@ export async function loadDailyData(
 ) {
   const result = await getDailyData(fetcher, day);
   setter({ precipitation: result[0]["precipitation_sum"], is_holiday: result[0]["is_holiday"], 
-    temperature_max: result[0]["temperature_2m_max (°C)"], temperature_min: result[0]["temperature_2m_min (°C)"],
+    temperature_max: result[0]["temperature_2m_max"], temperature_min: result[0]["temperature_2m_min"],
   total_traffic: result[0]["tt"]});
 }
 
@@ -240,8 +240,6 @@ export async function loadEventData(
   day: string,
 ) {
   const result = await getEventData(fetcher, day);
-  console.log("result");
-  console.log(result);
   let descriptions = []
   let categories = []
   let impacts = []

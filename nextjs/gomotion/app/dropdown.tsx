@@ -18,14 +18,14 @@ export default function Dropdown({
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
       {label && (
-        <label style={{ fontSize: "0.9rem", fontWeight: "bold" }}>
-          {label}
-        </label>
+        <p style={{ fontSize: "0.9rem", fontWeight: "bold" }}>{label}</p>
       )}
 
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        id={label}
+        name={label}
       >
         {options.map((option) => (
           <option key={option} value={option}>

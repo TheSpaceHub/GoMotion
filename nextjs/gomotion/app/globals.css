@@ -244,12 +244,13 @@ main {
 }
 
 .dailyTitle{
-  font-style: italic;
-  opacity: 0.65;
+  opacity: 0.55;
+  margin: 0.2em
 }
 .dailyMetric{
   font-weight: 900;
-  font-size: 40;
+  font-size: 3rem;
+  margin: 0.15em
 }
 
 .dailyMetrics {
@@ -264,7 +265,6 @@ main {
 
 .Metric {
   justify-content: space-between;
-  gap: 1rem;
   flex-wrap: wrap;
   background-color: var(--background-sec);
   border: 1px solid var(--border);
@@ -294,7 +294,7 @@ main {
   border: 1px solid #a7a7a7;
   border-radius: 0.5rem;
   padding: 1rem;
-  margin: 1rem 0 1rem 0;
+  margin: 0.5rem 0 0.5rem 0;
   flex: 1;
   z-index: -1;
 }

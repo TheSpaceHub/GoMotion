@@ -1,4 +1,9 @@
 "use client";
+import { scaleLinear } from "d3-scale";
+
+const getColor = scaleLinear<string>()
+  .domain([-3, 0, 3])
+  .range(["#69298F", "#ca4679", "#FFD127"]);
 
 function classifyPeak(zscore: number) {
   if (zscore >= 1.5) return "Massive peak";
@@ -13,7 +18,12 @@ function Row(data: any) {
       <td className="text-right">{Math.round(data["intensity"])}</td>
       <td className="text-right">{Math.round(data["mean"])}</td>
       <td className="text-right">{Math.round(data["density"])}</td>
-      <td className="text-right">{Math.round(100 * data["zscore"]) / 100}</td>
+      <td
+        className="text-right"
+        style={{ backgroundColor: getColor(data["zscore"]) }}
+      >
+        {Math.round(100 * data["zscore"]) / 100}
+      </td>
       <td className="text-left">{classifyPeak(data["zscore"])}</td>
     </tr>
   );

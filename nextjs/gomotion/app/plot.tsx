@@ -3,8 +3,12 @@ import dynamic from "next/dynamic";
 import { scaleLinear } from "d3-scale";
 
 //returns color depending on importance
-const getColor = scaleLinear<string>()
+const getImportanceColor = scaleLinear<string>()
   .domain([0, 0.5, 1])
+  .range(["#69298F", "#ca4679", "#FFD127"]);
+
+const getDiffColor = scaleLinear<string>()
+  .domain([-0.5, 0, 0.25])
   .range(["#69298F", "#ca4679", "#FFD127"]);
 
 const Plot = dynamic(() => import("react-plotly.js"), {
@@ -155,7 +159,7 @@ export default function PlotComponent({
       let bar_colors = [];
 
       for (let i = 0; i < plotData["x"].length; i++) {
-        bar_colors.push(getColor(plotData["x"][i]));
+        bar_colors.push(getImportanceColor(plotData["x"][i]));
       }
 
       plotData["type"] = "bar";
@@ -202,8 +206,13 @@ export default function PlotComponent({
       plotData["type"] = "scatter";
       plotData["x"] = t["dotw"];
       plotData["mode"] = "markers";
+      //do color
+      let weeklyMarkerColors = [];
+      for (let i = 0; i < plotData["y"].length; i++) {
+        weeklyMarkerColors.push(getDiffColor(plotData["y"][i] / 100));
+      }
       plotData["marker"] = {
-        color: "#830101ff",
+        color: weeklyMarkerColors,
         size: 12,
       };
       break;
@@ -215,8 +224,13 @@ export default function PlotComponent({
       plotData["type"] = "scatter";
       plotData["x"] = t["months"];
       plotData["mode"] = "markers";
+      //do color
+      let monthlyMarkerColors = [];
+      for (let i = 0; i < plotData["y"].length; i++) {
+        monthlyMarkerColors.push(getDiffColor(plotData["y"][i] / 100));
+      }
       plotData["marker"] = {
-        color: "#a9b500ff",
+        color: monthlyMarkerColors,
         size: 12,
       };
       break;

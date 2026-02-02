@@ -1,8 +1,9 @@
 :root {
-  --background: #f5f5f5;
-  --background-sec: #ededed;
+  --background: #fafafa;
+  --background-sec: #f7f9f9;
   --foreground: #171717;
-  --plot-background: #ecf0f5;
+  --plot-background: transparent /*#ecf0f5*/;
+  --border: #a7a7a775;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -48,6 +49,7 @@ nav {
   height: 2rem;
   width: calc(100% - 40px);
   background-color: var(--background-sec);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
   z-index: 1;
 }
 
@@ -66,31 +68,101 @@ select {
   background-color: white;
 }
 
-table {
+.table-container {
   border-radius: 1rem;
+  border: 1px solid var(--border);
+  border-collapse: collapse;
+  margin: 0 0 0 1rem;
   overflow: hidden;
-  min-width: 100%;
+
+  width: calc(100% - 1rem - 2px); /*margin + border*/
+  height: 100%;
+  overflow-x: scroll;
+  overflow-y: scroll;
 }
 
-tr {
-  display: flex;
+table {
+  border-radius: 1rem;
+  /*overflow: hidden;*/
+  min-width: 100%;
+  font-size: small;
+  table-layout: fixed;
+  padding: 0;
+  border-collapse: collapse;
 }
+
 th {
-  flex: 1;
-  height: 3rem;
-  background-color: white;
-  display: flex;
+  /*flex: 1;*/
+  height: 1rem;
+  background-color: var(--background-sec);
+  /*display: flex;*/
   align-items: center;
   padding: 10px;
+
+  border: 1px solid var(--border);
+  border-collapse: collapse;
+  margin: 0;
 }
 td {
-  flex: 1;
-  height: 3rem;
-  background-color: white;
-  display: flex;
+  /*flex: 1;*/
+  height: 1rem;
+  background-color: var(--background);
+  /*display: flex;*/
   align-items: center;
   padding: 10px;
+  white-space: nowrap;
+
+  border: 1px solid var(--border);
+  border-collapse: collapse;
 }
+
+/*classes to align data in barriInfo.tsx*/
+.text-left {
+  text-align: left;
+}
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+
+/*hide duplicate borders*/
+table thead tr th {
+  border-top: none;
+}
+table tbody tr:last-child td {
+  border-bottom: none;
+}
+table th:first-child,
+table td:first-child {
+  border-left: none;
+}
+table th:last-child,
+table td:last-child {
+  border-right: none;
+}
+
+/*scrollbar*/
+main {
+  scrollbar-width: thin;
+  scrollbar-color: transparent;
+}
+::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(128, 128, 128, 0.5);
+  border-radius: 10px;
+}
+/*.table-container:hover::-webkit-scrollbar-thumb{
+  background-color: rgba(255, 0, 0, 0.5);
+
+}*/
 
 .title {
   width: 20rem;
@@ -114,24 +186,26 @@ td {
   justify-content: space-between;
   gap: 1rem;
   flex-wrap: wrap;
-  background-color: rgba(0, 0, 0, 0);
-  border: 1px solid #a7a7a7;
+  background-color: var(--background-sec);
+  border: 1px solid var(--border);
   border-radius: 0.5rem;
   padding: 1rem;
   margin: 1rem 0 1rem 0;
   z-index: -1;
+  box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.05);
 }
 
 .modelPlots {
   display: flex;
   gap: 1rem;
   background-color: rgba(0, 0, 0, 0);
-  border: 1px solid #a7a7a7;
+  border: 1px solid var(--border);
   border-radius: 0.5rem;
   padding: 1rem;
   margin: 1rem 0 1rem 0;
   height: 25rem;
   z-index: -1;
+  box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.05);
 }
 
 .modelImportances {
@@ -139,13 +213,12 @@ td {
   height: 23rem; /*padding*/
   padding: 1.5rem 0.75rem 0rem 0.75rem;
   background-color: var(--plot-background);
-  border: 1px solid #a7a7a775;
+  border: 1px solid var(--border);
   border-radius: 0.5rem;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.05);
 }
 
 .modelStats {
@@ -153,13 +226,12 @@ td {
   height: 23rem; /*padding*/
   padding: 1.5rem 0.75rem 0rem 0.75rem;
   background-color: var(--plot-background);
-  border: 1px solid #a7a7a775;
+  border: 1px solid var(--border);
   border-radius: 0.5rem;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.05);
 }
 
 .mapContainer {
@@ -171,19 +243,16 @@ td {
 
 .heatmap {
   height: 30rem;
-  border-radius: 0.5rem 0 0 0.5rem;
+  border-radius: 0.5rem;
   overflow: hidden;
   flex: 2;
 }
 
-.barriInfo {
+.barri-info {
   height: 30rem;
   border-radius: 0 0.5rem 0.5rem 0;
   overflow: hidden;
   flex: 2;
-  background-color: red;
-  overflow-x: scroll;
-  overflow-y: scroll;
 }
 
 .plot {
@@ -193,11 +262,10 @@ td {
   height: 15rem;
   padding: 1.5rem 0.75rem 0rem 0.75rem;
   background-color: var(--plot-background);
-  border: 1px solid #a7a7a775;
+  border: 1px solid var(--border);
   border-radius: 0.5rem;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.05);
 }

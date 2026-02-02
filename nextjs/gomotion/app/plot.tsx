@@ -1,5 +1,11 @@
 "use client";
 import dynamic from "next/dynamic";
+import { scaleLinear } from "d3-scale";
+
+//returns color depending on importance
+const getColor = scaleLinear<string>()
+  .domain([0, 1])
+  .range(["#69298F", "#fff127"]);
 
 const Plot = dynamic(() => import("react-plotly.js"), {
   ssr: false,
@@ -31,7 +37,12 @@ export default function PlotComponent({
   let plotData: Record<string, any> = { ...data };
   //keep this for certain plots which need more traces to look gorgeous
   let additionalTraces: Array<any> = [];
+
+  let additionalYLayout = {};
+
+  //more layout customization
   let show_legend: boolean = false;
+  let show_grid: boolean = true;
 
   //display logic for all plots
   switch (type) {
@@ -134,32 +145,36 @@ export default function PlotComponent({
 
       break;
 
-
     case "model importances":
       xtitle = "";
       ytitle = "";
       plotTitle = "SHAP FEATURE IMPORTANCES";
 
+      show_grid = false;
+
+      let bar_colors = [];
+
+      for (let i = 0; i < plotData["x"].length; i++) {
+        bar_colors.push(getColor(plotData["x"][i]));
+      }
+
       plotData["type"] = "bar";
       plotData["orientation"] = "h";
       plotData["marker"] = {
-        color: "#ffea31",
+        color: bar_colors,
       };
+      //add a little bit of separation
+      additionalYLayout = { ticksuffix: "   " };
       break;
-    
-    case "model stats":
 
+    case "model stats":
       const map_stats_text: Record<string, string> = {
-        "model_accuracy": "Model Accuracy",
-        "model_error_over": "Model Overestimation",
-        "model_error_under": "Model Subestimation"
+        model_accuracy: "Accurate",
+        model_error_over: "Overestimation",
+        model_error_under: "Underestimation",
       };
 
-      const pie_palette: string[] = [
-        '#ffff00',
-        '#7928ca', 
-        '#fe8d3c'  
-      ];
+      const pie_palette: string[] = ["#FFD127", "#ffa800", "#69298F"];
 
       xtitle = "";
       ytitle = "";
@@ -167,14 +182,14 @@ export default function PlotComponent({
 
       let pieLabels = [...plotData["labels"]];
 
-      for (let i = 0; i < pieLabels.length; i++){
+      for (let i = 0; i < pieLabels.length; i++) {
         pieLabels[i] = map_stats_text[pieLabels[i]];
       }
 
-      plotData["labels"] = pieLabels
+      plotData["labels"] = pieLabels;
       plotData["type"] = "pie";
       plotData["marker"] = {
-        colors: pie_palette
+        colors: pie_palette,
       };
       show_legend = true;
 
@@ -210,43 +225,46 @@ export default function PlotComponent({
   }
 
   return (
-      <Plot
-        data={[plotData, ...additionalTraces]}
-        layout={{
-          autosize: true,
-          showlegend: show_legend,
-          margin: { l: 20, r: 20, t: 20, b: 20 },
-          xaxis: {
-            automargin: true,
-            title: { text: xtitle },
-            gridcolor: "#cccccc",
-          },
-          yaxis: {
-            automargin: true,
-            title: { text: ytitle },
-            gridcolor: "#cccccc",
-          },
-          paper_bgcolor: "#ffffff00",
-          plot_bgcolor: "#ffffff00",
-          font: {
-            family: "system-ui",
-            weight: "normal",
-            color: window.matchMedia("(prefers-color-scheme: dark)").matches
-              ? "#ffffff"
-              : "#171717",
-          },
-          title: {
-            text: plotTitle,
-            font: { size: 16, family: "system-ui", weight: "bold" },
-            x: 0.5,
-            xanchor: "center",
-            y: 1,
-            yanchor: "top",
-          },
-        }}
-        useResizeHandler={true}
-        style={{ width: "100%", height: "100%", margin: "0", padding: "0" }}
-        config={{ displayModeBar: false }}
-      />
+    <Plot
+      data={[plotData, ...additionalTraces]}
+      layout={{
+        autosize: true,
+        showlegend: show_legend,
+        margin: { l: 20, r: 20, t: 20, b: 20 },
+        xaxis: {
+          automargin: true,
+          title: { text: xtitle },
+          gridcolor: "#cccccc",
+          showgrid: show_grid,
+        },
+        yaxis: {
+          automargin: true,
+          title: { text: ytitle },
+          gridcolor: "#cccccc",
+          showgrid: show_grid,
+          ...additionalYLayout,
+        },
+        paper_bgcolor: "#ffffff00",
+        plot_bgcolor: "#ffffff00",
+        font: {
+          family: "system-ui",
+          weight: "normal",
+          color: window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "#ffffff"
+            : "#171717",
+        },
+        title: {
+          text: plotTitle,
+          font: { size: 16, family: "system-ui", weight: "bold" },
+          x: 0.5,
+          xanchor: "center",
+          y: 1,
+          yanchor: "top",
+        },
+      }}
+      useResizeHandler={true}
+      style={{ width: "100%", height: "100%", margin: "0", padding: "0" }}
+      config={{ displayModeBar: false }}
+    />
   );
 }

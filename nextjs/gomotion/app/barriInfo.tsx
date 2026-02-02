@@ -7,15 +7,14 @@ function classifyPeak(zscore: number) {
 }
 
 function Row(data: any) {
-  console.log(data);
   return (
     <tr>
-      <td>{data["barri"]}</td>
-      <td>{Math.round(data["intensity"])}</td>
-      <td>{Math.round(data["mean"])}</td>
-      <td>{Math.round(data["density"])}</td>
-      <td>{Math.round(100 * data["zscore"]) / 100}</td>
-      <td>{classifyPeak(data["zscore"])}</td>
+      <td className="text-left">{data["barri"]}</td>
+      <td className="text-right">{Math.round(data["intensity"])}</td>
+      <td className="text-right">{Math.round(data["mean"])}</td>
+      <td className="text-right">{Math.round(data["density"])}</td>
+      <td className="text-right">{Math.round(100 * data["zscore"]) / 100}</td>
+      <td className="text-left">{classifyPeak(data["zscore"])}</td>
     </tr>
   );
 }
@@ -28,11 +27,12 @@ export default function BarriInfo({ data }: any) {
   }
 
   return (
-    <div className="barriInfo">
+    <div className="barri-info">
+      <div className="table-container">
       <table>
         <thead>
           <tr>
-            <th>Barri</th>
+            <th className="text-left">Neighborhood</th>
             <th>Traffic</th>
             <th>Average</th>
             <th>Density</th>
@@ -42,7 +42,7 @@ export default function BarriInfo({ data }: any) {
         </thead>
         <tbody>{...rows}</tbody>
       </table>
-      <div style={{ overflowY: "scroll" }}></div>
+      </div>
     </div>
   );
 }

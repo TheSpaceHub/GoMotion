@@ -22,8 +22,6 @@ export async function loadTableData(
   day: string,
 ) {
   const result = await getTableData(fetcher, day);
-  console.log("result");
-  console.log(result);
   setter({ rows: result });
 }
 export async function loadWeeklyTraffic(
@@ -218,6 +216,5 @@ export async function loadModelStats(
     x.push(result[rowIndex]["key"]);
     y.push(result[rowIndex]["value"]);
   }
-  console.log(x);
   setter({ labels: x, values: y });
 }

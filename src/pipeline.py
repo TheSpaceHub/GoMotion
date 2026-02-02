@@ -260,5 +260,19 @@ if __name__ == "__main__":
     print("Pipeline execution successful.")
     print("Filling data...")
     ONE_WEEK = datetime.datetime.today() + datetime.timedelta(days=7)
-    fill_data(pd.read_csv('data/data_processed.csv'), pd.to_datetime(ONE_WEEK.strftime("%Y-%m-%d")))
+    fill_data(
+        pd.read_csv("data/data_processed.csv"),
+        pd.to_datetime(ONE_WEEK.strftime("%Y-%m-%d")),
+    )
+    
+    # if the fill was successful, keep track of it in the metadata
+    engine = connect_to_db()
+    manager = MetadataManager(engine)
+
+    manager.set(
+        "last_predicted_day",
+        (datetime.datetime.today() + datetime.timedelta(days=7)).strftime("%Y-%m-%d"),
+    )
+
+    # finally, upload everything
     upload_to_database()

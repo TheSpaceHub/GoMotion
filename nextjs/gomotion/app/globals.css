@@ -1,7 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap");
+
 :root {
   --background: #fafafa;
   --background-sec: #f7f9f9;
-  --foreground: #171717;
+  --foreground: #353535;
   --plot-background: transparent /*#ecf0f5*/;
   --border: #a7a7a775;
   --box-shadow: #171717;
@@ -30,6 +32,7 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family:
+    "Lexend",
     system-ui,
     -apple-system,
     BlinkMacSystemFont,
@@ -94,7 +97,7 @@ select {
 .date-selector > input {
   width: calc(100% - 1rem);
   margin: 0;
-  border: 0;
+  border: 1px solid var(--border);
   margin-bottom: 1rem;
   background-color: var(--background);
   color: var(--foreground);
@@ -254,15 +257,26 @@ main {
   box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.05);
 }
 
-.dailyTitle{
-  font-style: italic;
-  opacity: 0.65;
-  margin: 1rem; 
+.dailyTitle {
+  opacity: 0.55;
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin: 0.2em;
 }
 .dailyMetric {
   font-weight: 900;
-  font-size: 30px;
-  margin: 1rem; 
+  font-size: 1.5rem;
+  margin: 0.15em;
+}
+
+.dailyMetrics {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  border: 0px;
+  margin: 1rem 0 1rem 0;
+  z-index: -1;
 }
 
 .Metric {
@@ -271,7 +285,7 @@ main {
   background-color: var(--background-sec);
   border: 1px solid var(--border);
   border-radius: 0.5rem;
-  padding: 0rem 1rem;
+  padding: 1rem;
   margin: 1rem 0 1rem 0;
   flex: 1;
   z-index: -1;
@@ -338,6 +352,7 @@ main {
 .heatmap {
   height: 30rem;
   border-radius: 0.5rem;
+  border: 1px solid var(--border);
   overflow: hidden;
   width: 100%;
   flex: 1;

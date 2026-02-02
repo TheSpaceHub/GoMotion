@@ -13,6 +13,7 @@ import {
   getRainIntensityCorrelation,
   getWeeklyIntensityDiff,
   getWorkdayVsHoliday,
+  getDailyData
 } from "./server_data";
 import { Fetcher } from "./page";
 
@@ -217,4 +218,17 @@ export async function loadModelStats(
     y.push(result[rowIndex]["value"]);
   }
   setter({ labels: x, values: y });
+}
+
+export async function loadDailyData(
+  fetcher: RefObject<Fetcher>,
+  setter: Dispatch<SetStateAction<any>>,
+  day: string,
+) {
+  const result = await getDailyData(fetcher, day);
+  console.log("result");
+  console.log(result);
+  setter({ precipitation: result[0]["precipitation_sum"], is_holiday: result[0]["is_holiday"], 
+    temperature_max: result[0]["temperature_2m_max (°C)"], temperature_min: result[0]["temperature_2m_min (°C)"],
+  total_traffic: result[0]["tt"]});
 }

@@ -22,6 +22,15 @@ const en = {
     "Dec",
   ],
   detAnal: "DETAILED ANALYSIS",
+  dailyAnal:"DAILY SUMMARY",
+  globalStats:"GLOBAL STATISTICS",
+  dailySummary:{
+    totalTraffic: "TOTAL TRAFFIC",
+    anomalies: "ANOMALIES",
+    holiday: "HOLIDAY",
+    temp: "MAX/MIN TEMP",
+    precipitation:"PRECIPITATION"
+  },
   workday: "workday",
   holiday: "holiday",
   modelStatistics: "MODEL STATISTICS",

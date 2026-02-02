@@ -170,3 +170,13 @@ export async function getModelStats(fetcher: RefObject<Fetcher>) {
     `);
   return result.rows;
 }
+
+export async function getDailyData(fetcher: RefObject<Fetcher>, day:any) {
+  const result: QueryResult<any> = await pool.query(`
+    select d.precipitation_sum, d.is_holiday, m."temperature_2m_max (°C)", m."temperature_2m_min (°C)", SUM(d.intensity) as tt
+    from display_data d inner join meteo m on m.day = DATE(d.day)
+    where d.day = $1
+    group by d.precipitation_sum, d.is_holiday, m."temperature_2m_max (°C)", m."temperature_2m_min (°C)"
+    `, [day]);
+  return result.rows;
+}

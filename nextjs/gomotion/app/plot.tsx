@@ -4,8 +4,8 @@ import { scaleLinear } from "d3-scale";
 
 //returns color depending on importance
 const getColor = scaleLinear<string>()
-  .domain([0, 1])
-  .range(["#69298F", "#fff127"]);
+  .domain([0, 0.5, 1])
+  .range(["#69298F", "#ca4679", "#FFD127"]);
 
 const Plot = dynamic(() => import("react-plotly.js"), {
   ssr: false,

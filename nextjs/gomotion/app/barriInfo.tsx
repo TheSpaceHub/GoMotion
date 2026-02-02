@@ -1,5 +1,7 @@
 "use client";
 import { scaleLinear } from "d3-scale";
+import SimpleBar from "simplebar-react";
+import "simplebar-react/dist/simplebar.min.css";
 
 const getColor = scaleLinear<string>()
   .domain([-3, 0, 3])
@@ -50,6 +52,7 @@ export default function BarriInfo({ data, day, setter }: any) {
       </div>
 
       <div className="table-container">
+      <SimpleBar style={{maxHeight: "100%"}}>
         <table>
           <thead>
             <tr>
@@ -63,7 +66,7 @@ export default function BarriInfo({ data, day, setter }: any) {
           </thead>
           <tbody>{...rows}</tbody>
         </table>
-      </div>
+      </SimpleBar></div>
     </div>
   );
 }

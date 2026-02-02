@@ -130,14 +130,30 @@ select {
 .table-container {
   border-radius: 1rem;
   border: 1px solid var(--border);
-  border-collapse: collapse;
   margin: 0 0 0 1rem;
-  padding: 0;
+  background-color: transparent;
 
   width: calc(100% - 1rem - 2px); /*margin + border*/
-  height: auto;
-  overflow-x: scroll;
-  overflow-y: scroll;
+  max-height: 26rem;
+  height: 26rem;
+
+  padding: 0;
+  overflow: hidden;
+}
+.simplebar-scrollbar::before {
+  opacity: 1 !important;
+}
+.simplebar-track.simplebar-vertical {
+  background: transparent;
+}
+.simplebar-track.simplebar-horizontal {
+  background: transparent;
+}
+.simplebar-track.simplebar-vertical .simplebar-scrollbar::before {
+  background-color: var(--border);
+}
+.simplebar-track.simplebar-horizontal .simplebar-scrollbar::before {
+  background-color: var(--border);
 }
 
 table {
@@ -147,6 +163,7 @@ table {
   font-size: small;
   table-layout: fixed;
   padding: 0;
+  margin-right: -10px;
   border-collapse: collapse;
 }
 
@@ -204,27 +221,6 @@ table th:last-child,
 table td:last-child {
   border-right: none;
 }
-
-/*scrollbar*/
-main {
-  scrollbar-width: thin;
-  scrollbar-color: transparent;
-}
-::-webkit-scrollbar {
-  height: 6px;
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background-color: rgba(128, 128, 128, 0.5);
-  border-radius: 10px;
-}
-/*.table-container:hover::-webkit-scrollbar-thumb{
-  background-color: rgba(255, 0, 0, 0.5);
-
-}*/
 
 .title {
   width: 20rem;
@@ -363,7 +359,7 @@ main {
 .barri-info {
   height: 30rem;
   border-radius: 0 0.5rem 0.5rem 0;
-  /*overflow: hidden;*/
+  overflow: hidden;
   width: 100%;
   flex: 1;
   min-width: 0;

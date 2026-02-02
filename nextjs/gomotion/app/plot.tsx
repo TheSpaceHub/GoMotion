@@ -261,7 +261,7 @@ export default function PlotComponent({
         paper_bgcolor: "#ffffff00",
         plot_bgcolor: "#ffffff00",
         font: {
-          family: "system-ui",
+          family: "Lexend",
           weight: "normal",
           color: window.matchMedia("(prefers-color-scheme: dark)").matches //dark mode
             ? "#ffffff"

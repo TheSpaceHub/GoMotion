@@ -28,12 +28,14 @@ const en = {
     totalTraffic: "TOTAL TRAFFIC",
     anomalies: "ANOMALIES",
     holiday: "HOLIDAY",
-    temp: "MAX/MIN TEMP",
+    temp: "MIN/MAX TEMP",
     precipitation:"PRECIPITATION"
   },
   workday: "workday",
   holiday: "holiday",
   modelStatistics: "MODEL STATISTICS",
+  true: "True",
+  false: "False"
 };
 
 export type Translation = typeof en;

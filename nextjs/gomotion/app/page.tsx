@@ -16,6 +16,7 @@ import {
   loadModelImportances,
   loadModelStats,
   loadDailyData,
+  loadEventData
 } from "./load_data";
 import { translations } from "./translations";
 import geoData from "./data/barris.json";
@@ -65,12 +66,8 @@ export default function App() {
   //keep all actual data
   const [mapData, setMapData] = useState();
   const [tableData, setTableData] = useState({ rows: [] });
-  const [dailyData, setDailyData] = useState({
-    precipitation: "",
-    is_holiday: "",
-    temperature_max: "",
-    total_traffic: 0,
-  });
+  const [dailyData, setDailyData] = useState({ precipitation: "", is_holiday: "", temperature_max: "", total_traffic: 0, temperature_min:""})
+  const [eventData, setEventData] = useState({ barris: [], impacts: [], categories: [], description: []})
   const [weeklyTraffic, setWeeklyTraffic] = useState();
   const [monthlyTraffic, setMonthlyTraffic] = useState();
   const [avgImpact, setAvgImpact] = useState();
@@ -146,6 +143,7 @@ export default function App() {
           loadMapData(fetcher, setMapData, barri, day),
           loadTableData(fetcher, setTableData, day),
           loadDailyData(fetcher, setDailyData, day),
+          loadEventData(fetcher, setEventData, day)
         ]);
       } catch (error) {
         console.error("Failed to fetch data:", error);
@@ -178,26 +176,50 @@ export default function App() {
 
         <div className="dailyMetrics">
           <div className="Metric">
-            <h3>{t.dailySummary["totalTraffic"]}</h3>
-            <h2>{Math.round(dailyData["total_traffic"])}</h2>
+            <h3 className="dailyTitle">
+              {t.dailySummary["totalTraffic"]}
+            </h3>
+            <h1 className="dailyMetric">
+              {Math.round(dailyData["total_traffic"])}
+            </h1>
           </div>
 
           <div className="Metric">
-            <h3>{t.dailySummary["anomalies"]}</h3>
+            <h3 className="dailyTitle">
+              {t.dailySummary["anomalies"]}
+            </h3>
+            <h1 className="dailyMetric">
+              {eventData["impacts"].length}
+            </h1>
           </div>
 
           <div className="Metric">
-            <h3>{t.dailySummary["holiday"]}</h3>
+            <h3 className="dailyTitle">
+              {t.dailySummary["holiday"]}
+            </h3>
 
-            <h2>{dailyData["is_holiday"]}</h2>
+            <h1 className="dailyMetric">
+              {dailyData["is_holiday"] == "1" ? t["true"] : t["false"]}
+            </h1>
           </div>
 
           <div className="Metric">
-            <h3>{t.dailySummary["temp"]}</h3>
+            <h3 className="dailyTitle">
+              {t.dailySummary["temp"]}
+            </h3>
+            <h1 className="dailyMetric">
+              {dailyData["temperature_min"]+"℃/"+dailyData["temperature_max"]+"℃"}
+            </h1>
           </div>
 
           <div className="Metric">
-            <h3>{t.dailySummary["precipitation"]}</h3>
+            <h3 className="dailyTitle">
+              {t.dailySummary["precipitation"]}
+            </h3>
+
+            <h1 className="dailyMetric">
+              {dailyData["precipitation"]+"mm"}
+            </h1>
           </div>
         </div>
 

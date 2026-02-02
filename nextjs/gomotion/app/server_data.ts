@@ -180,3 +180,12 @@ export async function getDailyData(fetcher: RefObject<Fetcher>, day:any) {
     `, [day]);
   return result.rows;
 }
+
+export async function getEventData(fetcher: RefObject<Fetcher>, day:any) {
+  const result: QueryResult<any> = await pool.query(`
+    select *
+    from events e
+    where e.day = $1
+    `, [day]);
+  return result.rows;
+}

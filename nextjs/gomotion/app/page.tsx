@@ -208,7 +208,7 @@ export default function App() {
               {t.dailySummary["temp"]}
             </h3>
             <h1 className="dailyMetric">
-              {dailyData["temperature_min"]+"℃/"+dailyData["temperature_max"]+"℃"}
+              {dailyData["temperature_min"]+"ºC/"+dailyData["temperature_max"]+"ºC"}
             </h1>
           </div>
 

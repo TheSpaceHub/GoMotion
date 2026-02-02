@@ -1,34 +1,37 @@
 "use client";
-import { SetStateAction, Dispatch } from "react";
+import { SetStateAction, Dispatch, RefObject } from "react";
 import {
-  getMapData,
   getTableData,
   getWeeklyTraffic,
+  getMonthlyIntensityDiff,
   getMonthlyTraffic,
   getAverageEventImpact,
-  getRainIntensityCorrelation,
-  getWorkdayVsHoliday,
   getIntensityPerArea,
-  getWeeklyIntensityDiff,
-  getMonthlyIntensityDiff,
+  getMapData,
   getModelImportances,
-  getModelStats
+  getModelStats,
+  getRainIntensityCorrelation,
+  getWeeklyIntensityDiff,
+  getWorkdayVsHoliday,
 } from "./server_data";
+import { Fetcher } from "./page";
 
 export async function loadTableData(
+  fetcher: RefObject<Fetcher>,
   setter: Dispatch<SetStateAction<any>>,
   day: string,
 ) {
-  const result = await getTableData(day);
+  const result = await getTableData(fetcher, day);
   console.log("result");
   console.log(result);
   setter({ rows: result });
 }
 export async function loadWeeklyTraffic(
+  fetcher: RefObject<Fetcher>,
   setter: Dispatch<SetStateAction<any>>,
   barri: string,
 ) {
-  const result = await getWeeklyTraffic(barri);
+  const result = await getWeeklyTraffic(fetcher, barri);
 
   let x = [];
   let y = [];
@@ -40,10 +43,11 @@ export async function loadWeeklyTraffic(
 }
 
 export async function loadMonthlyTraffic(
+  fetcher: RefObject<Fetcher>,
   setter: Dispatch<SetStateAction<any>>,
   barri: string,
 ) {
-  const result = await getMonthlyTraffic(barri);
+  const result = await getMonthlyTraffic(fetcher, barri);
 
   let x = [];
   let y = [];
@@ -55,10 +59,11 @@ export async function loadMonthlyTraffic(
 }
 
 export async function loadAverageEventImpact(
+  fetcher: RefObject<Fetcher>,
   setter: Dispatch<SetStateAction<any>>,
   barri: string,
 ) {
-  const result = await getAverageEventImpact(barri);
+  const result = await getAverageEventImpact(fetcher, barri);
 
   let y = [];
   let x = [];
@@ -71,10 +76,11 @@ export async function loadAverageEventImpact(
 }
 
 export async function loadRainIntensityCorrelation(
+  fetcher: RefObject<Fetcher>,
   setter: Dispatch<SetStateAction<any>>,
   barri: string,
 ) {
-  const result = await getRainIntensityCorrelation(barri);
+  const result = await getRainIntensityCorrelation(fetcher, barri);
 
   let x = [];
   let y = [];
@@ -89,10 +95,11 @@ export async function loadRainIntensityCorrelation(
 }
 
 export async function loadWorkdayVsHoliday(
+  fetcher: RefObject<Fetcher>,
   setter: Dispatch<SetStateAction<any>>,
   barri: string,
 ) {
-  const result = await getWorkdayVsHoliday(barri);
+  const result = await getWorkdayVsHoliday(fetcher, barri);
 
   let x = [];
   let y = [];
@@ -105,10 +112,11 @@ export async function loadWorkdayVsHoliday(
 }
 
 export async function loadIntensityPerArea(
+  fetcher: RefObject<Fetcher>,
   setter: Dispatch<SetStateAction<any>>,
   barri: string,
 ) {
-  const result = await getIntensityPerArea();
+  const result = await getIntensityPerArea(fetcher);
 
   let x = [];
   let y = [];
@@ -123,11 +131,12 @@ export async function loadIntensityPerArea(
 }
 
 export async function loadMapData(
+  fetcher: RefObject<Fetcher>,
   setter: Dispatch<SetStateAction<any>>,
   barri: string,
   day: string,
 ) {
-  const result = await getMapData(day);
+  const result = await getMapData(fetcher, day);
 
   let zScores: Record<string, number> = {};
   for (const rowIndex in result) {
@@ -141,9 +150,10 @@ export async function loadMapData(
 }
 
 export async function loadWeeklyIntensityDiff(
+  fetcher: RefObject<Fetcher>,
   setter: Dispatch<SetStateAction<any>>,
 ) {
-  const result = await getWeeklyIntensityDiff();
+  const result = await getWeeklyIntensityDiff(fetcher);
 
   let x = [];
   let y = [];
@@ -155,9 +165,10 @@ export async function loadWeeklyIntensityDiff(
 }
 
 export async function loadMonthlyIntensityDiff(
+  fetcher: RefObject<Fetcher>,
   setter: Dispatch<SetStateAction<any>>,
 ) {
-  const result = await getMonthlyIntensityDiff();
+  const result = await getMonthlyIntensityDiff(fetcher);
 
   let x = [];
   let y = [];
@@ -169,9 +180,10 @@ export async function loadMonthlyIntensityDiff(
 }
 
 export async function loadModelImportances(
+  fetcher: RefObject<Fetcher>,
   setter: Dispatch<SetStateAction<any>>,
 ) {
-  const result = await getModelImportances();
+  const result = await getModelImportances(fetcher);
 
   let x = [];
   let y = [];
@@ -195,9 +207,10 @@ export async function loadModelImportances(
 }
 
 export async function loadModelStats(
+  fetcher: RefObject<Fetcher>,
   setter: Dispatch<SetStateAction<any>>,
 ) {
-  const result = await getModelStats();
+  const result = await getModelStats(fetcher);
 
   let x = [];
   let y = [];
@@ -206,5 +219,5 @@ export async function loadModelStats(
     y.push(result[rowIndex]["value"]);
   }
   console.log(x);
-  setter({ "labels": x, "values": y });
+  setter({ labels: x, values: y });
 }

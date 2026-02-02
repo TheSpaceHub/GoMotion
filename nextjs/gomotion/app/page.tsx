@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import PlotComponent from "./plot";
 import Dropdown from "./dropdown";
 import {
@@ -14,12 +14,28 @@ import {
   loadWeeklyIntensityDiff,
   loadMonthlyIntensityDiff,
   loadModelImportances,
-  loadModelStats
+  loadModelStats,
 } from "./load_data";
 import { translations } from "./translations";
 import geoData from "./data/barris.json";
 import dynamic from "next/dynamic";
 import BarriInfo from "./barriInfo";
+
+
+export class Fetcher {
+  Fetcher() {
+    /*data in the fetcher will be classified by
+    - barri
+      - general data for each barri
+    - day
+      - barri
+        - barri/day data
+    - model
+      - all model data
+    - general barri data
+    */
+  }
+}
 
 const formatDate = (date: Date) => {
   const year = date.getFullYear();
@@ -35,6 +51,9 @@ const Heatmap = dynamic(() => import("./heatmap"), {
 });
 
 export default function App() {
+  //define fetcher for user
+  const fetcher = useRef(new Fetcher());
+
   //keep day, barri and language in state
   const [day, setDay] = useState(formatDate(new Date()));
   const [barri, setBarri] = useState("el Raval");
@@ -62,10 +81,10 @@ export default function App() {
 
   //we load static data
   useEffect(() => {
-    loadWeeklyIntensityDiff(setWeeklyIntensityDiff);
-    loadMonthlyIntensityDiff(setMonthlyIntensityDiff);
-    loadModelImportances(setModelImportances);
-    loadModelStats(setModelStats);
+    loadWeeklyIntensityDiff(fetcher, setWeeklyIntensityDiff);
+    loadMonthlyIntensityDiff(fetcher, setMonthlyIntensityDiff);
+    loadModelImportances(fetcher, setModelImportances);
+    loadModelStats(fetcher, setModelStats);
   }, []);
 
   //this will be run every time day is modified
@@ -91,12 +110,16 @@ export default function App() {
       try {
         //we call all SQL queries
         await Promise.all([
-          loadIntensityPerArea(setIntensityPerArea, barri),
-          loadWeeklyTraffic(setWeeklyTraffic, barri),
-          loadMonthlyTraffic(setMonthlyTraffic, barri),
-          loadAverageEventImpact(setAvgImpact, barri),
-          loadRainIntensityCorrelation(setRainIntensityCorrelation, barri),
-          loadWorkdayVsHoliday(setWorkdayVsHoliday, barri),
+          loadIntensityPerArea(fetcher, setIntensityPerArea, barri),
+          loadWeeklyTraffic(fetcher, setWeeklyTraffic, barri),
+          loadMonthlyTraffic(fetcher, setMonthlyTraffic, barri),
+          loadAverageEventImpact(fetcher, setAvgImpact, barri),
+          loadRainIntensityCorrelation(
+            fetcher,
+            setRainIntensityCorrelation,
+            barri,
+          ),
+          loadWorkdayVsHoliday(fetcher, setWorkdayVsHoliday, barri),
         ]);
       } catch (error) {
         console.error("Failed to fetch data:", error);
@@ -114,8 +137,8 @@ export default function App() {
       try {
         //we call all SQL queries
         await Promise.all([
-          loadMapData(setMapData, barri, day),
-          loadTableData(setTableData, day),
+          loadMapData(fetcher, setMapData, barri, day),
+          loadTableData(fetcher, setTableData, day),
         ]);
       } catch (error) {
         console.error("Failed to fetch data:", error);

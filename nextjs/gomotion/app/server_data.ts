@@ -4,7 +4,7 @@ import { QueryResult } from "pg";
 import { RefObject } from "react";
 import { Fetcher } from "./page";
 
-export async function getMapData(fetcher: RefObject<Fetcher>, day: any) {
+export async function getMapData(day: any) {
   const result: QueryResult<any> = await pool.query(
     `
     with z as
@@ -20,7 +20,7 @@ export async function getMapData(fetcher: RefObject<Fetcher>, day: any) {
   return result.rows;
 }
 
-export async function getTableData(fetcher: RefObject<Fetcher>, day: any) {
+export async function getTableData(day: any) {
   const result: QueryResult<any> = await pool.query(
     `
     with z as
@@ -36,10 +36,7 @@ export async function getTableData(fetcher: RefObject<Fetcher>, day: any) {
   return result.rows;
 }
 
-export async function getWeeklyTraffic(
-  fetcher: RefObject<Fetcher>,
-  barri: string,
-) {
+export async function getWeeklyTraffic(barri: string) {
   const result: QueryResult<any> = await pool.query(
     `
     SELECT AVG(intensity), EXTRACT(ISODOW FROM DATE(day)) AS dotw
@@ -52,10 +49,7 @@ export async function getWeeklyTraffic(
   return result.rows;
 }
 
-export async function getMonthlyTraffic(
-  fetcher: RefObject<Fetcher>,
-  barri: string,
-) {
+export async function getMonthlyTraffic(barri: string) {
   const result: QueryResult<any> = await pool.query(
     `
     SELECT AVG(intensity), EXTRACT(MONTH FROM DATE(day)) AS month
@@ -68,10 +62,7 @@ export async function getMonthlyTraffic(
   return result.rows;
 }
 
-export async function getAverageEventImpact(
-  fetcher: RefObject<Fetcher>,
-  barri: string,
-) {
+export async function getAverageEventImpact(barri: string) {
   const result: QueryResult<any> = await pool.query(
     `
     SELECT e.category, AVG(d.intensity)
@@ -84,10 +75,7 @@ export async function getAverageEventImpact(
   return result.rows;
 }
 
-export async function getRainIntensityCorrelation(
-  fetcher: RefObject<Fetcher>,
-  barri: string,
-) {
+export async function getRainIntensityCorrelation(barri: string) {
   const result: QueryResult<any> = await pool.query(
     `
     SELECT d.precipitation_sum AS rain, d.intensity, d.day
@@ -99,10 +87,7 @@ export async function getRainIntensityCorrelation(
   return result.rows;
 }
 
-export async function getWorkdayVsHoliday(
-  fetcher: RefObject<Fetcher>,
-  barri: string,
-) {
+export async function getWorkdayVsHoliday(barri: string) {
   const result: QueryResult<any> = await pool.query(
     `
     SELECT intensity, is_holiday
@@ -114,7 +99,7 @@ export async function getWorkdayVsHoliday(
   return result.rows;
 }
 
-export async function getIntensityPerArea(fetcher: RefObject<Fetcher>) {
+export async function getIntensityPerArea() {
   const result: QueryResult<any> = await pool.query(`
     SELECT g.nom_barri, g.superficie, AVG(d.intensity)
     FROM geospatial_data g, display_data d
@@ -124,7 +109,7 @@ export async function getIntensityPerArea(fetcher: RefObject<Fetcher>) {
   return result.rows;
 }
 
-export async function getWeeklyIntensityDiff(fetcher: RefObject<Fetcher>) {
+export async function getWeeklyIntensityDiff() {
   const result: QueryResult<any> = await pool.query(`
     with averages as ( 
     select d.barri, avg(d.intensity) as intensity
@@ -139,7 +124,7 @@ export async function getWeeklyIntensityDiff(fetcher: RefObject<Fetcher>) {
   return result.rows;
 }
 
-export async function getMonthlyIntensityDiff(fetcher: RefObject<Fetcher>) {
+export async function getMonthlyIntensityDiff() {
   const result: QueryResult<any> = await pool.query(`
     with averages as ( 
     select d.barri, avg(d.intensity) as intensity
@@ -154,7 +139,7 @@ export async function getMonthlyIntensityDiff(fetcher: RefObject<Fetcher>) {
   return result.rows;
 }
 
-export async function getModelImportances(fetcher: RefObject<Fetcher>) {
+export async function getModelImportances() {
   const result: QueryResult<any> = await pool.query(`
     select *
     from importances_and_features
@@ -162,7 +147,7 @@ export async function getModelImportances(fetcher: RefObject<Fetcher>) {
   return result.rows;
 }
 
-export async function getModelStats(fetcher: RefObject<Fetcher>) {
+export async function getModelStats() {
   const result: QueryResult<any> = await pool.query(`
     select * 
     from metadata 
@@ -171,7 +156,7 @@ export async function getModelStats(fetcher: RefObject<Fetcher>) {
   return result.rows;
 }
 
-export async function getDailyData(fetcher: RefObject<Fetcher>, day: any) {
+export async function getDailyData(day: any) {
   const result: QueryResult<any> = await pool.query(
     `
     select d.precipitation_sum, d.is_holiday, d.temperature_2m_max, d.temperature_2m_min, SUM(d.intensity) as tt
@@ -184,7 +169,7 @@ export async function getDailyData(fetcher: RefObject<Fetcher>, day: any) {
   return result.rows;
 }
 
-export async function getEventData(fetcher: RefObject<Fetcher>, day: any) {
+export async function getEventData(day: any) {
   const result: QueryResult<any> = await pool.query(
     `
     select *
@@ -196,7 +181,7 @@ export async function getEventData(fetcher: RefObject<Fetcher>, day: any) {
   return result.rows;
 }
 
-export async function getFinalPredictedDate(fetcher: RefObject<Fetcher>) {
+export async function getFinalPredictedDate() {
   const result: QueryResult<any> = await pool.query(`
     select value
     from metadata

@@ -28,14 +28,14 @@ export default function PlotComponent({
   isLoading,
   data,
 }: PlotComponentParameters) {
-  if (isLoading > 0) return <div className="plot">Loading...</div>;
-
   let xtitle: string = "";
   let ytitle: string = "";
   let plotTitle: string = "";
 
-  if (data == undefined)
-    return <div className="plot">Plot for {type} could not be loaded.</div>;
+  if (data == undefined) {
+    if (isLoading > 0) return <div>Loading...</div>;
+    return <div>Plot for {type} could not be loaded.</div>;
+  }
 
   //make a copy (plotData) in order to keep the original data untouched
   let plotData: Record<string, any> = { ...data };

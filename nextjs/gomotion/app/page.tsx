@@ -23,20 +23,28 @@ import { translations } from "./translations";
 import geoData from "./data/barris.json";
 import dynamic from "next/dynamic";
 import BarriInfo from "./barriInfo";
-import { stringify } from "querystring";
 
 export class Fetcher {
-  Fetcher() {
+  //storage objects
+  barri = {};
+  day = {};
+  model = {};
+  general = {};
+  constructor() {
     /*data in the fetcher will be classified by
     - barri
       - general data for each barri
     - day
       - barri
         - barri/day data
+      - daily data
     - model
       - all model data
     - general barri data
     */
+    console.log(geoData["features"][0]["properties"]["nom_barri"]);
+
+    for (let i = 0; i < geoData["features"].length; i++) {}
   }
 }
 
@@ -55,7 +63,10 @@ const Heatmap = dynamic(() => import("./heatmap"), {
 
 export default function App() {
   //define fetcher for user
-  const fetcher = useRef(new Fetcher());
+  const fetcher = useRef<Fetcher | null>(null);
+  if (fetcher.current === null) {
+    fetcher.current = new Fetcher();
+  }
 
   //keep day, barri and language in state
   const [day, setDay] = useState(formatDate(new Date()));
@@ -109,7 +120,11 @@ export default function App() {
       setLoading((prev) => prev + 1);
       try {
         //we call all SQL queries
-        await Promise.all([]);
+        await Promise.all([
+          loadTableData(fetcher, setTableData, day),
+          loadDailyData(fetcher, setDailyData, day),
+          loadEventData(fetcher, setEventData, day),
+        ]);
       } catch (error) {
         console.error("Failed to fetch data:", error);
       }
@@ -126,7 +141,6 @@ export default function App() {
       try {
         //we call all SQL queries
         await Promise.all([
-          loadIntensityPerArea(fetcher, setIntensityPerArea, barri),
           loadWeeklyTraffic(fetcher, setWeeklyTraffic, barri),
           loadMonthlyTraffic(fetcher, setMonthlyTraffic, barri),
           loadAverageEventImpact(fetcher, setAvgImpact, barri),
@@ -136,6 +150,7 @@ export default function App() {
             barri,
           ),
           loadWorkdayVsHoliday(fetcher, setWorkdayVsHoliday, barri),
+          loadIntensityPerArea(fetcher, setIntensityPerArea, barri),
         ]);
       } catch (error) {
         console.error("Failed to fetch data:", error);
@@ -152,12 +167,7 @@ export default function App() {
       setLoading((prev) => prev + 1);
       try {
         //we call all SQL queries
-        await Promise.all([
-          loadMapData(fetcher, setMapData, barri, day),
-          loadTableData(fetcher, setTableData, day),
-          loadDailyData(fetcher, setDailyData, day),
-          loadEventData(fetcher, setEventData, day),
-        ]);
+        await Promise.all([loadMapData(fetcher, setMapData, barri, day)]);
       } catch (error) {
         console.error("Failed to fetch data:", error);
       }
@@ -166,8 +176,6 @@ export default function App() {
 
     fetchData();
   }, [barri, day]);
-
-  console.log("hey new render, loading is " + String(loading));
 
   return (
     <>

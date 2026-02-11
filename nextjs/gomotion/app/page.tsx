@@ -18,6 +18,10 @@ import {
   loadDailyData,
   loadEventData,
   loadFinalPredictedDate,
+  loadDailyDataForMonth,
+  loadEventDataForMonth,
+  loadTableDataForMonth,
+  loadMapDataForMonth,
 } from "./load_data";
 import { translations } from "./translations";
 import geoData from "./data/barris.json";
@@ -30,6 +34,8 @@ export class Fetcher {
   day = {};
   model = {};
   general = {};
+
+  prefetchedMonths = {"dailyData": {}, "eventData": {}, "mapData": {}, "tableData": {}};
   constructor() {
     /*data in the fetcher will be classified by
     - barri
@@ -42,9 +48,6 @@ export class Fetcher {
       - all model data
     - general barri data
     */
-    console.log(geoData["features"][0]["properties"]["nom_barri"]);
-
-    for (let i = 0; i < geoData["features"].length; i++) {}
   }
 }
 
@@ -125,6 +128,10 @@ export default function App() {
           loadDailyData(fetcher, setDailyData, day),
           loadEventData(fetcher, setEventData, day),
         ]);
+
+        loadTableDataForMonth(fetcher, day);
+        loadDailyDataForMonth(fetcher, day);
+        loadEventDataForMonth(fetcher, day);
       } catch (error) {
         console.error("Failed to fetch data:", error);
       }
@@ -168,6 +175,8 @@ export default function App() {
       try {
         //we call all SQL queries
         await Promise.all([loadMapData(fetcher, setMapData, barri, day)]);
+
+        loadMapDataForMonth(fetcher, day);
       } catch (error) {
         console.error("Failed to fetch data:", error);
       }

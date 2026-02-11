@@ -16,9 +16,12 @@ import {
   getDailyData,
   getEventData,
   getFinalPredictedDate,
+  getDailyDataForMonth,
+  getEventDataForMonth,
+  getMapDataForMonth,
+  getTableDataForMonth,
 } from "./server_data";
 import { Fetcher } from "./page";
-import { resumeToPipeableStream } from "react-dom/server";
 
 export async function loadTableData(
   fetcher: RefObject<Fetcher | null>,
@@ -388,4 +391,118 @@ export async function loadFinalPredictedDate(
   const result = await getFinalPredictedDate();
   const finalDate = result[0].value;
   setter(finalDate);
+}
+
+////////////////////////////////////////////////////////
+//                prefetching
+////////////////////////////////////////////////////////
+
+const getMonth = (day: string) => {
+  return day.substring(0, 7);
+};
+
+export async function loadDailyDataForMonth(
+  fetcher: RefObject<Fetcher | null>,
+  day: string,
+) {
+  if (
+    (fetcher.current?.prefetchedMonths as any)["dailyData"][getMonth(day)] ==
+    undefined
+  ) {
+    let result = await getDailyDataForMonth(day);
+    (fetcher.current?.prefetchedMonths as any)["dailyData"][getMonth(day)] = 0; //value does not matter, we use hash for O(1)
+    for (const rowIndex in result) {
+      const d = result[rowIndex]["day"];
+      if ((fetcher.current?.day as any)[d] == undefined)
+        (fetcher.current?.day as any)[d] = {};
+      (fetcher.current?.day as any)[d]["dailyData"] = [result[rowIndex]];
+    }
+  }
+}
+
+export async function loadEventDataForMonth(
+  fetcher: RefObject<Fetcher | null>,
+  day: string,
+) {
+  if (
+    (fetcher.current?.prefetchedMonths as any)["eventData"][getMonth(day)] ==
+    undefined
+  ) {
+    // get db rows
+    let result = await getEventDataForMonth(day);
+    (fetcher.current?.prefetchedMonths as any)["eventData"][getMonth(day)] = 0; //value does not matter, we use hash for O(1)
+
+    //store events grouped by day to store them in fetcher later
+    let dayToEvents: Record<string, any> = {};
+    for (const rowIndex in result) {
+      const d = result[rowIndex]["day"];
+      if ((fetcher.current?.day as any)[d] == undefined)
+        (fetcher.current?.day as any)[d] = {};
+      if (dayToEvents[d] == undefined) dayToEvents[d] = [];
+      dayToEvents[d].push(result[rowIndex]);
+    }
+
+    //store events in fetcher
+    for (let d in dayToEvents) {
+      (fetcher.current?.day as any)[d]["eventData"] = dayToEvents[d];
+    }
+  }
+}
+
+export async function loadMapDataForMonth(
+  fetcher: RefObject<Fetcher | null>,
+  day: string,
+) {
+  if (
+    (fetcher.current?.prefetchedMonths as any)["mapData"][getMonth(day)] ==
+    undefined
+  ) {
+    // get db rows
+    let result = await getMapDataForMonth(day);
+    (fetcher.current?.prefetchedMonths as any)["mapData"][getMonth(day)] = 0; //value does not matter, we use hash for O(1)
+
+    //store data rows grouped by day to store them in fetcher later
+    let dayToMapData: Record<string, any> = {};
+    for (const rowIndex in result) {
+      const d = result[rowIndex]["day"];
+      if ((fetcher.current?.day as any)[d] == undefined)
+        (fetcher.current?.day as any)[d] = {};
+      if (dayToMapData[d] == undefined) dayToMapData[d] = [];
+      dayToMapData[d].push(result[rowIndex]);
+    }
+
+    //store events in fetcher
+    for (let d in dayToMapData) {
+      (fetcher.current?.day as any)[d]["mapData"] = dayToMapData[d];
+    }
+  }
+}
+
+export async function loadTableDataForMonth(
+  fetcher: RefObject<Fetcher | null>,
+  day: string,
+) {
+  if (
+    (fetcher.current?.prefetchedMonths as any)["tableData"][getMonth(day)] ==
+    undefined
+  ) {
+    // get db rows
+    let result = await getTableDataForMonth(day);
+    (fetcher.current?.prefetchedMonths as any)["tableData"][getMonth(day)] = 0; //value does not matter, we use hash for O(1)
+
+    //store data rows grouped by day to store them in fetcher later
+    let dayToTableData: Record<string, any> = {};
+    for (const rowIndex in result) {
+      const d = result[rowIndex]["day"];
+      if ((fetcher.current?.day as any)[d] == undefined)
+        (fetcher.current?.day as any)[d] = {};
+      if (dayToTableData[d] == undefined) dayToTableData[d] = [];
+      dayToTableData[d].push(result[rowIndex]);
+    }
+
+    //store events in fetcher
+    for (let d in dayToTableData) {
+      (fetcher.current?.day as any)[d]["tableData"] = dayToTableData[d];
+    }
+  }
 }

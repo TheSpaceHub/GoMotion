@@ -199,7 +199,6 @@ td {
   border-collapse: collapse;
 }
 
-/*classes to align data in barriInfo.tsx*/
 .text-left {
   text-align: left;
 }
@@ -210,7 +209,6 @@ td {
   text-align: right;
 }
 
-/*hide duplicate borders*/
 table thead tr th {
   border-top: none;
 }
@@ -304,8 +302,9 @@ table td:last-child {
 
 .modelPlots {
   display: flex;
+  justify-content: space-between;
   gap: 1rem;
-  background-color: rgba(0, 0, 0, 0);
+  background-color: var(--background-sec);
   border: 1px solid var(--border);
   border-radius: 0.5rem;
   padding: 1rem;

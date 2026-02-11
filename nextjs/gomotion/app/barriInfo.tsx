@@ -2,13 +2,13 @@
 import { scaleLinear } from "d3-scale";
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
+import { useState, useEffect } from "react";
+import { loadFinalPredictedDate } from "./load_data";
+
 
 const getColor = scaleLinear<string>()
   .domain([-3, 0, 3])
   .range(["#69298F", "#ca4679", "#FFD127"]);
-
-import { useState, useEffect } from "react";
-import { loadFinalPredictedDate } from "./load_data";
 
 function classifyPeak(zscore: number) {
   if (zscore >= 1.5) return "Massive peak";

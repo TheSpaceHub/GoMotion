@@ -320,7 +320,6 @@ export default function App() {
             </div>
           </details>
         </div>
-        {/* --- END EVENT LIST DROPDOWN --- */}
 
         <div className="plots">
           <div className="mapContainer">

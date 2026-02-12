@@ -59,12 +59,13 @@ export default function BarriInfo({ data, day, setter, fetcher }: any) {
           type="date"
           value={day}
           onChange={(e) => setter(e.target.value)}
+          onClick={(e) => e.currentTarget.showPicker()}
           id="dateInput"
           name="dateInput"
           max={week_ahead}
         />
       </div>
-
+      
       <div className="table-container">
       <SimpleBar style={{maxHeight: "100%"}}>
         <table>

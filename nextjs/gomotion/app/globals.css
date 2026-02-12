@@ -123,6 +123,12 @@ select {
 
   border-radius: 0.5rem;
   padding: 0.5rem;
+  cursor: pointer; 
+  transition: background-color 0.2s;
+}
+.date-selector > input:hover {
+  background-color: var(--background-sec);
+  border-color: var(--foreground);
 }
 @media (prefers-color-scheme: dark) {
   input[type="date"]::-webkit-calendar-picker-indicator {
@@ -162,7 +168,6 @@ select {
 
 table {
   border-radius: 1rem;
-  /*overflow: hidden;*/
   min-width: 100%;
   font-size: small;
   table-layout: fixed;
@@ -178,7 +183,6 @@ th {
 
   height: 1rem;
   background-color: var(--background-sec);
-  /*display: flex;*/
   align-items: center;
   padding: 10px;
 
@@ -187,10 +191,8 @@ th {
   margin: 0;
 }
 td {
-  /*flex: 1;*/
   height: 1rem;
   background-color: var(--background);
-  /*display: flex;*/
   align-items: center;
   padding: 10px;
   white-space: nowrap;
@@ -316,7 +318,7 @@ table td:last-child {
 
 .modelImportances {
   flex: 7;
-  height: 23rem; /*padding*/
+  height: 23rem; 
   padding: 1.5rem 0.75rem 0rem 0.75rem;
   background-color: var(--plot-background);
   border: 1px solid var(--border);
@@ -329,7 +331,7 @@ table td:last-child {
 
 .modelStats {
   flex: 3;
-  height: 23rem; /*padding*/
+  height: 23rem;
   padding: 1.5rem 0.75rem 0rem 0.75rem;
   background-color: var(--plot-background);
   border: 1px solid var(--border);
@@ -423,7 +425,6 @@ table td:last-child {
   display: none;
 }
 
-/* Badge (Pill) Style */
 .events-count-badge {
   background-color: var(--background);
   border: 1px solid var(--border);

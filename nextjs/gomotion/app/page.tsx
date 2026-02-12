@@ -35,7 +35,12 @@ export class Fetcher {
   model = {};
   general = {};
 
-  prefetchedMonths = {"dailyData": {}, "eventData": {}, "mapData": {}, "tableData": {}};
+  prefetchedMonths = {
+    dailyData: {},
+    eventData: {},
+    mapData: {},
+    tableData: {},
+  };
   constructor() {
     /*data in the fetcher will be classified by
     - barri
@@ -209,7 +214,7 @@ export default function App() {
         <img src="GoMotionShortLogo.png" alt="GoMotion Icon" />
         <Dropdown
           options={["en", "es"]}
-          optoval={{ en: "English", es: "Spanish" }}
+          optoval={{ en: "English", es: "Español" }}
           value={language}
           onChange={setLanguage}
         />
@@ -219,7 +224,7 @@ export default function App() {
         <div className="title">
           <img src="GoMotionLogo.png" alt="GoMotion Logo" />
         </div>
-        <p className="subtitle">Mobility in Barcelona</p>
+        <p className="subtitle">{t.subtitle}</p>
 
         <h2>{t.dailyAnal}</h2>
 
@@ -278,9 +283,9 @@ export default function App() {
         <div className="events-container">
           <details className="events-details" open={validEvents.length > 0}>
             <summary>
-              <span>Events Analysis</span>
+              <span>{t.eventAnal}</span>
               <span className="events-count-badge">
-                {validEvents.length} Events Found
+                {validEvents.length} {validEvents.length == 1? t.singleEventFound : t.eventsFound}
               </span>
             </summary>
 
@@ -289,10 +294,10 @@ export default function App() {
                 <table>
                   <thead>
                     <tr>
-                      <th className="text-left">Category</th>
-                      <th className="text-left">Barri</th>
-                      <th className="text-left">Impact</th>
-                      <th className="text-left">Description</th>
+                      <th className="text-left">{t.category}</th>
+                      <th className="text-left">{t.barri}</th>
+                      <th className="text-left">{t.impact}</th>
+                      <th className="text-left">{t.description}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -301,7 +306,9 @@ export default function App() {
                         <td>{event.category}</td>
                         <td>{event.barri}</td>
                         <td>
-                          <span className={getImpactClass(Number(event.impact))}>
+                          <span
+                            className={getImpactClass(Number(event.impact))}
+                          >
                             {Number(event.impact).toFixed(2)}
                           </span>
                         </td>
@@ -313,9 +320,7 @@ export default function App() {
                   </tbody>
                 </table>
               ) : (
-                <div className="no-events-msg">
-                  No significant events recorded for this date.
-                </div>
+                <div className="no-events-msg">{t.noEvents}</div>
               )}
             </div>
           </details>
@@ -334,6 +339,7 @@ export default function App() {
               day={day}
               setter={setDay}
               fetcher={fetcher}
+              t={t}
             />
           </div>
         </div>

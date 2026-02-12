@@ -67,8 +67,11 @@ nav {
   z-index: 1;
 }
 
-select, option{
+select,
+option {
   font-family: "Lexend";
+  background-color: var(--background) !important;
+  color: var(--foreground);
 }
 
 img {
@@ -99,7 +102,7 @@ select {
   margin-left: 0;
 }
 .date-selector > input {
-  width: calc(100% - 1rem);
+  width: calc(100% - 1rem - 2px);
   margin: 0;
   border: 1px solid var(--border);
   margin-bottom: 1rem;
@@ -123,7 +126,7 @@ select {
 
   border-radius: 0.5rem;
   padding: 0.5rem;
-  cursor: pointer; 
+  cursor: pointer;
   transition: background-color 0.2s;
 }
 .date-selector > input:hover {
@@ -318,7 +321,7 @@ table td:last-child {
 
 .modelImportances {
   flex: 7;
-  height: 23rem; 
+  height: 23rem;
   padding: 1.5rem 0.75rem 0rem 0.75rem;
   background-color: var(--plot-background);
   border: 1px solid var(--border);
@@ -397,7 +400,7 @@ table td:last-child {
 
 .events-container > details {
   box-sizing: border-box;
-  background-color: var(--background-sec); 
+  background-color: var(--background-sec);
   border: 1px solid var(--border);
   border-radius: 0.5rem;
   padding: 0.5rem;
@@ -463,7 +466,7 @@ table td:last-child {
   border-bottom: 1px solid var(--border);
   vertical-align: top;
   font-size: 0.9rem;
-  background-color: var(--background); 
+  background-color: var(--background);
 }
 
 .events-table-wrapper td:last-child {
@@ -477,8 +480,8 @@ table td:last-child {
   text-align: center;
   color: var(--foreground);
   font-style: italic;
-  margin-top: 0.5rem; 
-  background-color: var(--background); 
+  margin-top: 0.5rem;
+  background-color: var(--background);
   border: 1px solid var(--border);
   border-radius: 0.5rem;
 }

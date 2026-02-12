@@ -52,8 +52,8 @@ export default function PlotComponent({
   switch (type) {
     case "weekly traffic":
       xtitle = "";
-      ytitle = "AVG. INTENSITY";
-      plotTitle = "WEEKLY TRAFFIC";
+      ytitle = t.avgIntensity;
+      plotTitle = t.weeklyTraffic;
 
       plotData["type"] = "bar";
       plotData["x"] = t["dotw"];
@@ -64,8 +64,8 @@ export default function PlotComponent({
 
     case "monthly traffic":
       xtitle = "";
-      ytitle = "AVG. INTENSITY";
-      plotTitle = "MONTHLY TRAFFIC";
+      ytitle = t.avgIntensity;
+      plotTitle = t.monthlyTraffic;
 
       plotData["type"] = "scatter";
       plotData["x"] = t["months"];
@@ -79,7 +79,7 @@ export default function PlotComponent({
     case "average event impact":
       xtitle = "";
       ytitle = "";
-      plotTitle = "AVG. EVENT IMPACT";
+      plotTitle = t.avgEventImpact;
 
       plotData["type"] = "bar";
       plotData["orientation"] = "h";
@@ -90,8 +90,8 @@ export default function PlotComponent({
 
     case "rain/intensity correlation":
       xtitle = "";
-      ytitle = "INTENSITY";
-      plotTitle = "INTENSITY PER PRECIPITATION";
+      ytitle = t.intensity;
+      plotTitle = t.intensityPerRain;
 
       plotData["type"] = "scatter";
       plotData["mode"] = "markers";
@@ -105,7 +105,7 @@ export default function PlotComponent({
     case "workday vs holiday":
       xtitle = "";
       ytitle = "";
-      plotTitle = "WORKDAY VS HOLIDAY";
+      plotTitle = t.workVsHoliday;
 
       plotData["type"] = "box";
       plotData["x"] = plotData["x"].map((val: any) =>
@@ -118,8 +118,8 @@ export default function PlotComponent({
 
     case "intensity/area":
       xtitle = "";
-      ytitle = "AVG. INTENSITY";
-      plotTitle = "INTENSITY PER AREA";
+      ytitle = t.avgIntensity;
+      plotTitle = t.intensityPerArea;
 
       plotData["type"] = "scatter";
       plotData["mode"] = "markers";
@@ -152,7 +152,7 @@ export default function PlotComponent({
     case "model importances":
       xtitle = "";
       ytitle = "";
-      plotTitle = "SHAP FEATURE IMPORTANCES";
+      plotTitle = t.shap;
 
       show_grid = false;
 
@@ -173,16 +173,16 @@ export default function PlotComponent({
 
     case "model stats":
       const map_stats_text: Record<string, string> = {
-        model_accuracy: "Accurate",
-        model_error_over: "Overestimation",
-        model_error_under: "Underestimation",
+        model_accuracy: t.accurate,
+        model_error_over: t.overestimation,
+        model_error_under: t.underestimation,
       };
 
       const pie_palette: string[] = ["#FFD127", "#ffa800", "#69298F"];
 
       xtitle = "";
       ytitle = "";
-      plotTitle = "MODEL PRECISION";
+      plotTitle = t.modelPrecision;
 
       let pieLabels = [...plotData["labels"]];
 
@@ -201,8 +201,8 @@ export default function PlotComponent({
 
     case "weekly intensity diff":
       xtitle = "";
-      ytitle = "INTENSITY DIFF (%)";
-      plotTitle = "WEEKLY INTENSITY DIFF";
+      ytitle = t.intensityDiff;
+      plotTitle = t.weeklyIntensityDiff;
       plotData["type"] = "scatter";
       plotData["x"] = t["dotw"];
       plotData["mode"] = "markers";
@@ -219,8 +219,8 @@ export default function PlotComponent({
 
     case "monthly intensity diff":
       xtitle = "";
-      ytitle = "INTENSITY DIFF (%)";
-      plotTitle = "MONTHLY INTENSITY DIFF";
+      ytitle = t.intensityDiff;
+      plotTitle = t.monthlyIntensityDiff;
       plotData["type"] = "scatter";
       plotData["x"] = t["months"];
       plotData["mode"] = "markers";

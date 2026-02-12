@@ -186,6 +186,23 @@ export default function App() {
     fetchData();
   }, [barri, day]);
 
+  const rawImpacts = (eventData as any).impacts || [];
+  const validEvents = rawImpacts
+    .map((impact: any, i: number) => ({
+      impact: impact,
+      category: (eventData as any).categories?.[i] || "-",
+      barri: (eventData as any).barris?.[i] || "-",
+      description: (eventData as any).description?.[i] || "-",
+    }))
+    .filter((e: any) => e.impact !== null);
+
+  // Helper to determine badge class
+  const getImpactClass = (val: number) => {
+    if (val > 0.7) return "impact-badge impact-high";
+    if (val > 0.4) return "impact-badge impact-med";
+    return "impact-badge impact-low";
+  };
+
   return (
     <>
       <nav>
@@ -257,6 +274,53 @@ export default function App() {
             </h1>
           </div>
         </div>
+
+        <div className="events-container">
+          <details className="events-details" open={validEvents.length > 0}>
+            <summary>
+              <span>Events Analysis</span>
+              <span className="events-count-badge">
+                {validEvents.length} Events Found
+              </span>
+            </summary>
+
+            <div className="events-table-wrapper">
+              {validEvents.length > 0 ? (
+                <table>
+                  <thead>
+                    <tr>
+                      <th className="text-left">Category</th>
+                      <th className="text-left">Barri</th>
+                      <th className="text-left">Impact</th>
+                      <th className="text-left">Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {validEvents.map((event: any, i: number) => (
+                      <tr key={i}>
+                        <td>{event.category}</td>
+                        <td>{event.barri}</td>
+                        <td>
+                          <span className={getImpactClass(Number(event.impact))}>
+                            {Number(event.impact).toFixed(2)}
+                          </span>
+                        </td>
+                        <td style={{ whiteSpace: "normal", minWidth: "200px" }}>
+                          {event.description}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              ) : (
+                <div className="no-events-msg">
+                  No significant events recorded for this date.
+                </div>
+              )}
+            </div>
+          </details>
+        </div>
+        {/* --- END EVENT LIST DROPDOWN --- */}
 
         <div className="plots">
           <div className="mapContainer">

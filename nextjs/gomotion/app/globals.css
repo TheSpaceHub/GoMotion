@@ -384,3 +384,100 @@ table td:last-child {
   justify-content: center;
   align-items: center;
 }
+
+.events-container {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 1rem 0;
+}
+
+.events-container > details {
+  box-sizing: border-box;
+  background-color: var(--background-sec); 
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.05);
+}
+
+.events-details summary {
+  list-style: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1.1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s ease;
+}
+
+.events-details summary:hover {
+  background-color: var(--background);
+}
+
+.events-details summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Badge (Pill) Style */
+.events-count-badge {
+  background-color: var(--background);
+  border: 1px solid var(--border);
+  color: var(--foreground);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: normal;
+}
+
+.events-table-wrapper {
+  overflow-x: auto;
+  margin-top: 10px;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border);
+  background-color: transparent;
+}
+
+.events-table-wrapper table {
+  background-color: var(--background);
+  margin: 0;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.events-table-wrapper th {
+  background-color: var(--background-sec);
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+
+.events-table-wrapper td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  font-size: 0.9rem;
+  background-color: var(--background); 
+}
+
+.events-table-wrapper td:last-child {
+  padding: 8px 12px;
+  line-height: 1.4;
+  min-width: 250px;
+}
+
+.no-events-msg {
+  padding: 20px;
+  text-align: center;
+  color: var(--foreground);
+  font-style: italic;
+  margin-top: 0.5rem; 
+  background-color: var(--background); 
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+}

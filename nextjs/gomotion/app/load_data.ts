@@ -370,14 +370,16 @@ export async function loadEventData(
   let categories = [];
   let impacts = [];
   let barris = [];
+  
   for (const rowIndex in result) {
-    descriptions.push(result[rowIndex]["description"]);
-    categories.push(result[rowIndex]["categories"]);
-    impacts.push(result[rowIndex]["impacts"]);
-    barris.push(result[rowIndex]["barris"]);
+    descriptions.push(result[rowIndex]["description"]); 
+    categories.push(result[rowIndex]["category"]); 
+    impacts.push(result[rowIndex]["impact"]);       
+    barris.push(result[rowIndex]["barri"]);      
   }
+  
   setter({
-    descriptions: descriptions,
+    description: descriptions,
     categories: categories,
     impacts: impacts,
     barris: barris,

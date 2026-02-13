@@ -32,6 +32,10 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <title>GoMotion</title>
+        <meta
+          name="google-site-verification"
+          content="VNDJD0v5PLKh7KZ7S64qefbJgo8WX-arE4jD5-fTru0"
+        />
       </head>
       <body>{children}</body>
     </html>

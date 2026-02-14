@@ -1,3 +1,6 @@
+import faulthandler
+faulthandler.enable()
+
 import os
 
 # shut tensorflow up if it doesn't need to say anything

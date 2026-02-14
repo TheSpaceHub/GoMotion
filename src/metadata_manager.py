@@ -1,6 +1,6 @@
 import os
-import pandas as pd
 import sqlalchemy as sql
+import pandas as pd
 
 
 class MetadataManager:

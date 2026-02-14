@@ -5,7 +5,7 @@ import os
 
 # shut tensorflow up if it doesn't need to say anything
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
-import pandas as pd
+from metadata_manager import MetadataManager
 import intensities
 import event_encoder
 import llm_scraper
@@ -15,8 +15,8 @@ import hyperparameter_optimizer
 import keras
 import xgb_model
 from database_connection import connect_to_db, upload_to_database
-from metadata_manager import MetadataManager
 from data_filler import fill_data
+import pandas as pd
 
 
 def check_and_load_data(save_file: bool = True) -> pd.DataFrame:

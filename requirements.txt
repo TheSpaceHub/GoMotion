@@ -25,3 +25,4 @@ tabulate
 dill
 plotly
 matplotlib
+networkx

@@ -8,18 +8,18 @@ class Multiregressor:
         self.regressors = []
         self.prediction_length = 0
         self.features = []
-        
-    def lr_schedule(round_index) -> float :
-        '''Defines the following schedule:
+
+    def lr_schedule(round_index) -> float:
+        """Defines the following schedule:
         0 - 0.1
         100 - 0.001
-        150 - 0.0001'''
+        150 - 0.0001"""
         if round_index < 250:
             return 0.1
         elif round_index < 1000:
-            return 0.01
+            return 0.03
         else:
-            return 0.001
+            return 0.01
 
     def fit_multiregressor(
         self,
@@ -77,23 +77,23 @@ def create_and_fit_regressor(
     if learning_rate is None:
         model = xgb.XGBRegressor(
             tree_method="hist",
-            n_estimators=20000,
+            n_estimators=8000,
             learning_rate=0.1,
             early_stopping_rounds=50,
             max_depth=depth,
             enable_categorical=True,
             callbacks=[xgb.callback.LearningRateScheduler(Multiregressor.lr_schedule)],
-            random_state=np.random.randint(0, 100000)
+            random_state=np.random.randint(0, 100000),
         )
     else:
-            model = xgb.XGBRegressor(
+        model = xgb.XGBRegressor(
             tree_method="hist",
-            n_estimators=20000,
+            n_estimators=8000,
             learning_rate=learning_rate,
             early_stopping_rounds=50,
             max_depth=depth,
             enable_categorical=True,
-            random_state=np.random.randint(0, 100000)
+            random_state=np.random.randint(0, 100000),
         )
 
     if learning_rate is None:

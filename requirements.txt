@@ -19,7 +19,7 @@ pydantic
 python-dotenv
 supabase
 sqlalchemy
-psycopg2
+pg8000
 statsmodels
 tabulate
 dill

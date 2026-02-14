@@ -14,7 +14,7 @@ def connect_to_db() -> sql.Engine:
         sql.Engine: Engine object.
     """
     try:
-        db_url = f"postgresql+psycopg2://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
+        db_url = f"postgresql+pg8000://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
         engine = sql.create_engine(db_url)
         print("Engine connection successful.")
         return engine
@@ -77,5 +77,6 @@ def upload_to_database():
         print("Meteorological data could not be loaded")
         exit()
 
-if __name__== "__main__":
+
+if __name__ == "__main__":
     upload_to_database()

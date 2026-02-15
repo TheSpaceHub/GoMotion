@@ -31,7 +31,7 @@ def daily_weather_summary(lat = LATITUDE, lon = LONGITUDE, start = START_DATE, e
     }
 
 
-    response = requests.get(API_URL_PAST, params=parametros)
+    response = requests.get(API_URL_PAST, params=parametros, timeout=60)
     
     if response.status_code == 200:
         # Usar skiprows=2 para ignorar las líneas de metadatos (coordenadas y unidades)

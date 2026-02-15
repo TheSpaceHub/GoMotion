@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import "./globals.css";
 
 export const metadata: Metadata = {
   title: "GoMotion",
@@ -36,6 +35,8 @@ export default function RootLayout({
           name="google-site-verification"
           content="VNDJD0v5PLKh7KZ7S64qefbJgo8WX-arE4jD5-fTru0"
         />
+        <link rel="stylesheet" href="/mobile.css" media="(max-width: 768px)" />
+        <link rel="stylesheet" href="/globals.css" media="(min-width: 769px)" />
       </head>
       <body>{children}</body>
     </html>

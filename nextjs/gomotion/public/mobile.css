@@ -90,7 +90,7 @@ select {
 }
 
 .date-selector {
-  margin: 0 0 1rem 1rem;
+  margin: 1rem 0 0 0;
   display: flex;
   flex-direction: column;
   justify-content: start;
@@ -143,10 +143,9 @@ select {
 .table-container {
   border-radius: 1rem;
   border: 1px solid var(--border);
-  margin: 0 0 0 1rem;
   background-color: transparent;
 
-  width: calc(100% - 1rem - 2px); /*margin + border*/
+  width: calc(100% - 2px); /*margin + border*/
   max-height: 26rem;
   height: 26rem;
 
@@ -349,29 +348,28 @@ table td:last-child {
 
 .mapContainer {
   width: 100%;
-  min-height: 30rem;
+  /*min-height: 30rem;*/
   z-index: 0;
   display: flex;
+  flex-direction: column;
   align-items: stretch;
 }
 
 .heatmap {
-  height: 30rem;
+  height: 25rem;
   border-radius: 0.5rem;
   border: 1px solid var(--border);
   overflow: hidden;
   width: 100%;
-  flex: 1;
-  margin-right: 2rem;
   min-width: 0;
 }
 
 .barri-info {
   height: 30rem;
+  padding-left: -2rem;
   border-radius: 0 0.5rem 0.5rem 0;
   overflow: hidden;
   width: 100%;
-  flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
@@ -447,7 +445,7 @@ table td:last-child {
   background-color: transparent;
 }
 
-.events-table-wrapper table {
+/*.events-table-wrapper table {
   background-color: var(--background);
   margin: 0;
   width: 100%;
@@ -468,13 +466,14 @@ table td:last-child {
   vertical-align: top;
   font-size: 0.9rem;
   background-color: var(--background);
+  min-width: 5rem;
 }
 
 .events-table-wrapper td:last-child {
   padding: 8px 12px;
   line-height: 1.4;
   min-width: 250px;
-}
+}*/
 
 .no-events-msg {
   padding: 20px;

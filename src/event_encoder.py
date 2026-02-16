@@ -185,8 +185,10 @@ def main(manager: metadata_manager.MetadataManager) -> None:
     # store encoder and necessary data
     os.makedirs("models/", exist_ok=True)
     encoder.save("models/encoder.keras")
-    
+
     manager.set("encoder_max_len", str(max_len))
+    print("HEY I SET THE ENCODER MAX LEN TO THE FOLLOWING NUMBER")
+    print(str(max_len))
 
     # encode event data and output to csv
     all_encoded_events = encoder.predict(

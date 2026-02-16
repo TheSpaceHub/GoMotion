@@ -445,36 +445,6 @@ table td:last-child {
   background-color: transparent;
 }
 
-/*.events-table-wrapper table {
-  background-color: var(--background);
-  margin: 0;
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.events-table-wrapper th {
-  background-color: var(--background-sec);
-  padding: 8px 12px;
-  text-align: left;
-  border-bottom: 1px solid var(--border);
-  font-size: 0.9rem;
-}
-
-.events-table-wrapper td {
-  padding: 8px 12px;
-  border-bottom: 1px solid var(--border);
-  vertical-align: top;
-  font-size: 0.9rem;
-  background-color: var(--background);
-  min-width: 5rem;
-}
-
-.events-table-wrapper td:last-child {
-  padding: 8px 12px;
-  line-height: 1.4;
-  min-width: 250px;
-}*/
-
 .no-events-msg {
   padding: 20px;
   text-align: center;

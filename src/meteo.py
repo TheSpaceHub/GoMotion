@@ -41,7 +41,7 @@ def daily_weather_summary(
     response = requests.get(
         API_URL_PAST,
         params=parametros,
-        timeout=60,
+        timeout=180,
         proxies={"http": PROXY_URL, "https": PROXY_URL},
     )
 
@@ -78,7 +78,7 @@ def weather_forecast_1_week(
     response = requests.get(
         API_URL_FUTURE,
         params=parametros,
-        timeout=60,
+        timeout=180,
         proxies={"http": PROXY_URL, "https": PROXY_URL},
     )
 

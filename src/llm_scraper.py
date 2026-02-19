@@ -194,11 +194,17 @@ async def scrape_web_with_context(context: BrowserContext, url: str) -> str:
     clean_content = body_tag.get_text(separator=' ', strip=True)
     return clean_content
 
-async def scrape_and_extract_all(event_webs: List[str], festius_webs: List[str], more_info: Dict[str, str], today: datetime.date, end_date: datetime.date) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
+async def scrape_and_extract_all(event_webs: List[str], festius_webs: List[str], more_info: Dict[str, str], today: datetime.date, end_date: datetime.date, should_extract_events: bool, should_extract_festius: bool) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
     """
     Orchestrates browser launch and concurrently runs all scraping tasks.
     """
-    all_urls = event_webs + festius_webs
+    
+    all_urls: list[str] = []
+    
+    if should_extract_events:
+        all_urls += event_webs
+    if should_extract_festius:
+        all_urls += festius_webs
     
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
@@ -240,7 +246,7 @@ async def scrape_and_extract_all(event_webs: List[str], festius_webs: List[str],
 
         return events_list, festius_list
 
-def scrape_week_ahead(end_date: datetime.date = None) -> Tuple[pd.DataFrame,pd.DataFrame]:
+def scrape_week_ahead(end_date: datetime.date = None, should_extract_events=True, should_extract_festius=True) -> Tuple[pd.DataFrame,pd.DataFrame]:
     """Returns two dataframes, one with events, the other with holidays. 
     Main function to orchestrate the scraping and extraction of events and holidays"""
     
@@ -281,7 +287,7 @@ def scrape_week_ahead(end_date: datetime.date = None) -> Tuple[pd.DataFrame,pd.D
     
     festius_webs = ["https://ajuntament.barcelona.cat/calendarifestius/ca/"]
 
-    events_list, festius_list = asyncio.run(scrape_and_extract_all(event_webs, festius_webs, more_info, start_date, end_date))
+    events_list, festius_list = asyncio.run(scrape_and_extract_all(event_webs, festius_webs, more_info, start_date, end_date, should_extract_events, should_extract_festius))
     
     event_cols = ["date", "category", "description", "barris", "impact"]
     festius_cols = ["date", "description"]

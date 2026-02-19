@@ -76,6 +76,20 @@ def upload_to_database():
     except:
         print("Meteorological data could not be loaded")
         exit()
+        
+        
+def upload_df_to_db(df: pd.DataFrame, table: str, engine) -> None:
+    """
+    Uploads a given DataFrame to DB
+    """
+    
+    print("Uploading data to", table)
+    try:
+        df.to_sql(name=table, con=engine, if_exists="replace", index=False)
+        
+    except:
+        print(f"DataFrame could not be uploaded to {table}. Check table name")
+        exit()   
 
 
 if __name__ == "__main__":

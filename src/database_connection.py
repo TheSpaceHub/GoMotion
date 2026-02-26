@@ -78,14 +78,14 @@ def upload_to_database():
         exit()
         
         
-def upload_df_to_db(df: pd.DataFrame, table: str, engine) -> None:
+def insert_df_to_db(df: pd.DataFrame, table: str, engine) -> None:
     """
-    Uploads a given DataFrame to DB
+    Inserts a given DataFrame to a DB table
     """
     
-    print("Uploading data to", table)
+    print("Inserting data to", table)
     try:
-        df.to_sql(name=table, con=engine, if_exists="replace", index=False)
+        df.to_sql(name=table, con=engine, if_exists="append", index=False)
         
     except:
         print(f"DataFrame could not be uploaded to {table}. Check table name")

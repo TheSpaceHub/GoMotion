@@ -66,6 +66,7 @@ const en = {
   monthlyIntensityDiff: "MONTHLY INTENSITY DIFFERENCE",
   true: "True",
   false: "False",
+  all: "All",
 };
 
 const es = {
@@ -134,6 +135,7 @@ const es = {
   monthlyIntensityDiff: "DIFERENCIA DE INTENSIDAD MENSUAL",
   true: "Verdadero",
   false: "Falso",
+  all: "Todos",
 };
 
 export type Translation = typeof en;

@@ -172,9 +172,19 @@ export async function getDailyData(day: any) {
 export async function getEventData(day: any) {
   const result: QueryResult<any> = await pool.query(
     `
-    select *
-    from events e
-    where e.day = $1
+    SELECT 
+      day,
+      category,
+      description,
+      impact,
+      STRING_AGG(DISTINCT barri, ', ') AS barri
+    FROM events
+    WHERE day = $1
+    GROUP BY 
+      day,
+      category,
+      description,
+      impact
     `,
     [day],
   );
@@ -214,11 +224,21 @@ export async function getDailyDataForMonth(day: string) {
 export async function getEventDataForMonth(day: string) {
   const result: QueryResult<any> = await pool.query(
     `
-    select *
-    from events e
-    where e.day LIKE '` +
+    SELECT 
+      day,
+      category,
+      description,
+      impact,
+      STRING_AGG(DISTINCT barri, ', ') AS barri
+    FROM events
+    WHERE day LIKE '` +
       getMonth(day) +
       `-%'
+    GROUP BY 
+      day,
+      category,
+      description,
+      impact
     `,
   );
   return result.rows;

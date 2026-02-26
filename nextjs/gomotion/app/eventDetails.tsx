@@ -13,22 +13,32 @@ const getImpactClass = (val: number) => {
 };
 
 function Row(event: any, t: any, i: number) {
+  // Split the concatenated string into an array to count the barris
+  const barriCount = event.barri ? event.barri.split(", ").length : 0;
+  // Check if event affects all barris
+  // There is a >= because some barris have a , in them
+  const displayBarri = barriCount >= 73 ? t.all : event.barri;
+
   return (
     <tr key={i}>
       <td>{event.category}</td>
-      <td>{event.barri}</td>
+      
+      <td style={{ whiteSpace: "normal", overflowWrap: "break-word", minWidth: "250px" }}>
+        {displayBarri}
+      </td>
+      
       <td>
         <span className={getImpactClass(Number(event.impact))}>
           {Number(event.impact).toFixed(2)}
         </span>
       </td>
+      
       <td style={{ whiteSpace: "normal", minWidth: "200px" }}>
         {event.description}
       </td>
     </tr>
   );
 }
-
 export default function EventDetails({ validEvents, t }: any) {
   if (validEvents.length == 0)
     return <div className="no-events-msg">{t.noEvents}</div>;

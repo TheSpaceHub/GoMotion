@@ -93,7 +93,7 @@ def predict(
 
     # fill X_cat and X_imp
     for i, events in enumerate(raw_data):
-        for j, (cat, imp) in enumerate(events):
+        for j, (cat, imp) in enumerate(events[:max_len]):
             X_cat[i, j] = cat_to_id[cat]
             X_imp[i, j, 0] = imp
 

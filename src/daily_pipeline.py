@@ -108,7 +108,7 @@ def main() -> None:
     
     regressor = joblib.load("../models/regressor.joblib")
     encoder = tf.keras.models.load_model("../models/encoder.keras")
-    max_len = int(pd.read_sql_query(sql.text("select value from metadata where key='encoder_max_len'"), con=engine).iloc[0, 0])
+    max_len = int(manager.get("encoder_max_len"))
     
     latent_dim = 5      # HARDCODED !!!
     print("Latent Dimension set to", latent_dim)

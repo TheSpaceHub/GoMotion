@@ -21,8 +21,6 @@ END_DATE = "2025-08-31"
 API_URL_PAST = "https://archive-api.open-meteo.com/v1/archive"
 API_URL_FUTURE = "https://api.open-meteo.com/v1/forecast"
 
-PROXY_URL = os.getenv("PROXY_URL")
-
 
 def daily_weather_summary(
     lat=LATITUDE, lon=LONGITUDE, start=START_DATE, end=END_DATE
@@ -42,7 +40,6 @@ def daily_weather_summary(
         API_URL_PAST,
         params=parametros,
         timeout=180,
-        proxies={"http": PROXY_URL, "https": PROXY_URL},
     )
 
     if response.status_code == 200:
@@ -78,7 +75,6 @@ def weather_forecast_1_week(
         API_URL_FUTURE,
         params=parametros,
         timeout=180,
-        proxies={"http": PROXY_URL, "https": PROXY_URL},
     )
 
     if response.status_code == 200:

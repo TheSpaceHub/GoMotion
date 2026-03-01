@@ -72,7 +72,6 @@ def weather_forecast_1_week(
         "start_date": start,
         "end_date": end,
         "daily": ["temperature_2m_max", "temperature_2m_min", "precipitation_sum"],
-        "format": "csv",
     }
 
     response = requests.get(
@@ -83,7 +82,7 @@ def weather_forecast_1_week(
     )
 
     if response.status_code == 200:
-        df = pd.read_csv(io.StringIO(response.text), skiprows=2)
+        df = pd.DataFrame(response.json()["daily"])
         df = df.rename(columns={"time": "day"})
         df["day"] = pd.to_datetime(df["day"])
         return df

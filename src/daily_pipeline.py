@@ -196,7 +196,7 @@ def main() -> None:
             
             is_holiday = int(next_date_str in festius_dates)
             
-            current_month = str(next_date.month)
+            current_month = int(next_date.month)
             current_day = weekdays[next_date.weekday()]
             
             daily_t_max = df_weather.loc[df_weather['day'] == next_date, 'temperature_2m_max'].values[0]

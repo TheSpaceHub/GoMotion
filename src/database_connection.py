@@ -32,7 +32,7 @@ def upload_to_database():
     try:
         data_extended = pd.read_csv("data/data_extended.csv")
         data_extended.to_sql(
-            name="display_data", con=engine, if_exists="replace", index=False
+            name="display_data", con=engine, if_exists="replace", index=False, chunksize=1000, method="multi" 
         )
     except:
         print("data_extended.csv could not be loaded")

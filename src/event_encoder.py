@@ -79,10 +79,12 @@ def predict(
 
     raw_data = list(spacetime_to_events.values())
 
-    all_cats = set()
-    for pair in raw_data:
-        for cat, _ in pair:
-            all_cats.add(cat)
+    all_cats = {
+        "Concert/Music Festival",
+        "Sporting Event",
+        "Trade Show/Exhibition",
+        "Traditional Festival",
+    }
 
     cat_to_id = {cat: i + 1 for i, cat in enumerate(sorted(all_cats))}
 
@@ -131,10 +133,12 @@ def main(manager: metadata_manager.MetadataManager) -> None:
 
     raw_data = list(spacetime_to_events.values())
 
-    all_cats = set()
-    for pair in raw_data:
-        for cat, _ in pair:
-            all_cats.add(cat)
+    all_cats = {
+        "Concert/Music Festival",
+        "Sporting Event",
+        "Trade Show/Exhibition",
+        "Traditional Festival",
+    }
 
     cat_to_id = {cat: i + 1 for i, cat in enumerate(sorted(all_cats))}
     cat_amount = len(cat_to_id) + 1  # we keep 0 free

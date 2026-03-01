@@ -38,5 +38,19 @@ jobs:
       - name: Install Playwright dependencies
         run: playwright install
 
+      - name: Download encoder
+        run: |
+          curl -L \
+          -H "Authorization: Bearer ${{ secrets.HF_TOKEN }}" \
+          -o encoder.keras \
+          https://huggingface.co/GoMotion/gomotion/resolve/main/encoder.keras
+
+      - name: Download regressor
+        run: |
+          curl -L \
+          -H "Authorization: Bearer ${{ secrets.HF_TOKEN }}" \
+          -o regressor.joblib \
+          https://huggingface.co/GoMotion/gomotion/resolve/main/regressor.joblib
+
       - name: Run Python script
         run: python src/daily_pipeline.py

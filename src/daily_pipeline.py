@@ -1,3 +1,5 @@
+import os
+
 from metadata_manager import MetadataManager
 import llm_scraper
 import datetime
@@ -106,8 +108,16 @@ def main() -> None:
     WEEK_AHEAD = TODAY + datetime.timedelta(days=7)
     weekdays = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
     
-    regressor = joblib.load("../models/regressor.joblib")
-    encoder = tf.keras.models.load_model("../models/encoder.keras")
+    
+    
+    if os.environ.get('GITHUB_ACTIONS') == 'true':
+        regressor = joblib.load("regressor.joblib")
+        encoder = tf.keras.models.load_model("encoder.keras")
+    else:
+        regressor = joblib.load("../models/regressor.joblib")
+        encoder = tf.keras.models.load_model("../models/encoder.keras")
+    
+    
     max_len = int(manager.get("encoder_max_len"))
     
     latent_dim = 5      # HARDCODED !!!

@@ -120,7 +120,7 @@ def main() -> None:
     
     max_len = int(manager.get("encoder_max_len"))
     
-    latent_dim = 5      # HARDCODED !!!
+    latent_dim = 5    
     print("Latent Dimension set to", latent_dim)
     
     features = [
@@ -148,31 +148,36 @@ def main() -> None:
     df_barris = pd.read_sql_query(sql.text("select nom_barri from geospatial_data"), con=engine)
     barri_list = df_barris['nom_barri'].to_list()
     last_predicted_date = datetime.datetime.strptime(manager.get("last_predicted_day"), "%Y-%m-%d")
-    df_events, df_festius = llm_scraper.scrape_week_ahead()
-    df_events_processed = process_scraped_events(df_events, barri_list)
-    
+
     # ------------------- EVENTS ------------------
     
     if datetime.datetime.strptime(manager.get("last_day_event_checked"), "%Y-%m-%d").date() < WEEK_AHEAD.date():
-        
+        df_events, _ = llm_scraper.scrape_week_ahead(should_extract_festius=False)
+        df_events_processed = process_scraped_events(df_events, barri_list)
         database_connection.insert_df_to_db(df_events_processed, "events", engine)
         print("Events inserted")
         manager.set("last_day_event_checked", (WEEK_AHEAD).strftime("%Y-%m-%d"))
         print("Metadata manager updated")
     
-    # ----------------------- MAKE PREDICTIONS / METEO / FESTIUS -----------------
+    else:
+        df_events_processed = pd.DataFrame(columns=["day", "barri", "category", "impact", "description"])
+        
+    # ----------------------- MAKE PREDICTIONS / WEATHER / HOLIDAYS -----------------
     
     if last_predicted_date.date() < WEEK_AHEAD.date():
     
         start_str = last_predicted_date.strftime("%Y-%m-%d")
         end_str = WEEK_AHEAD.strftime("%Y-%m-%d")
+        
         df_weather = meteo.weather_forecast_1_week(start=start_str, end=end_str)
-        print(df_weather)
-        if df_weather.empty:
-            raise Exception ("Error! Unable to retrieve weather data.")
+        if df_weather is None:
+            print("Error! Unable to retrieve weather data.")
+            df_weather = pd.DataFrame(columns=["temperature_2m_max", "temperature_2m_min", "precipitation_sum"])
+        else:
+            df_weather.columns = [col.split(" ")[0] for col in df_weather.columns]
+            print(df_weather)
             
-        df_weather.columns = [col.split(" ")[0] for col in df_weather.columns]
-    
+        _, df_festius = llm_scraper.scrape_week_ahead(should_extract_events=False)    
         festius_dates = df_festius["date"].astype(str).values
     
         if not df_events_processed.empty:
@@ -248,7 +253,8 @@ def main() -> None:
             all_display_data_frames.append(df_daily)
             last_date = next_date
             
-        final_display_data = pd.concat(all_display_data_frames, ignore_index=True)    
+        final_display_data = pd.concat(all_display_data_frames, ignore_index=True) 
+        print(final_display_data)   
         database_connection.insert_df_to_db(final_display_data, "display_data", engine)
         print("Display data table updated")
         manager.set("last_predicted_day", (WEEK_AHEAD).strftime("%Y-%m-%d"))

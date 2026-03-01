@@ -32,8 +32,7 @@ def upload_to_database():
     try:
         data_extended = pd.read_csv("data/data_extended.csv")
         data_extended.to_sql(
-            name="display_data", con=engine, if_exists="replace", index=False, chunksize=1000, method="multi" 
-        )
+            name="display_data", con=engine, if_exists="replace", index=False, chunksize=1000, method="multi")
     except:
         print("data_extended.csv could not be loaded")
         exit()
@@ -87,10 +86,8 @@ def insert_df_to_db(df: pd.DataFrame, table: str, engine) -> None:
     try:
         df.to_sql(name=table, con=engine, if_exists="append", index=False)
         
-    except:
-        print(f"DataFrame could not be uploaded to {table}. Check table name")
-        exit()   
-
-
-if __name__ == "__main__":
-    upload_to_database()
+    except Exception as e:
+            original_error = getattr(e, 'orig', e)
+            print(f"Failed to upload data. Root cause: {original_error}")
+            exit()
+    

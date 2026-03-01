@@ -118,11 +118,9 @@ def main() -> None:
         encoder = tf.keras.models.load_model("../models/encoder.keras")
     
     
-    max_len = int(manager.get("encoder_max_len"))
-    
+    max_len = int(manager.get("encoder_max_len"))    
     latent_dim = 5    
-    print("Latent Dimension set to", latent_dim)
-    
+
     features = [
         "barri",
         "temperature_2m_max",
@@ -169,7 +167,14 @@ def main() -> None:
         start_str = last_predicted_date.strftime("%Y-%m-%d")
         end_str = WEEK_AHEAD.strftime("%Y-%m-%d")
         
-        df_weather = meteo.weather_forecast_1_week(start=start_str, end=end_str)
+        if last_predicted_date < TODAY:
+            df_weather_past = meteo.daily_weather_summary(start=start_str, end=(TODAY - datetime.timedelta(days=1)).strftime("%Y-%m-%d"))
+            df_weather_future = meteo.weather_forecast_1_week(start=TODAY.strftime("%Y-%m-%d"), end=end_str)
+            df_weather = pd.concat([df_weather_past, df_weather_future], ignore_index=True)
+
+        else:
+            df_weather = meteo.weather_forecast_1_week(start=start_str, end=end_str)
+            
         if df_weather is None:
             print("Error! Unable to retrieve weather data.")
             df_weather = pd.DataFrame(columns=["temperature_2m_max", "temperature_2m_min", "precipitation_sum"])

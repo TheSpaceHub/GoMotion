@@ -33,7 +33,6 @@ def daily_weather_summary(
         "start_date": start,
         "end_date": end,
         "daily": ["temperature_2m_max", "temperature_2m_min", "precipitation_sum"],
-        "format": "csv",
     }
 
     response = requests.get(
@@ -43,9 +42,7 @@ def daily_weather_summary(
     )
 
     if response.status_code == 200:
-        # Usar skiprows=2 para ignorar las líneas de metadatos (coordenadas y unidades)
-        # Se renombra la columna 'time' a 'day' para claridad
-        df = pd.read_csv(io.StringIO(response.text), skiprows=2)
+        df = pd.DataFrame(response.json()["daily"])
         df = df.rename(columns={"time": "day"})
         df["day"] = pd.to_datetime(df["day"])
         return df

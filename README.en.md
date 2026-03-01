@@ -2,229 +2,174 @@
   <img src="media/GoMotionLogo.png" alt="Logo GoMotion" width="200">
 </p>
 
-## Mobility peak prediction in Barcelona
+## Mobility Peak Prediction in Barcelona
 
-The GoMotion project consists of a mobility peak prediction system which uses historical data (provided by _Telefónica_) combined with public data (such as meteo data and event websites). It implements predictive models to anticipate increased flux in order to ultimately improve the local infrastructure.
+The **GoMotion** project is an urban intelligence platform aimed at predicting mobility peaks. Using a base model trained on historical telecommunications data and fed in real-time with weather data and event calendars, the system anticipates massive flows of people up to 7 days in advance. Our goal is to provide precise analytical tools to optimize the local mobility network and public transport.
 
-Para la versión en español de este readme, ir <a href="README.md">aquí</a>.
+For the Spanish version of this readme, go <a href="README.md">here</a>.
 
-## Important
+## Important: Scope and Automation
 
-- GoMotion has been created with the purpose of predicting mobility trends, detecting peaks and understanding their origin. The lack of accurate and significant data about public transport in Barcelona makes the task of improving it a lot more challenging. However, we have built a model capable of anticipating peaks which, complemented with quality data, can offer important insight and be a useful tool in the development of the public transport network.
-- We have created a mathematical framework (seen in `mathematical_model.pdf`) with the aim of providing a solid foundation to our work and extracting useful measures from the provided data.
-- The prediction window of the software is of 7 days. A complete implementation of the program requires a daily updating of the data. Since this is not possible with the data provided by _Telefónica_, the program fills in the data from the last day given until the current one using the prediction model. This has a detrimental effect on the quality of predictions, as tiny errors made in a prediction due to a small bias in the model will propagate to the present and be heavily amplified.
+- GoMotion detects strong mobility peaks and breaks down the factors that cause them (weather, holidays, massive events). With this information, urban management entities can anticipate and correctly size public transport services (metro/bus frequencies, capacities, etc.) to cope with extraordinary demand.
+- To support the project with rigor, the document `mathematical_model.pdf` was developed, which details the mathematical abstraction used to model the movement intensity in the city based on the provided data.
+- **Automation and Predictive Window:** The program's predictive scope is 7 days. To keep the system updated without manual intervention, we have implemented an automated pipeline (`daily_pipeline.py`) executed daily via **GitHub Actions**. This process calculates historical lags, extracts new events, queries weather forecasts, and updates the predictions directly in our relational database.
 
-## Requirements
-- Python 3.12+
-- Internet connection
-- Access to the `output_limite_legal` folder, provided by _Telefónica_ (if this is not possible, sample data can be generated using `example_data.py`)
-- Access to `barris.csv`, `events.csv` and `holidays.csv` (located in the data folder)
-- A Google Gemini API key
+## Technical Requirements 
 
-## Installation
-In order to use GoMotion, it is recommended to create a virtual environment, and required to download the necessary libraries.
+If you wish to contribute to the GoMotion engine or run the environment locally:
 
-1) Create the virtual environment from the **root folder**:
-`python -m venv .venv`
-2) Activate the virtual environment:
-- MacOS / Linux: `source .venv/bin/activate`
-- Windows PowerShell / Windows Cmd: `.venv\Scripts\Activate.ps1` / `.venv\Scripts\activate`
-3) Download libraries:
-`pip install -r requirements.txt`
-4) Add API key in `.env`:
-`GEMINI_API_KEY="key"`
-- Note: depending on the Gemini API tier the user has, there is a chance that excessive rebuilding of the project exceed the daily requests limit.
+- **Frontend**: Node.js 18+ and a package manager (npm or yarn) for the Next.js/React application.
+- **Backend / Data Pipeline**: Python 3.11+ with the libraries specified in `requirements.txt` (including SQLAlchemy, XGBoost, TensorFlow, and Pandas).
+- **Database**: Access to the GoMotion database instance (PostgreSQL/MySQL).
+- **Environment Variables**: Configuration of a `.env` file containing the Gemini API key (`GEMINI_API_KEY`) and the database connection URI.
 
+## Project Structure
 
-## File structure
-
-```
+```text
 GoMotion/
-├── data/                   
-│   ├── output_limite_legal # Data provided by Telefónica
-|   └── barris.csv          # OpenData BCN public data
-│   └── events.csv          # Event data
-|   └── holidays.csv        # Holiday data
-│
+├── .github/workflows/                  
+│     └── daily_action.yaml          # Predictive pipeline automation
+│    
 ├── media/               
-|    └── analysis.png   
 │    └── GoMotionLogo.png    
-|    └── GoMotionShortLogo.png  
-|    └── GoMotionShortLogo.ico 
-|    └── barri_list.png
-|    └── daily_metrics.png
-|    └── general_stats.png
-|    └── heatmap.png
-|    └── model_analysis.png
-│
-├── stats/   
-|   ├── stats/                  
-|   |     └── statistics_day_of_the_week.py # Average intensity excess by day of the week
-|   |     └── statistics_month.py           # Average intensity excess by month of the year
-|   |                
-│   ├── llm_scraper.py      # Event and holiday extraction
-│   └── barri_manager.py    # Creation of the graph representing Barcelona
-|   └── metadata_manager.py # Metadata
-|   └── stats.py            # Useful statistics
-|   └── xgb_model.py        # Definition of XGBoost model
-|   └── event_encoder       # Event encoding
-|   └── hyperparameter_optimizer.py # Training and optimization of model
-|   └── peak_classifier.py  # Peak definition and classification
-|   └── data_filler.py      # Fill data up until the provided date. Also used for predicting
-|   └── meteo.py            # Get meteo data
-|   └── intensities.py      # Intensity computation (see paper for more information)
-|   └── pipeline.py         # Pipeline, main project file
-|   └── dashboard.py        # Streamlit display
-|   └── example_data.py     # Sample data generation
-│
-├── .env                    # Environment variables
-└── requirements.txt        # Dependencies
-└── mathematical_model.pdf  # Mathematical framework
+│    └── ... (graphic assets and screenshots)
+│ 
+├── nextjs/gomotion/                 # Frontend (Next.js App Router)
+│    ├── app/                        
+│    │   ├── data/                   
+│    │   │   └── barris.json         # Geographical information of the neighborhoods
+│    │   ├── barriInfo.tsx           # Detailed analysis component by neighborhood
+│    │   ├── db.ts                   # Database configuration and connection
+│    │   ├── heatmap.tsx             # Interactive heatmap visualization
+│    │   ├── plot.tsx                # Analytical charts (SHAP, trends)
+│    │   ├── server_data.ts          # Server-Side logic and DB queries
+│    │   ├── eventDetails.tsx        # Event impact analysis
+│    │   ├── layout.tsx & page.tsx   # Main Dashboard structure
+│    │   └── translations.ts         # Multi-language system
+│    │
+│    ├── public/                     # Styles (globals.css, mobile.css) and statics
+│    ├── next.config.ts & package.json
+│    └── tsconfig.json               
+│ 
+├── src/                             # Backend and Machine Learning
+│   ├── barri_manager.py & intensities.py # Mathematical modeling logic
+│   ├── daily_pipeline.py            # Main orchestrator for DB updates
+│   ├── database_connection.py       # SQLAlchemy Interface
+│   ├── event_encoder.py             # Event encoder in latent space
+│   ├── hyperparameter_optimizer.py  # Grid search and XGBoost training
+│   ├── llm_scraper.py               # Web-scraping with Playwright and Gemini
+│   ├── meteo.py                     # Integration with OpenMeteo API
+│   └── xgb_model.py                 # Regressor definition
+│    
+├── mathematical_model.pdf 
+├── README.md
+└── requirements.txt 
+
 ```
 
-## Running the program
-It is enough to run the pipeline in order to access all features. From the **root folder** of the project, MacOS / Linux: `python3 src/pipeline.py`, Windows Cmd: `python src/pipeline.py`.
-- If the user does not have the `output_limite_legal` folder, `src/example_data.py` must be run previously.
-- Note: It is expected that the first time `pipeline.py` runs for some minutes until the dashboard appears. There is a somewhat heavy computational process that needs to happen in order to obtain the data that needs to be shown. Nevertheless, future execution is significantly faster, as it only updates new information
+## 1. Data Management and ETL
 
-## 1. Data Preparation
+The system has evolved from using local files to a centralized database architecture, ensuring scalability and reliability.
 
-### 1.1. Data Cleaning and Organization
-Once the neighborhood mobility data provided by Telefónica has been downloaded, we will remove columns irrelevant to our project and retain only the following columns: `day`, `barrio_origen_name`, `barrio_destino_name`, and `viajes`. 
+### 1.1. Historical Ingestion and Structuring
 
-We will use the resulting dataset and the model explained in the attached pdf to create a new dataset with the following columns: `day`, `barri` (neighborhood), and `intensity`.  
-These functions are implemented in the `barri_manager.py` and `intensities.py` files.
+Initially, the mobility data provided by Telefónica was cleaned, removing noise and keeping only the essential variables. Using the model explained in the attached pdf, this data was transformed into an `intensity` index per `barri` (neighborhood) and `day`, being stored persistently in our database to serve as the "ground truth" for the model.
 
-### 1.2. Events, Holidays, and meteo files
-To improve our model's precision, we will use historical data on events, holidays, and weather.  
-The event and holiday files have been manually collected and are located in `data/events.csv` and `data/holidays.csv`, respectively.  
-Each event has an associated date, a category, a list of neighborhoods where it takes place, and an impact (from 1 to 5) relative to its category. Holidays only have an associated date.
+### 1.2. Meteorology, Events, and Holidays
 
-To collect meteorological data, we will use the `OpenMeteo` API within the `meteo.py` file. For simplicity, and because we believe it is best for the model, we will only collect the rainfall level and the maximum and minimum temperatures for each day.
+For contextual prediction, the pipeline integrates:
 
-#### 1.2.1. Selected Events
-Also for simplicity, and because it is practically impossible to track every event in a city as active as Barcelona, we have selected the events we believe are most relevant for our analysis. Specifically:  
-- Olympic Stadium events
-- FC Barcelona home matches
-- Music festivals: Primavera Sound, Cruïlla, and Sónar
-- Running events: Cursa del Corte Inglés and Zurich Marató de Barcelona
-- Fira de Barcelona events
-- Popular Festivals: Sant Jordi, La Diada, and La Mercè
+* **Meteorology:** Use of the `OpenMeteo` API (`meteo.py`) to capture and predict daily rain and extreme temperatures.
+* **Events and Holidays:** Automated extraction module for the main movement hubs in the city (Olympic Stadium, FC Barcelona, Primavera Sound, Fira de Barcelona, etc.). Processed events are dynamically stored in the `events` table of the database.
 
-### 1.3. Metadata
-Throughout the use of the program, there is information that needs to be shared between various files and sessions that does not correspond to data per se. We call this information metadata, and we store it in `data/metadata.py` (an automatically created file). It is not advisable to manually modify the metadata, as unexpected behaviors may occur.
+## 2. Predictive Pipeline (Daily Pipeline)
 
-### 1.4. Dot-env
-This project makes use of the Google Gemini API. Its usage is subject to the possession of a key that must be stored in a `.env` file in the same directory as the other folders.
+Data prediction is performed using an **XGBoost** model (`regressor.joblib`), executed automatically by GitHub Actions. The `daily_pipeline.py` orchestrator performs the following tasks unattended:
 
-## 2. Mobility Peak Prediction
+1. **Event Scraping and Processing:** Extracts upcoming events for the following week using `llm_scraper.py` (powered by Gemini) and breaks them down by affected neighborhood.
+2. **Event Encoding (Deep Learning):** Events are passed through a previously trained Autoencoder model (`encoder.keras`), transforming categorical and text features into a dense 5-dimensional vector (`enc1` to `enc5`).
+3. **Temporal Variables Calculation (Lags):** Through optimized queries with local database caching, it calculates the neighborhood's intensity 7, 14, 21, and 28 days ago, as well as their discrete derivatives.
+4. **Prediction and Storage:** Generates intensity predictions for the next 7 days and dumps the results directly into the `display_data` table, ready to be consumed by the Dashboard.
 
-GoMotion is capable of predicting intensities for each neighborhood 7 days in advance.
+## 3. Mobility Peak Prediction
 
-### 2.1. Future Meteorological Data
-In the same way as for the historical meteorological data, we will use the `OpenMeteo` API (in `meteo.py`) to obtain temperature and rain forecasts for the following week.
+GoMotion is capable of predicting the intensities of each neighborhood 7 days in advance.
 
-### 2.2. Future Holiday and Event Data
-To identify events and holidays for the following week, we have created a **web-scraping** system. In `llm_scrapper.py`, we use `playwright` and `bs4` to obtain the text from the web pages of interest (mentioned in section [1.2.1](#121-selected-events)), and an LLM (`gemini`) that formats the events and holidays found to make them ready for model training.
+### 3.1. Future Weather Data
 
-### 2.3. Event Encoding
-In order to extract the most important information and use it in our prediction model, we encode the events of a day in a neighborhood into a 5-dimensional latent space. To do this, we train 2 models: an encoder and a decoder. This architecture allows training a model using events as both *input* and *validation* simultaneously, as the decoder should act as an inverse function and bring the latent space vector back to the event space.
+In the same way as for historical weather data, we use the `OpenMeteo` API (in `meteo.py`) to obtain temperature and rain predictions for the following week.
 
-Once we have the trained model, we save the first half of the trained model in `models/encoder.keras`. Additionally, we encode events up to the necessary date (one week from the day the program is executed) using the encoder. The result is saved in `data/encoded_events.csv`.
+### 3.2. Future Holiday and Event Data
 
-### 2.4. Creation of Prediction Model
-Data prediction will be done using an extreme gradient boosting (`XGBoost`) model, given that it is an architecture that:
-- Allows for easy integration of categorical features.
-- Has extensive documentation and usage.
-- Is one of the most suitable for handling tabular data (all our data is structured in `.csv` files).
+To find out about events and holidays for the following week, we have created a **web-scraping** system. In `llm_scrapper.py`, we use `playwright` and `bs4` to obtain the text from our websites of interest (mentioned in section 1.2.1), and an LLM (`gemini`) that formats the found events and holidays to get them ready to train the model.
+
+### 3.3. Event Encoding
+
+In order to extract the most important information and use it in our prediction model, we encode the events of a given day in a neighborhood into a 5-dimensional latent space. For this, we trained 2 models: an encoder and a decoder. This architecture allows training a model using the events as *input* and *validation* simultaneously, since the decoder should act as an inverse function and bring the latent space vector back to the event space.
+
+Once we have the trained model, we save the first half of the trained model in `models/encoder.keras`. Additionally, we encode the events up to the required date (one week from the day the program is executed) using the encoder. The result is saved in `data/encoded_events.csv`.
+
+### 3.4. Prediction Model Creation
+
+Data prediction is done using an extreme gradient boosting (`XGBoost`) model, as it is an architecture that:
+
+* allows for easy integration of categorical features
+* has extensive documentation and usage
+* is one of the most suitable for handling tabular nature data (all our data is structured in databases)
 
 The model definition and the tools for its training and optimization are found in the `hyperparameter_optimizer.py` file.
 
-Up next are listed the features used and their description:
+Below are the features used and their descriptions:
+
 | Feature | Type | Description |
-| ------------- |-------------| -------------|
-| barri | Categorical | Nombre del barrio |
+| --- | --- | --- |
+| barri | Categorical | Neighborhood name |
 | temperature_2m_max | Numerical | Maximum temperature for the day (ºC) |
 | temperature_2m_min | Numerical | Minimum temperature for the day (ºC) |
-| precipitation_sum | Numerical | Total rainfall (mm) for the day |
-| is_holiday | Bool | If the day is a holiday, it takes value 1 |
-| month_cat | Categorical | Month |
+| precipitation_sum | Numerical | Sum of precipitation in mm for the day |
+| is_holiday | Boolean | Whether the day is a holiday or not |
+| month_cat | Categorical | Month name |
 | day_cat | Categorical | Day of the week |
-| lag_7 | Numerical | Intensity 7 days ago |
-| lag_14 | Numerical | Intensity 14 days ago |
-| lag_21 | Numerical | Intensity 21 days ago |
-| lag_28 | Numerical | Intensity 28 days ago |
+| lag_7 | Numerical | Intensity calculated 7 days ago |
+| lag_14 | Numerical | Intensity calculated 14 days ago |
+| lag_21 | Numerical | Intensity calculated 21 days ago |
+| lag_28 | Numerical | Intensity calculated 28 days ago |
 | dt_7_w1 | Numerical | Discrete derivative of the most recent week: (lag_7 - lag_14) / 7 |
-| dt_7_w2 | Numerical | Discrete derivative of the second-most recent week: (lag_14 - lag_21) / 7 |
-| enc1 | Numerical | 1st coordinate of event encoding for the specified day and neighborhood |
-| enc2 | Numerical | 2nd coordinate of event encoding for the specified day and neighborhood |
-| enc3 | Numerical | 3rd coordinate of event encoding for the specified day and neighborhood |
-| enc4 | Numerical | 4th coordinate of event encoding for the specified day and neighborhood |
-| enc5 | Numerical | 5th coordinate of event encoding for the specified day and neighborhood |
+| dt_7_w2 | Numerical | Discrete derivative of the second most recent week: (lag_14 - lag_21) / 7 |
+| enc1 | Numerical | Coordinate 1 of the event encoding for the specified day in the neighborhood |
+| enc2 | Numerical | Coordinate 2 of the event encoding for the specified day in the neighborhood |
+| enc3 | Numerical | Coordinate 3 of the event encoding for the specified day in the neighborhood |
+| enc4 | Numerical | Coordinate 4 of the event encoding for the specified day in the neighborhood |
+| enc5 | Numerical | Coordinate 5 of the event encoding for the specified day in the neighborhood |
 
-The file allows training the model across a variety of hyperparameters. To achieve this, it implements a custom *grid search*: given a collection of hyperparameter ranges, models are trained for all elements of their Cartesian product, and the one with the highest precision (evaluated based on prediction hits) is saved. The adjustable hyperparameters are:
+The file allows training the model on a variety of hyperparameters. To do this, it implements a custom *grid search*: given a collection of hyperparameter ranges, models are trained for all elements of their Cartesian product, and the one with the highest precision (evaluated based on successful predictions) is saved. The hyperparameters that can be adjusted are:
 
-- **Weight base:** the XGBoost model assigns weights to the errors of each sample based on its *z-score* using the following formula: $weight = max(1, base^{\text{z-score}})$. Increasing the *base* hyperparameter weights errors more heavily on days with excessive mobility.
-- **Learning rate:** modifying the *learning rate* is allowed to vary the convergence rate and explore new minima. The special value `None` implements the following schedule:
+* Weight base: the XGBoost model assigns weights to the errors of each sample according to its *z-score* with the following formula: $weight = max(1, base ^{\text{z-score}})$. Increasing the *base* hyperparameter weights the errors more heavily on days with excessive mobility.
+* Learning rate: it allows modifying the *learning rate* to vary the convergence pace and explore new minimums. The special value `None` implements the following schedule:
 
 | Cutoff round | Learning rate |
-| :--- | :--- |
+| --- | --- |
 | 0 | 0.1 |
 | 100 | 0.001 |
 | 150 | 0.0001 |
 
-- Tree depth: the tree depth can be modified as well (more info at https://xgboosting.com/configure-xgboost-max_depth-parameter/)
+* Tree depth: it also allows modifying the maximum number of trees the model can use.
 
-When the best model is selected, it gets stored in `models/regressor.joblib`.
+When the best model is chosen, it is saved in `models/regressor.joblib`.
 
+## 4. Dashboard and Visualization (Next.js)
 
-## 3. Dashboard and Visualization
+GoMotion features a modern analytical web interface, developed with **Next.js** and **React**, designed to offer an intuitive, fast experience connected in real-time to our database.
 
-In order to better understand the predictions, we have implemented a dashboard using `streamlit`.
+* **Daily Summary:** Top control panel showing total traffic, detected events, holiday status, and the weather for the selected day.
+* **Peak Detection and Heatmap:** Interactive geographical visualization using Leaflet/heatmap that illuminates Barcelona's neighborhoods based on their movement density and intensity. It allows identifying anomalies visually and instantly.
+* **Detailed Statistics by Neighborhood:** By selecting an area on the table or the map, exclusive metrics for the neighborhood are rendered, including its weekly traffic, historical differences, population density, and the average impact according to the event category.
+* **Impact and Model Analysis (SHAP):** A specific analytical module (`plot.tsx`) that graphs the importance of the XGBoost model variables (SHAP Feature Importances). This visually demonstrates the weight of historical data (`lag_7`) versus external factors (weather, events).
+* **Dynamic Performance and Design:** Built on the Next.js *App Router*, it uses `server_data.ts` to execute heavy data operations on the server. The design is *responsive* (`mobile.css`) and includes model precision metrics (percentage of accurate predictions, underestimations, and overestimations).
 
-### 3.1. Data Loading
-As soon as the dashboard is accessed, the `fill_data()` function, located in `data_filler.py`, will be called. This ensures we have the data and predictions for the days of interest.
+## Authors
 
-### 3.2. Daily Metrics
-We will have the option to select a date. Once selected, relevant metrics for that day will be shown: temperature, rain, events, holidays, and total traffic for the day. Additionally, we obtain a historical comparison of these values. Specifically:
-* **Temperature and Rainfall:** Comparison with the average of the last 30 days.
-* **Events:** Comparison with the average daily events over the last 30 days.
-* **Total Traffic:** Comparison with the average of the last 4 days falling on the same day of the week (e.g., Sunday).
-
-![plot](./media/daily_metrics.png)
-
-### 3.3. Neighborhood Table
-For the selected day, a table will be displayed showing, for each neighborhood: its intensity, its historical average, its z-score, its density (intensity/area), and the type of peak we are facing (defined in `matematical_model.pdf` and `peak_classifier.py`).
-
-![plot](./media/barri_list.png)
-
-### 3.4. Heatmap
-Additionally, a heatmap of the intensities of each neighborhood will be displayed. These intensities are relative to the neighborhood; that is, a peak is considered to exist when the value deviates significantly from what is usual for that neighborhood. We can click on a specific neighborhood to select it.
-
-![plot](./media/heatmap.png)
-
-### 3.5. Detailed Neighborhood Analysis
-Once a neighborhood is selected on the map, we will obtain a series of graphs explaining how each variable affects the historical intensity of that neighborhood. Specifically:
-* Holiday/Workday impact
-* Impact of each event type
-* Day of the week impact
-* Month impact
-* Precipitation impact
-
-![plot](./media/analysis.png)
-
-### 3.6. Model Analysis
-We will find a detailed analysis of the model to gain a more general overview of which parameters most significantly affect mobility intensity in Barcelona. Additionally, we will be able to see the model's accuracy percentage for predicted peaks, the percentage of underestimated peaks, and the percentage of overestimated peaks.
-
-![plot](./media/model_analysis.png)
-
-### 3.7. Statistics for All Neighborhoods
-Finally, the following statistics for all neighborhoods can be visualized: average intensity excess as a percentage by day of the week, and average intensity excess as a percentage by month of the year.
-
-![plot](./media/general_stats.png)
-
-## Autores
-- Javier Badesa Pérez
-- Alexander Cameron Hall Parrilla
-- Oscar Senesi Aladjem
-- Dan Manuel Vancea Boros
+* Javier Badesa Pérez
+* Alexander Cameron Hall Parrilla
+* Oscar Senesi Aladjem
+* Dan Manuel Vancea Boros

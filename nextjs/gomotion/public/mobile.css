@@ -4,7 +4,9 @@
   --background: #fafafa;
   --background-sec: #f7f9f9;
   --foreground: #353535;
-  --plot-background: transparent /*#ecf0f5*/;
+  --plot-background: transparent
+    /*#ecf0f5*/
+  ;
   --border: #a7a7a775;
   --box-shadow: #171717;
 }
@@ -50,21 +52,81 @@ body {
 }
 
 main {
-  margin: calc(3rem + 40px) 1rem 1rem 1rem;
+  margin: 1rem;
 }
 
-nav {
-  position: fixed;
-  top: 0;
+/* --- Top Navbar --- */
+
+.top-navbar {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  padding: 20px;
+  justify-content: center;
+  padding: 1rem;
+  height: auto;
+  position: relative;
+  z-index: 100;
+  background-color: rgba(250, 250, 250, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03);
+}
+
+@media (prefers-color-scheme: dark) {
+  .top-navbar {
+    background-color: rgba(10, 10, 10, 0.85);
+  }
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.navbar-logo {
   height: 2rem;
-  width: calc(100% - 40px);
-  background-color: var(--background-sec);
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-  z-index: 1;
+  width: auto;
+  flex-shrink: 0;
+}
+
+.navbar-center {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  justify-content: center;
+  width: 100%;
+  align-items: center;
+}
+
+.navbar-link {
+  text-decoration: none !important;
+  color: var(--foreground) !important;
+  font-weight: 500;
+  font-size: 0.85rem;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.navbar-link.active {
+  background-color: #69298F;
+  color: white !important;
+}
+
+.navbar-right {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 1rem;
 }
 
 select,
@@ -97,11 +159,13 @@ select {
   font-weight: bold;
   font-size: 1.5em;
 }
-.date-selector > p {
+
+.date-selector>p {
   margin: 0.5rem;
   margin-left: 0;
 }
-.date-selector > input {
+
+.date-selector>input {
   width: calc(100% - 1rem - 2px);
   margin: 0;
   border: 1px solid var(--border);
@@ -129,10 +193,12 @@ select {
   cursor: pointer;
   transition: background-color 0.2s;
 }
-.date-selector > input:hover {
+
+.date-selector>input:hover {
   background-color: var(--background-sec);
   border-color: var(--foreground);
 }
+
 @media (prefers-color-scheme: dark) {
   input[type="date"]::-webkit-calendar-picker-indicator {
     filter: invert(1);
@@ -145,25 +211,31 @@ select {
   border: 1px solid var(--border);
   background-color: transparent;
 
-  width: calc(100% - 2px); /*margin + border*/
+  width: calc(100% - 2px);
+  /*margin + border*/
   max-height: 26rem;
   height: 26rem;
 
   padding: 0;
   overflow: hidden;
 }
+
 .simplebar-scrollbar::before {
   opacity: 1 !important;
 }
+
 .simplebar-track.simplebar-vertical {
   background: transparent;
 }
+
 .simplebar-track.simplebar-horizontal {
   background: transparent;
 }
+
 .simplebar-track.simplebar-vertical .simplebar-scrollbar::before {
   background-color: var(--border);
 }
+
 .simplebar-track.simplebar-horizontal .simplebar-scrollbar::before {
   background-color: var(--border);
 }
@@ -192,6 +264,7 @@ th {
   border-collapse: collapse;
   margin: 0;
 }
+
 td {
   height: 1rem;
   background-color: var(--background);
@@ -206,9 +279,11 @@ td {
 .text-left {
   text-align: left;
 }
+
 .text-center {
   text-align: center;
 }
+
 .text-right {
   text-align: right;
 }
@@ -216,13 +291,16 @@ td {
 table thead tr th {
   border-top: none;
 }
+
 table tbody tr:last-child td {
   border-bottom: none;
 }
+
 table th:first-child,
 table td:first-child {
   border-left: none;
 }
+
 table th:last-child,
 table td:last-child {
   border-right: none;
@@ -266,6 +344,7 @@ table td:last-child {
   font-weight: 500;
   margin: 0.2em;
 }
+
 .dailyMetric {
   font-weight: 900;
   font-size: 1.5rem;
@@ -397,7 +476,7 @@ table td:last-child {
   margin: 1rem 0;
 }
 
-.events-container > details {
+.events-container>details {
   box-sizing: border-box;
   background-color: var(--background-sec);
   border: 1px solid var(--border);

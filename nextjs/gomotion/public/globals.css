@@ -90,6 +90,7 @@ main {
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
   box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03);
+  gap: 2rem;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -102,12 +103,16 @@ main {
   display: flex;
   align-items: center;
   flex: 1;
+  flex-basis: 0;
+  min-width: max-content;
 }
 
 .navbar-logo {
   height: 2.25rem;
   width: auto;
   transition: transform 0.2s ease;
+  flex-shrink: 0;
+  display: block;
 }
 
 .navbar-logo:hover {
@@ -157,6 +162,33 @@ main {
   display: flex;
   justify-content: flex-end;
   flex: 1;
+  flex-basis: 0;
+  min-width: max-content;
+}
+
+@media (max-width: 1150px) {
+  .top-navbar {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 1rem 2rem;
+  }
+
+  .navbar-left {
+    flex: 0 0 100%;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+
+  .navbar-center {
+    flex: 1;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .navbar-right {
+    flex: 0;
+    margin-left: 1rem;
+  }
 }
 
 /* --- Animations --- */

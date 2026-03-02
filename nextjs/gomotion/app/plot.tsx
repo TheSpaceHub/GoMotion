@@ -221,19 +221,19 @@ export default function PlotComponent({
       plotTitle = t.weeklyIntensityDiff;
       plotData["type"] = "scatter";
       plotData["x"] = t["dotw"];
-      plotData["mode"] = "markers";
+      plotData["line"] = {
+        color: "#FFD127", // GoMotion yellow
+        shape: "spline",
+        width: 3,
+      };
+      plotData["fill"] = "tozeroy";
+      plotData["fillcolor"] = "rgba(255, 209, 39, 0.15)";
+      plotData["mode"] = "lines+markers";
       //do color
       let weeklyMarkerColors = [];
       for (let i = 0; i < plotData["y"].length; i++) {
         weeklyMarkerColors.push(getDiffColor(plotData["y"][i] / 100));
       }
-      plotData["line"] = {
-        color: "#69298F", // Connect with primary accent
-        width: 1,
-        dash: "dot",
-        opacity: 0.4
-      };
-      plotData["mode"] = "lines+markers";
       plotData["marker"] = {
         color: weeklyMarkerColors,
         size: 10,

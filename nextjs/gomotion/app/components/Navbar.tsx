@@ -14,7 +14,7 @@ export default function Navbar() {
     // Navigation Links
     const links = [
         { name: t.subtitle || "Overview", href: "/" },
-        { name: barri ? `${t.detAnal} (${barri})` : t.detAnal, href: "/detailed" },
+        { name: t.detAnal, subname: barri ? `(${barri})` : undefined, href: "/detailed" },
         { name: t.modelStatistics || "Model Statistics", href: "/model" },
     ];
 
@@ -31,11 +31,21 @@ export default function Navbar() {
                     const isActive = pathname === link.href;
                     return (
                         <Link
-                            key={link.name}
+                            key={link.name + (link.subname || "")}
                             href={link.href}
                             className={`navbar-link ${isActive ? "active" : ""}`}
                         >
-                            {link.name}
+                            <span>
+                                {link.name}
+                                {link.subname && (
+                                    <>
+                                        <br />
+                                        <span style={{ fontSize: "0.85em", fontWeight: 400, opacity: 0.9 }}>
+                                            {link.subname}
+                                        </span>
+                                    </>
+                                )}
+                            </span>
                         </Link>
                     );
                 })}

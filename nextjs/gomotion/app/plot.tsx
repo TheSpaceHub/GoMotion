@@ -5,7 +5,7 @@ import { scaleLinear } from "d3-scale";
 //returns color depending on importance
 const getImportanceColor = scaleLinear<string>()
   .domain([0, 0.5, 1])
-  .range(["#69298F", "#ca4679", "#FFD127"]);
+  .range(["#69298F", "#ca4679", "#FFD127"]); // GoMotion gradient
 
 const getDiffColor = scaleLinear<string>()
   .domain([-0.5, 0, 0.25])
@@ -58,8 +58,10 @@ export default function PlotComponent({
       plotData["type"] = "bar";
       plotData["x"] = t["dotw"];
       plotData["marker"] = {
-        color: "#6275bc",
+        color: "#69298F", // GoMotion Purple
+        opacity: 0.9,
       };
+      plotData["hoverinfo"] = "y+name";
       break;
 
     case "monthly traffic":
@@ -69,11 +71,13 @@ export default function PlotComponent({
 
       plotData["type"] = "scatter";
       plotData["x"] = t["months"];
-      plotData["marker"] = {
-        color: "#bc6262",
+      plotData["line"] = {
+        color: "#FFD127", // GoMotion Yellow
+        shape: "spline",
+        width: 3,
       };
       plotData["fill"] = "tozeroy";
-      plotData["fillcolor"] = "#bc626288";
+      plotData["fillcolor"] = "rgba(255, 209, 39, 0.15)"; // Soft yellow opacity
       break;
 
     case "average event impact":
@@ -84,7 +88,8 @@ export default function PlotComponent({
       plotData["type"] = "bar";
       plotData["orientation"] = "h";
       plotData["marker"] = {
-        color: "#8462bc",
+        color: "#69298F", // GoMotion Purple
+        opacity: 0.9,
       };
       break;
 
@@ -95,10 +100,14 @@ export default function PlotComponent({
 
       plotData["type"] = "scatter";
       plotData["mode"] = "markers";
-      //plotData["hoverinfo"] = "text";
       plotData["marker"] = {
-        color: "#8dbbc6",
-        opacity: 0.5,
+        color: "#FFD127", // GoMotion Yellow
+        size: 8,
+        opacity: 0.8,
+        line: {
+          color: "white",
+          width: 0.5,
+        },
       };
       break;
 
@@ -112,8 +121,9 @@ export default function PlotComponent({
         val == "1" ? t["holiday"].toUpperCase() : t["workday"].toUpperCase(),
       );
       plotData["marker"] = {
-        color: "#a562bc",
+        color: "#69298F", // GoMotion Purple
       };
+      plotData["boxpoints"] = "outliers";
       break;
 
     case "intensity/area":
@@ -125,7 +135,8 @@ export default function PlotComponent({
       plotData["mode"] = "markers";
       plotData["hoverinfo"] = "text";
       plotData["marker"] = {
-        color: "#58585e",
+        color: "#475569", // Use robust grey for rest
+        size: 8,
         opacity: 0.5,
       };
 
@@ -142,8 +153,10 @@ export default function PlotComponent({
           mode: "markers",
           hoverinfo: "skip",
           marker: {
-            color: "#ff0000",
+            color: "#FFD127", // Highlight in GoMotion yellow
+            size: 11,
             opacity: 1,
+            line: { color: "#69298F", width: 1.5 },
           },
         });
 
@@ -178,7 +191,7 @@ export default function PlotComponent({
         model_error_under: t.underestimation,
       };
 
-      const pie_palette: string[] = ["#FFD127", "#ffa800", "#69298F"];
+      const pie_palette: string[] = ["#FFD127", "#ca4679", "#69298F"];
 
       xtitle = "";
       ytitle = "";
@@ -194,7 +207,10 @@ export default function PlotComponent({
       plotData["type"] = "pie";
       plotData["marker"] = {
         colors: pie_palette,
+        line: { color: "transparent", width: 2 },
       };
+      plotData["hoverinfo"] = "label+percent";
+      plotData["hole"] = 0.4; // Make it a donut chart
       show_legend = true;
 
       break;
@@ -211,9 +227,17 @@ export default function PlotComponent({
       for (let i = 0; i < plotData["y"].length; i++) {
         weeklyMarkerColors.push(getDiffColor(plotData["y"][i] / 100));
       }
+      plotData["line"] = {
+        color: "#69298F", // Connect with primary accent
+        width: 1,
+        dash: "dot",
+        opacity: 0.4
+      };
+      plotData["mode"] = "lines+markers";
       plotData["marker"] = {
         color: weeklyMarkerColors,
-        size: 12,
+        size: 10,
+        line: { color: "white", width: 1.5 },
       };
       break;
 
@@ -222,8 +246,15 @@ export default function PlotComponent({
       ytitle = t.intensityDiff;
       plotTitle = t.monthlyIntensityDiff;
       plotData["type"] = "scatter";
+      plotData["line"] = {
+        color: "#FFD127", // GoMotion yellow
+        shape: "spline",
+        width: 3,
+      };
+      plotData["fill"] = "tozeroy";
+      plotData["fillcolor"] = "rgba(255, 209, 39, 0.15)";
       plotData["x"] = t["months"];
-      plotData["mode"] = "markers";
+      plotData["mode"] = "lines+markers";
       //do color
       let monthlyMarkerColors = [];
       for (let i = 0; i < plotData["y"].length; i++) {
@@ -231,12 +262,15 @@ export default function PlotComponent({
       }
       plotData["marker"] = {
         color: monthlyMarkerColors,
-        size: 12,
+        size: 8,
+        line: { color: "white", width: 1 },
       };
       break;
     default:
       break;
   }
+
+  const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
   return (
     <Plot
@@ -244,41 +278,52 @@ export default function PlotComponent({
       layout={{
         autosize: true,
         showlegend: show_legend,
-        margin: { l: 20, r: 20, t: 20, b: 20 },
+        margin: { l: 40, r: 20, t: 40, b: 30 },
         xaxis: {
           automargin: true,
-          title: { text: xtitle },
-          gridcolor: "#cccccc",
+          title: { text: xtitle, font: { size: 12, color: isDark ? "#94a3b8" : "#64748b" } },
+          gridcolor: isDark ? "#334155" : "#e2e8f0",
+          gridwidth: 1,
+          griddash: "dot",
           showgrid: show_grid,
+          zerolinecolor: isDark ? "#475569" : "#cbd5e1",
+          tickfont: { color: isDark ? "#94a3b8" : "#64748b" },
         },
         yaxis: {
           automargin: true,
-          title: { text: ytitle },
-          gridcolor: "#cccccc",
+          title: { text: ytitle, font: { size: 12, color: isDark ? "#94a3b8" : "#64748b" } },
+          gridcolor: isDark ? "#334155" : "#e2e8f0",
+          gridwidth: 1,
+          griddash: "dot",
           showgrid: show_grid,
+          zerolinecolor: isDark ? "#475569" : "#cbd5e1",
+          tickfont: { color: isDark ? "#94a3b8" : "#64748b" },
           ...additionalYLayout,
         },
-        paper_bgcolor: "#ffffff00",
-        plot_bgcolor: "#ffffff00",
+        paper_bgcolor: "transparent",
+        plot_bgcolor: "transparent",
         font: {
-          family: "Lexend",
+          family: "'Inter', 'Lexend', system-ui, sans-serif",
           weight: "normal",
-          color: window.matchMedia("(prefers-color-scheme: dark)").matches //dark mode
-            ? "#ffffff"
-            : "#171717",
+          color: isDark ? "#f8fafc" : "#0f172a",
         },
         title: {
           text: plotTitle,
-          font: { size: 16, family: "system-ui", weight: "bold" },
+          font: { size: 16, weight: 600, color: isDark ? "#f8fafc" : "#0f172a" },
           x: 0.5,
           xanchor: "center",
-          y: 1,
+          y: 0.95,
           yanchor: "top",
+        },
+        hoverlabel: {
+          bgcolor: isDark ? "#1e293b" : "#ffffff",
+          bordercolor: isDark ? "#334155" : "#e2e8f0",
+          font: { family: "'Inter', sans-serif", color: isDark ? "#f8fafc" : "#0f172a" },
         },
       }}
       useResizeHandler={true}
       style={{ width: "100%", height: "100%", margin: "0", padding: "0" }}
-      config={{ displayModeBar: false }}
+      config={{ displayModeBar: false, responsive: true }}
     />
   );
 }

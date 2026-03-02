@@ -9,7 +9,7 @@ const getColor = scaleLinear<string>()
   .domain([-3, 0, 3])
   .range(["#69298F", "#ca4679", "#FFD127"]);
 
-export default function Heatmap({ geoData, zScores, barriSetter }: any) {
+export default function Heatmap({ geoData, zScores, barriSetter, selectedBarri }: any) {
   useEffect(() => {
     delete (L.Icon.Default.prototype as any)._getIconUrl;
 
@@ -24,16 +24,17 @@ export default function Heatmap({ geoData, zScores, barriSetter }: any) {
   }, []);
 
   const style = (feature: any) => {
+    const isSelected = feature.properties.nom_barri === selectedBarri;
     return {
       fillColor:
         feature.properties.nom_barri in zScores
           ? getColor(zScores[feature.properties.nom_barri])
           : "#555",
-      weight: 1,
+      weight: isSelected ? 3 : 1,
       opacity: 1,
-      color: "#888",
-      dashArray: "1",
-      fillOpacity: 0.9,
+      color: isSelected ? "#FFD127" : "#888", // GoMotion Yellow for highlight
+      dashArray: isSelected ? "" : "1",
+      fillOpacity: isSelected ? 1 : 0.9,
     };
   };
 

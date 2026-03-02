@@ -22,6 +22,9 @@ export const metadata: Metadata = {
   },
 };
 
+import { DashboardProvider } from "./context/DashboardContext";
+import Navbar from "./components/Navbar";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -38,7 +41,14 @@ export default function RootLayout({
         <link rel="stylesheet" href="/mobile.css" media="(max-width: 768px)" />
         <link rel="stylesheet" href="/globals.css" media="(min-width: 769px)" />
       </head>
-      <body>{children}</body>
+      <body>
+        <DashboardProvider>
+          <div className="dashboard-layout">
+            <Navbar />
+            <main className="fade-in-up">{children}</main>
+          </div>
+        </DashboardProvider>
+      </body>
     </html>
   );
 }

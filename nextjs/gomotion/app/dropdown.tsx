@@ -22,11 +22,21 @@ export default function Dropdown({
       )}
 
       <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        id={label}
-        name={label}
-      >
+  value={value}
+  onChange={(e) => onChange(e.target.value)}
+  id={label}
+  name={label}
+  style={{
+    appearance: "none",
+    WebkitAppearance: "none",
+    MozAppearance: "none",
+    background: "none",
+
+    padding: "6px 12px",
+    width: "fit-content", // o "100%" si quieres que ocupe todo
+    fontSize: "1rem",
+  }}
+>
         {options.map((option) => (
           <option key={option} value={option}>
             {optoval[option]}

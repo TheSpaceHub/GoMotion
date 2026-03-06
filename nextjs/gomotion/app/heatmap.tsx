@@ -32,7 +32,7 @@ export default function Heatmap({ geoData, zScores, barriSetter, selectedBarri }
           : "#555",
       weight: isSelected ? 3 : 1,
       opacity: 1,
-      color: isSelected ? "#FFD127" : "#888", // GoMotion Yellow for highlight
+      color: isSelected ? "#ffffffff" : "#888", // GoMotion Yellow for highlight
       dashArray: isSelected ? "" : "1",
       fillOpacity: isSelected ? 1 : 0.9,
     };

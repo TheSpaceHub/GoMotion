@@ -54,7 +54,7 @@ export default function Navbar() {
             <div className="navbar-right">
                 <Dropdown
                     options={["en", "es"]}
-                    optoval={{ en: "English", es: "Español" }}
+                    optoval={{ en: "🇬🇧 English", es: "🇪🇸 Español" }}
                     value={language}
                     onChange={setLanguage}
                 />

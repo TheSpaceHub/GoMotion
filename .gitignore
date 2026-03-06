@@ -8,3 +8,4 @@ models/
 test.py
 .vscode/
 __pycache__/
+.next/

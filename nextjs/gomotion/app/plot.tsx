@@ -88,7 +88,7 @@ export default function PlotComponent({
       plotData["type"] = "bar";
       plotData["orientation"] = "h";
       plotData["marker"] = {
-        color: "#69298F", // GoMotion Purple
+        color: "#FFD127",
         opacity: 0.9,
       };
       break;
@@ -101,7 +101,7 @@ export default function PlotComponent({
       plotData["type"] = "scatter";
       plotData["mode"] = "markers";
       plotData["marker"] = {
-        color: "#FFD127", // GoMotion Yellow
+        color: "#69298F",
         size: 8,
         opacity: 0.8,
         line: {
@@ -281,7 +281,10 @@ export default function PlotComponent({
         margin: { l: 40, r: 20, t: 40, b: 30 },
         xaxis: {
           automargin: true,
-          title: { text: xtitle, font: { size: 12, color: isDark ? "#94a3b8" : "#64748b" } },
+          title: {
+            text: xtitle,
+            font: { size: 12, color: isDark ? "#94a3b8" : "#64748b" },
+          },
           gridcolor: isDark ? "#334155" : "#e2e8f0",
           gridwidth: 1,
           griddash: "dot",
@@ -291,7 +294,10 @@ export default function PlotComponent({
         },
         yaxis: {
           automargin: true,
-          title: { text: ytitle, font: { size: 12, color: isDark ? "#94a3b8" : "#64748b" } },
+          title: {
+            text: ytitle,
+            font: { size: 12, color: isDark ? "#94a3b8" : "#64748b" },
+          },
           gridcolor: isDark ? "#334155" : "#e2e8f0",
           gridwidth: 1,
           griddash: "dot",
@@ -309,7 +315,11 @@ export default function PlotComponent({
         },
         title: {
           text: plotTitle,
-          font: { size: 16, weight: 600, color: isDark ? "#f8fafc" : "#0f172a" },
+          font: {
+            size: 16,
+            weight: 600,
+            color: isDark ? "#f8fafc" : "#0f172a",
+          },
           x: 0.5,
           xanchor: "center",
           y: 0.95,
@@ -318,7 +328,10 @@ export default function PlotComponent({
         hoverlabel: {
           bgcolor: isDark ? "#1e293b" : "#ffffff",
           bordercolor: isDark ? "#334155" : "#e2e8f0",
-          font: { family: "'Inter', sans-serif", color: isDark ? "#f8fafc" : "#0f172a" },
+          font: {
+            family: "'Inter', sans-serif",
+            color: isDark ? "#f8fafc" : "#0f172a",
+          },
         },
       }}
       useResizeHandler={true}

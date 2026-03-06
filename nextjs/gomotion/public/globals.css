@@ -4,9 +4,7 @@
   --background: #fafafa;
   --background-sec: #f7f9f9;
   --foreground: #353535;
-  --plot-background: transparent
-    /*#ecf0f5*/
-  ;
+  --plot-background: transparent /*#ecf0f5*/;
   --border: #a7a7a775;
   --box-shadow: #171717;
   --table-bg: var(--background);
@@ -30,6 +28,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   }
 
   input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+  }
+
+  .theme-adaptive-icon {
     filter: invert(1);
   }
 }
@@ -68,7 +70,7 @@ body {
 
 main {
   flex: 1;
-  margin: 2rem 3rem 3rem 3rem;
+  margin: 0rem 3rem 3rem 3rem;
   overflow-y: auto;
   padding-bottom: 2rem;
 }
@@ -102,7 +104,6 @@ main {
 .navbar-left {
   display: flex;
   align-items: center;
-  flex: 1;
   flex-basis: 0;
   min-width: max-content;
 }
@@ -119,11 +120,17 @@ main {
   transform: scale(1.05);
 }
 
+.navbar-right {
+  display: flex;
+  justify-content: flex-end;
+  flex-basis: 0;
+  min-width: max-content;
+}
+
 .navbar-center {
   display: flex;
-  gap: 1.5rem;
-  justify-content: center;
-  flex: 2;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .navbar-link {
@@ -148,22 +155,14 @@ main {
 .navbar-link:hover {
   background-color: rgba(105, 41, 143, 0.08);
   /* Faint GoMotion purple on hover */
-  color: #69298F;
+  color: #69298f;
 }
 
 .navbar-link.active {
-  background-color: #69298F;
+  background-color: #69298f;
   color: white;
   box-shadow: 0 4px 12px rgba(105, 41, 143, 0.3);
   transform: translateY(-1px);
-}
-
-.navbar-right {
-  display: flex;
-  justify-content: flex-end;
-  flex: 1;
-  flex-basis: 0;
-  min-width: max-content;
 }
 
 @media (max-width: 1150px) {
@@ -240,12 +239,12 @@ select {
   font-size: 1.5em;
 }
 
-.date-selector>p {
+.date-selector > p {
   margin: 0.5rem;
   margin-left: 0;
 }
 
-.date-selector>input {
+.date-selector > input {
   width: calc(100% - 1rem - 2px);
   margin: 0;
   border: 1px solid var(--border);
@@ -274,7 +273,7 @@ select {
   transition: background-color 0.2s;
 }
 
-.date-selector>input:hover {
+.date-selector > input:hover {
   background-color: var(--background-sec);
   border-color: var(--foreground);
 }
@@ -387,10 +386,6 @@ table td:last-child {
   border-right: none;
 }
 
-.title {
-  width: 20rem;
-}
-
 .subtitle {
   font-size: large;
   font-weight: 300;
@@ -429,7 +424,6 @@ table td:last-child {
   font-weight: 900;
   font-size: 1.5rem;
   margin: 0.15em;
-  
 }
 
 .dailyMetrics {
@@ -459,13 +453,13 @@ table td:last-child {
 }
 
 .Metric::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 4px;
-  background: linear-gradient(90deg, #69298F, #FFD127);
+  background: linear-gradient(90deg, #69298f, #ffd127);
   /* GoMotion colors gradient */
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -520,7 +514,7 @@ table td:last-child {
 
 .modelImportances:hover {
   transform: translateY(-2px);
-  border-color: #69298F;
+  border-color: #69298f;
   box-shadow: 0 8px 24px -8px rgba(105, 41, 143, 0.15);
 }
 
@@ -540,7 +534,7 @@ table td:last-child {
 
 .modelStats:hover {
   transform: translateY(-2px);
-  border-color: #69298F;
+  border-color: #69298f;
   box-shadow: 0 8px 24px -8px rgba(105, 41, 143, 0.15);
 }
 
@@ -598,7 +592,7 @@ table td:last-child {
 
 .plot:hover {
   transform: translateY(-2px);
-  border-color: #69298F;
+  border-color: #69298f;
   box-shadow: 0 8px 24px -8px rgba(105, 41, 143, 0.15);
 }
 
@@ -610,7 +604,7 @@ table td:last-child {
   margin: 1rem 0;
 }
 
-.events-container>details {
+.events-container > details {
   box-sizing: border-box;
   background-color: var(--background-sec);
   border: 1px solid var(--border);

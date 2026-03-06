@@ -51,7 +51,8 @@ const Heatmap = dynamic(() => import("./heatmap"), {
 });
 
 export default function DashboardOverview() {
-  const { day, setDay, barri, setBarri, language, fetcher } = useDashboardContext();
+  const { day, setDay, barri, setBarri, language, fetcher } =
+    useDashboardContext();
 
   const [loading, setLoading] = useState(0);
 
@@ -124,8 +125,6 @@ export default function DashboardOverview() {
 
   return (
     <>
-
-
       <h2>{t.dailyAnal}</h2>
 
       <div className="dailyMetrics">
@@ -162,9 +161,9 @@ export default function DashboardOverview() {
           <h1 className="dailyMetric">
             {dailyData.temperature_min != null
               ? dailyData["temperature_min"] +
-              "ºC/" +
-              dailyData["temperature_max"] +
-              "ºC"
+                "ºC/" +
+                dailyData["temperature_max"] +
+                "ºC"
               : "..."}
           </h1>
         </div>

@@ -2,6 +2,7 @@ import os
 import asyncio
 import datetime
 import json
+import time
 import pandas as pd
 from pydantic import BaseModel, Field
 from google import genai
@@ -241,6 +242,7 @@ async def scrape_and_extract_all(event_webs: List[str], festius_webs: List[str],
                 elif url in festius_webs:
                     url_events = extract_festius(text, today, end_date, url_specific_info)
                     festius_list.extend(url_events)
+                time.sleep(12.1)
             else:
                 print(f"Skipping extraction for {url} due to empty or stripped content.")
 

@@ -6,6 +6,7 @@ interface DropdownParameters {
   optoval: any;
   value: string;
   onChange: (value: string) => void;
+  iconUrl: string;
 }
 
 export default function Dropdown({
@@ -14,6 +15,7 @@ export default function Dropdown({
   optoval,
   value,
   onChange,
+  iconUrl,
 }: DropdownParameters) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
@@ -21,28 +23,50 @@ export default function Dropdown({
         <p style={{ fontSize: "0.9rem", fontWeight: "bold" }}>{label}</p>
       )}
 
-      <select
-  value={value}
-  onChange={(e) => onChange(e.target.value)}
-  id={label}
-  name={label}
-  style={{
-    appearance: "none",
-    WebkitAppearance: "none",
-    MozAppearance: "none",
-    background: "none",
+      <div style={{ position: "relative", width: "fit-content" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "6px 12px",
+            pointerEvents: "none",
+          }}
+          aria-hidden="true"
+        >
+          <img
+            src={iconUrl}
+            alt="dropdown menu"
+            style={{ width: "24px", height: "24px", objectFit: "contain" }}
+            className="theme-adaptive-icon"
+          />
+        </div>
 
-    padding: "6px 12px",
-    width: "fit-content", // o "100%" si quieres que ocupe todo
-    fontSize: "1rem",
-  }}
->
-        {options.map((option) => (
-          <option key={option} value={option}>
-            {optoval[option]}
-          </option>
-        ))}
-      </select>
+        <select
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          id={label}
+          name={label}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            opacity: 0,
+            cursor: "pointer",
+            appearance: "none",
+            WebkitAppearance: "none",
+            MozAppearance: "none",
+          }}
+        >
+          {options.map((option) => (
+            <option key={option} value={option}>
+              {optoval[option]}
+            </option>
+          ))}
+        </select>
+      </div>
     </div>
   );
 }

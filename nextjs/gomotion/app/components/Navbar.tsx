@@ -57,6 +57,7 @@ export default function Navbar() {
                     optoval={{ en: "🇬🇧 English", es: "🇪🇸 Español" }}
                     value={language}
                     onChange={setLanguage}
+                    iconUrl="Language.png"
                 />
             </div>
         </header>
